@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare } from 'lucide-react';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -95,9 +94,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
         {/* Logo */}
         <div className={`loading-logo ${logoVisible ? 'visible' : ''}`}>
           <div className="flex items-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-500 rounded-2xl flex items-center justify-center mr-4 logo-glow-pulse">
-              <MessageSquare className="w-8 h-8 text-white" />
-            </div>
+            <img src="/logo.svg" alt="Allync" className="w-16 h-16 mr-4 logo-glow-pulse" />
             <span className="text-5xl font-bold text-white glitch-logo" data-text="Allync">
               Allync
             </span>

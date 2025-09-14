@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Menu, X, ChevronUp } from 'lucide-react';
+import { Menu, X, ChevronUp } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 interface NavigationProps {
@@ -101,9 +101,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
                 className="flex items-center cursor-pointer group"
                 onClick={() => scrollToSection('hero')}
               >
-                <div className="w-8 h-8 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="w-4 h-4 text-white" />
-                </div>
+                <img src="/logo.svg" alt="Allync" className="h-8 w-auto mr-3 group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors duration-300">
                   Allync
                 </span>

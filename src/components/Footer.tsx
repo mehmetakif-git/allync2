@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { LegalModals } from './LegalModals';
 
@@ -23,9 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-3">
-                <MessageSquare className="w-6 h-6 text-white" />
-              </div>
+              <img src="/logo.svg" alt="Allync" className="w-10 h-10 mr-3" />
               <span className="text-xl font-bold text-white">Allync</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">{t.footerDesc}</p>

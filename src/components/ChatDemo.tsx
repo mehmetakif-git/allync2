@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageCircle, User, Bot, Clock, Settings, Play, Pause, BarChart3, ChevronDown } from 'lucide-react';
+import { User, Bot, Clock, Settings, Play, Pause, BarChart3, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 interface ChatDemoProps {
@@ -124,9 +124,7 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
             <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-6 shadow-2xl chat-container">
               {/* Chat Header */}
               <div className="flex items-center mb-4 lg:mb-6 p-3 lg:p-4 glass bg-white/5 rounded-lg border border-gray-700 holographic-shimmer">
-                <div className="w-10 h-10 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center mr-3">
-                  <MessageCircle className="w-5 h-5 text-white" />
-                </div>
+                <img src="/logo.svg" alt="Allync" className="w-10 h-10 mr-3" />
                 <div>
                   <h3 className="text-white font-semibold">Allync AI</h3>
                   <p className="text-gray-300 text-sm flex items-center">
@@ -189,7 +187,7 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
           <div className="space-y-6 lg:space-y-8 fade-in-right order-1 lg:order-2">
             <div className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/10 transition-all duration-500 card-depth">
               <h3 className="text-xl font-semibold text-white mb-3 flex items-center">
-                <MessageCircle className="w-6 h-6 text-white mr-3" />
+                <img src="/logo.svg" alt="Allync" className="w-6 h-6 mr-3" />
                 {t.naturalConversations}
               </h3>
               <p className="text-gray-400">{t.naturalConversationsDesc}</p>

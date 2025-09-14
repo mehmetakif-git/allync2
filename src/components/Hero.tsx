@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Zap, Users, ArrowRight, Sparkles } from 'lucide-react';
+import { Zap, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -103,9 +103,12 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
 
           {/* Company Name */}
           <div className="hero-title mb-6">
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-2 glitch text-glow" data-text="Allync">
-              Allync
-            </h1>
+            <div className="flex items-center justify-center mb-4">
+              <img src="/logo.svg" alt="Allync" className="h-16 md:h-24 w-auto mr-4" />
+              <h1 className="text-6xl md:text-8xl font-bold text-white glitch text-glow" data-text="Allync">
+                Allync
+              </h1>
+            </div>
             <p className="text-lg text-gray-400 italic gradient-text">Beyond Human Automation</p>
           </div>
 

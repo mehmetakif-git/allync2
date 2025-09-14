@@ -2,6 +2,7 @@ import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { LegalModals } from './LegalModals';
+import logoSvg from '/logo.svg';
 
 interface FooterProps {
   language: 'tr' | 'en';
@@ -23,7 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-6">
-              <img src="/logo.svg" alt="Allync" className="w-10 h-10 mr-3" />
+              <img src={logoSvg} alt="Allync" className="w-10 h-10 mr-3" />
               <span className="text-xl font-bold text-white">Allync</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">{t.footerDesc}</p>

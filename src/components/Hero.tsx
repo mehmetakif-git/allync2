@@ -1,6 +1,7 @@
 import React from 'react';
 import { Zap, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { translations } from '../utils/translations';
+import logoSvg from '/logo.svg';
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   language: 'tr' | 'en';
@@ -104,7 +105,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
           {/* Company Name */}
           <div className="hero-title mb-6">
             <div className="flex items-center justify-center mb-4">
-              <img src="/logo.svg" alt="Allync" className="h-16 md:h-24 w-auto mr-4" />
+              <img src={logoSvg} alt="Allync" className="h-16 md:h-24 w-auto mr-4" />
               <h1 className="text-6xl md:text-8xl font-bold text-white glitch text-glow" data-text="Allync">
                 Allync
               </h1>
@@ -152,7 +153,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
           {/* Feature highlights */}
           <div className="hero-features grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/10 transition-all duration-500 card-depth magnetic">
-              <img src="/logo.svg" alt="Allync" className="w-8 h-8 mb-4 mx-auto" />
+              <img src={logoSvg} alt="Allync" className="w-8 h-8 mb-4 mx-auto" />
               <h3 className="text-lg font-semibold text-white mb-2">{t.humanLike}</h3>
               <p className="text-gray-400 text-sm">{t.humanLikeDesc}</p>
             </div>

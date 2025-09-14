@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import logoSvg from '/logo.svg';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -94,7 +95,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
         {/* Logo */}
         <div className={`loading-logo ${logoVisible ? 'visible' : ''}`}>
           <div className="flex items-center mb-8">
-            <img src="/logo.svg" alt="Allync" className="w-16 h-16 mr-4 logo-glow-pulse" />
+            <img src={logoSvg} alt="Allync" className="w-16 h-16 mr-4 logo-glow-pulse" />
             <span className="text-5xl font-bold text-white glitch-logo" data-text="Allync">
               Allync
             </span>

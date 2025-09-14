@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronUp } from 'lucide-react';
 import { translations } from '../utils/translations';
+import logoSvg from '/logo.svg';
 
 interface NavigationProps {
   language: 'tr' | 'en';
@@ -101,7 +102,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
                 className="flex items-center cursor-pointer group"
                 onClick={() => scrollToSection('hero')}
               >
-                <img src="/logo.svg" alt="Allync" className="h-8 w-auto mr-3 group-hover:scale-110 transition-transform duration-300" />
+                <img src={logoSvg} alt="Allync" className="h-8 w-auto mr-3 group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors duration-300">
                   Allync
                 </span>

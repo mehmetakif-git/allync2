@@ -152,7 +152,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
           {/* Feature highlights */}
           <div className="hero-features grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/10 transition-all duration-500 card-depth magnetic">
-              <MessageSquare className="w-8 h-8 text-white mb-4 mx-auto icon-rotate" />
+              <img src="/logo.svg" alt="Allync" className="w-8 h-8 mb-4 mx-auto" />
               <h3 className="text-lg font-semibold text-white mb-2">{t.humanLike}</h3>
               <p className="text-gray-400 text-sm">{t.humanLikeDesc}</p>
             </div>

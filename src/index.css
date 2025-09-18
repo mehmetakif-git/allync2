@@ -660,6 +660,76 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  /* Ensure all sections are visible on mobile */
+  section {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: auto !important;
+  }
+  
+  /* Fix specific section visibility */
+  #chat-demo,
+  #contact,
+  .hero-section,
+  .demo-section,
+  .features-section,
+  .industry-section,
+  .pricing-section,
+  .contact-section,
+  .packages-section {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+  }
+  
+  /* WhatsApp Chat Demo Mobile Fixes */
+  .whatsapp-chat-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .industry-selector {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .chat-interface {
+    display: block !important;
+    height: 400px !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Contact Form Mobile Fixes */
+  .contact-form,
+  .contact-info {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-bottom: 20px !important;
+  }
+  
+  /* Grid Layout Mobile Fixes */
+  .grid {
+    display: block !important;
+  }
+  
+  .grid > * {
+    margin-bottom: 20px !important;
+  }
+  
+  /* Ensure text is visible */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    color: white !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
   section {
     padding: 2rem 0;
   }

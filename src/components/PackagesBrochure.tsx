@@ -241,7 +241,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   return (
-    <section className="packages-section" style={{ overflowX: 'hidden' }}>
+    <section id="packages" className="packages-section" style={{ overflowX: 'hidden', display: 'block', opacity: 1, visibility: 'visible' }}>
       <div className="packages-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.packagesTitle}</h1>

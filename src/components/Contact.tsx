@@ -39,7 +39,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   return (
-    <section className="py-8 md:py-12 relative bg-black" style={{ display: 'block', opacity: 1 }}>
+    <section id="contact" className="py-8 md:py-12 relative bg-black" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
       
       <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">

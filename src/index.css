@@ -858,6 +858,199 @@ select option {
     opacity: 1 !important;
   }
   
+  /* ROI Calculator Section - Center alignment on mobile */
+  .roi-calculator {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+  }
+  
+  .calculator-inputs,
+  .roi-results {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    margin: 1rem auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .calculator-inputs h4,
+  .roi-results h4 {
+    text-align: center !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .calculator-inputs .space-y-6,
+  .roi-results .space-y-6 {
+    width: 100% !important;
+    max-width: 300px !important;
+    margin: 0 auto !important;
+  }
+  
+  /* FAQ Section - Proper padding and center alignment */
+  .faq-section {
+    padding: 2rem 1rem !important;
+    text-align: center !important;
+  }
+  
+  .faq-item {
+    margin-bottom: 1rem !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+  
+  .faq-question {
+    font-size: 1rem !important;
+    padding: 1.5rem !important;
+    text-align: left !important;
+  }
+  
+  .faq-answer {
+    padding: 1.5rem !important;
+    font-size: 0.875rem !important;
+    text-align: left !important;
+  }
+  
+  .faq-section .max-w-3xl {
+    padding: 0 1rem !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Before/After Comparison - Center alignment */
+  .before-after-comparison {
+    text-align: center !important;
+    padding: 2rem 1rem !important;
+  }
+  
+  .comparison-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+  }
+  
+  .comparison-card {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 350px !important;
+  }
+  
+  .comparison-card h4 {
+    text-align: center !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  /* All form elements and content blocks - Center alignment */
+  .contact-form {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+  }
+  
+  .contact-info {
+    text-align: center !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+  }
+  
+  .form-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+  }
+  
+  .form-grid > div {
+    width: 100% !important;
+    max-width: 300px !important;
+    text-align: center !important;
+  }
+  
+  .form-grid label {
+    text-align: center !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .form-grid input,
+  .form-grid textarea,
+  .form-grid select {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Center all cards and text blocks */
+  .feature-card,
+  .pricing-card,
+  .package-card,
+  .testimonial-card {
+    text-align: center !important;
+    margin: 0 auto 1.5rem auto !important;
+    padding: 1.5rem !important;
+  }
+  
+  .feature-card h3,
+  .pricing-card h3,
+  .package-card h3,
+  .testimonial-card h3 {
+    text-align: center !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .feature-card p,
+  .pricing-card p,
+  .package-card p,
+  .testimonial-card p {
+    text-align: center !important;
+  }
+  
+  /* Trust badges center alignment */
+  .trust-badges {
+    text-align: center !important;
+    padding: 2rem 1rem !important;
+  }
+  
+  .badges-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+  
+  .trust-badge {
+    text-align: center !important;
+    margin: 0 auto !important;
+    padding: 1rem !important;
+  }
+  
+  /* Ensure equal spacing between elements */
+  .space-y-6 > * + * {
+    margin-top: 1.5rem !important;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 1rem !important;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 2rem !important;
+  }
+  
+  .gap-6 {
+    gap: 1.5rem !important;
+  }
+  
+  .gap-8 {
+    gap: 2rem !important;
+  }
+  
   /* Mobile responsive text sizing */
   .text-4xl {
     font-size: 2rem;

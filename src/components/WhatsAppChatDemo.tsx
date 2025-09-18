@@ -30,7 +30,8 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
   const [isTyping, setIsTyping] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const industries: Industry[] = [
     {
@@ -205,6 +206,54 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
 
   const selectedIndustryData = industries.find(ind => ind.id === selectedIndustry) || industries[0];
 
+  // Auto-play conversation effect
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const messages = selectedIndustryData.conversation;
+    let messageIndex = 0;
+
+    const playNextMessage = () => {
+      if (messageIndex >= messages.length) {
+        setIsPlaying(false);
+        return;
+      }
+
+      const message = messages[messageIndex];
+
+      // Show typing indicator for AI messages
+      if (message.type === 'ai') {
+        setIsTyping(true);
+        timeoutRef.current = setTimeout(() => {
+          setIsTyping(false);
+          setDisplayedMessages(prev => [...prev, message]);
+          setCurrentMessageIndex(messageIndex + 1);
+          messageIndex++;
+          
+          // Schedule next message
+          timeoutRef.current = setTimeout(playNextMessage, 2000);
+        }, 1500);
+      } else {
+        // User messages appear immediately
+        setDisplayedMessages(prev => [...prev, message]);
+        setCurrentMessageIndex(messageIndex + 1);
+        messageIndex++;
+        
+        // Schedule next message
+        timeoutRef.current = setTimeout(playNextMessage, 1000);
+      }
+    };
+
+    // Start playing messages
+    playNextMessage();
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isPlaying, selectedIndustryData]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -213,48 +262,17 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     scrollToBottom();
   }, [displayedMessages]);
 
-  const playDemo = async () => {
+  const playDemo = () => {
     setIsPlaying(true);
-    setDisplayedMessages([]);
-    setCurrentMessageIndex(0);
-    setIsTyping(false);
-
-    const messages = selectedIndustryData.conversation;
-    
-    for (let i = 0; i < messages.length; i++) {
-      if (!isPlaying) break;
-      
-      const message = messages[i];
-      
-      // Show typing indicator for AI messages
-      if (message.type === 'ai') {
-        setIsTyping(true);
-        await new Promise(resolve => {
-          timeoutRef.current = setTimeout(resolve, 1500);
-        });
-        setIsTyping(false);
-      }
-      
-      // Add message
-      setDisplayedMessages(prev => [...prev, message]);
-      setCurrentMessageIndex(i + 1);
-      
-      // Wait before next message
-      if (i < messages.length - 1) {
-        await new Promise(resolve => {
-          timeoutRef.current = setTimeout(resolve, message.type === 'user' ? 1000 : 2000);
-        });
-      }
-    }
-    
-    setIsPlaying(false);
   };
 
   const pauseDemo = () => {
     setIsPlaying(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
+    setIsTyping(false);
   };
 
   const resetDemo = () => {
@@ -264,6 +282,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     setIsTyping(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
   };
 
@@ -278,6 +297,9 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+      }
+      if (intervalRef.current) {
+        clearTimeout(intervalRef.current);
       }
     };
   }, []);

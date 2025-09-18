@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, Database, FileText, Settings, Clock, Shield, Calculator, TrendingUp, Users, Zap, ChevronDown, BarChart3, Activity, CheckCircle } from 'lucide-react';
+import { Brain, Database, FileText, Settings, Clock, Shield, ChevronDown, BarChart3, Activity, CheckCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 interface FeaturesProps {
@@ -9,19 +9,7 @@ interface FeaturesProps {
 export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const t = translations[language];
 
-  const [roiInputs, setRoiInputs] = useState({
-    employees: 3,
-    hourlyWage: 25,
-    hoursPerDay: 8
-  });
-
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
-  const roi = {
-    monthlySavings: roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7,
-    paybackMonths: Math.ceil(299 / ((roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7) / 12)),
-    yearlyROI: ((roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7 * 12 - 299) / 299) * 100
-  };
 
   const faqData = [
     {
@@ -147,131 +135,6 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* ROI Calculator */}
-        <div className="mb-8 md:mb-20 section-reveal">
-          <div className="text-center mb-6 md:mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">
-              {language === 'tr' ? 'ROI Hesaplayıcı' : 'ROI Calculator'}
-            </h3>
-            <p className="text-gray-400">
-              {language === 'tr' 
-                ? 'AI asistanınızın size ne kadar tasarruf sağlayacağını hesaplayın'
-                : 'Calculate how much your AI assistant will save you'
-              }
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Calculator Inputs */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left">
-              <h4 className="text-xl font-bold text-white mb-6">
-                {language === 'tr' ? 'Mevcut Durumunuz' : 'Your Current Situation'}
-              </h4>
-              
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    {language === 'tr' ? 'Müşteri hizmetleri çalışan sayısı' : 'Customer service employees'}
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={roiInputs.employees}
-                    onChange={(e) => setRoiInputs({...roiInputs, employees: parseInt(e.target.value)})}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer min-h-[44px]"
-                  />
-                  <div className="flex justify-between text-gray-400 text-sm mt-1">
-                    <span>1</span>
-                    <span className="text-white font-semibold">{roiInputs.employees}</span>
-                    <span>10</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    {language === 'tr' ? 'Saatlik ücret ($)' : 'Hourly wage ($)'}
-                  </label>
-                  <input
-                    type="range"
-                    min="10"
-                    max="50"
-                    value={roiInputs.hourlyWage}
-                    onChange={(e) => setRoiInputs({...roiInputs, hourlyWage: parseInt(e.target.value)})}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer min-h-[44px]"
-                  />
-                  <div className="flex justify-between text-gray-400 text-sm mt-1">
-                    <span>$10</span>
-                    <span className="text-white font-semibold">${roiInputs.hourlyWage}</span>
-                    <span>$50</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
-                    {language === 'tr' ? 'Günlük çalışma saati' : 'Hours per day'}
-                  </label>
-                  <input
-                    type="range"
-                    min="4"
-                    max="12"
-                    value={roiInputs.hoursPerDay}
-                    onChange={(e) => setRoiInputs({...roiInputs, hoursPerDay: parseInt(e.target.value)})}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer min-h-[44px]"
-                  />
-                  <div className="flex justify-between text-gray-400 text-sm mt-1">
-                    <span>4h</span>
-                    <span className="text-white font-semibold">{roiInputs.hoursPerDay}h</span>
-                    <span>12h</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* ROI Results */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right">
-              <h4 className="text-xl font-bold text-white mb-6">
-                {language === 'tr' ? 'Tasarruf Hesabınız' : 'Your Savings'}
-              </h4>
-              
-              <div className="space-y-6">
-                <div className="text-center p-4 glass bg-white/5 rounded-lg border border-gray-700">
-                  <Calculator className="w-8 h-8 text-white mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-white">${roi.monthlySavings.toLocaleString()}</p>
-                  <p className="text-gray-400 text-sm">
-                    {language === 'tr' ? 'Aylık tasarruf' : 'Monthly savings'}
-                  </p>
-                </div>
-
-                <div className="text-center p-4 glass bg-white/5 rounded-lg border border-gray-700">
-                  <TrendingUp className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-white">{roi.paybackMonths} {language === 'tr' ? 'ay' : 'months'}</p>
-                  <p className="text-gray-400 text-sm">
-                    {language === 'tr' ? 'Geri ödeme süresi' : 'Payback period'}
-                  </p>
-                </div>
-
-                <div className="text-center p-4 glass bg-white/5 rounded-lg border border-gray-700">
-                  <Zap className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-white">{roi.yearlyROI.toFixed(0)}%</p>
-                  <p className="text-gray-400 text-sm">
-                    {language === 'tr' ? 'Yıllık ROI' : 'Yearly ROI'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 p-4 bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-lg">
-                <p className="text-gray-300 text-sm text-center">
-                  {language === 'tr' 
-                    ? '💡 AI asistanı ile %70 otomasyon sağlayabilirsiniz'
-                    : '💡 Achieve 70% automation with AI assistant'
-                  }
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 

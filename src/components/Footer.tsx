@@ -86,9 +86,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
               © 2025 Allync. {t.allRightsReserved}
             </p>
-            <div className="legal-modals-container" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-              <LegalModals language={language} />
-            </div>
+            <LegalModals language={language} />
           </div>
         </div>
       </div>

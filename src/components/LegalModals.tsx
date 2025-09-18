@@ -296,22 +296,22 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
 
   const renderModal = (content: any) => (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 legal-modal-backdrop"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="legal-modal-container">
-        <div className="legal-modal-header">
+      <div className="bg-gray-900 border border-gray-600 rounded-xl max-w-4xl max-h-[80vh] w-full overflow-hidden shadow-2xl">
+        <div className="flex justify-between items-center p-6 border-b border-gray-600">
           <h2 className="text-2xl font-bold text-white">{content.title}</h2>
           <button
             onClick={closeModal}
-            className="legal-modal-close"
+            className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200"
             aria-label="Close modal"
           >
-            <X className="w-6 h-6" />
+            <X className="w-6 h-6 text-white" />
           </button>
         </div>
         
-        <div className="legal-modal-content">
+        <div className="p-6 overflow-y-auto max-h-[calc(80vh-100px)]">
           <p className="text-sm text-gray-400 mb-6">{content.lastUpdated}</p>
           
           {content.content.map((section: any, index: number) => (
@@ -326,26 +326,23 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
   );
 
   return (
-    <div style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-      <div className="legal-links">
+    <>
+      <div className="flex flex-wrap gap-4 text-sm text-gray-400">
         <button
           onClick={() => openModal('privacy')}
-          className="legal-link"
-          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
+          className="hover:text-gray-300 transition-colors duration-300 underline"
         >
           {language === 'tr' ? 'Gizlilik Politikası' : 'Privacy Policy'}
         </button>
         <button
           onClick={() => openModal('terms')}
-          className="legal-link"
-          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
+          className="hover:text-gray-300 transition-colors duration-300 underline"
         >
           {language === 'tr' ? 'Hizmet Şartları' : 'Terms of Service'}
         </button>
         <button
           onClick={() => openModal('cookies')}
-          className="legal-link"
-          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
+          className="hover:text-gray-300 transition-colors duration-300 underline"
         >
           {language === 'tr' ? 'Çerez Politikası' : 'Cookie Policy'}
         </button>
@@ -354,6 +351,6 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       {activeModal === 'privacy' && renderModal(privacyContent)}
       {activeModal === 'terms' && renderModal(termsContent)}
       {activeModal === 'cookies' && renderModal(cookieContent)}
-    </div>
+    </>
   );
 };

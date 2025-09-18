@@ -351,39 +351,46 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
   const [selectedIndustry, setSelectedIndustry] = useState('salon');
   const [displayedMessages, setDisplayedMessages] = useState<any[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const selectedIndustryData = industries.find(ind => ind.id === selectedIndustry) || industries[0];
 
-  // Animated chat demo effect
+  // Enhanced animated chat demo effect
   React.useEffect(() => {
     const messages = selectedIndustryData.demo;
     setDisplayedMessages([]);
-    setCurrentMessageIndex(0);
     setIsTyping(false);
+    setIsAnimating(true);
 
-    const showMessages = () => {
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index < messages.length) {
+    const animateMessages = async () => {
+      for (let i = 0; i < messages.length; i++) {
+        const message = messages[i];
+        
+        // Show typing indicator for bot messages
+        if (message.type === 'bot') {
           setIsTyping(true);
-          
-          setTimeout(() => {
-            setDisplayedMessages(prev => [...prev, messages[index]]);
-            setIsTyping(false);
-            index++;
-          }, 1500);
-        } else {
-          clearInterval(interval);
+          await new Promise(resolve => setTimeout(resolve, 1200));
         }
-      }, 2500);
-
-      return interval;
+        
+        // Add message
+        setDisplayedMessages(prev => [...prev, message]);
+        setIsTyping(false);
+        
+        // Wait before next message
+        await new Promise(resolve => setTimeout(resolve, message.type === 'user' ? 800 : 1500));
+      }
+      setIsAnimating(false);
     };
 
-    const timer = setTimeout(showMessages, 500);
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => {
+      animateMessages();
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [selectedIndustry, selectedIndustryData.demo]);
+
   return (
     <section className="py-8 md:py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -423,43 +430,73 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
               </p>
             </div>
 
-            <div className="bg-gray-900 rounded-xl p-6">
-              <div className="space-y-4" style={{ height: '300px', overflowY: 'auto' }}>
+            <div className="bg-gray-900 rounded-xl p-6 border border-gray-700">
+              {/* Chat Header */}
+              <div className="flex items-center mb-4 pb-3 border-b border-gray-700">
+                <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-white text-sm font-semibold">AI</span>
+                </div>
+                <div>
+                  <p className="text-white font-medium">Allync Assistant</p>
+                  <div className="flex items-center text-xs text-gray-400">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                    {language === 'tr' ? 'Çevrimiçi' : 'Online'}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Messages Container */}
+              <div className="space-y-3" style={{ height: '280px', overflowY: 'auto' }}>
                 {displayedMessages.map((message, index) => (
-                    <div
-                      key={index}
-                      className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
-                      style={{ 
-                        animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
-                        opacity: 0,
-                        transform: 'translateY(20px)'
-                      }}
-                    >
+                  <div
+                    key={index}
+                    className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} message-appear`}
+                    style={{ 
+                      animation: `messageSlideIn 0.4s ease-out ${index * 0.2}s both`
+                    }}
+                  >
+                    <div className={`flex items-end max-w-xs ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                      {/* Avatar */}
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        message.type === 'user' ? 'bg-blue-600 ml-2' : 'bg-gray-600 mr-2'
+                      }`}>
+                        <span className="text-white text-xs">
+                          {message.type === 'user' ? 'U' : 'AI'}
+                        </span>
+                      </div>
+                      
+                      {/* Message Bubble */}
                       <div
-                        className={`max-w-xs px-4 py-2 rounded-lg ${
+                        className={`px-3 py-2 rounded-lg ${
                           message.type === 'user'
-                            ? 'bg-gray-600 text-white'
-                            : 'bg-gray-700 text-gray-100'
+                            ? 'bg-blue-600 text-white rounded-br-sm'
+                            : 'bg-gray-700 text-gray-100 rounded-bl-sm'
                         }`}
                       >
-                        <p className="text-sm">
+                        <p className="text-sm leading-relaxed">
                           {message.message}
                         </p>
-                        <span className="text-xs opacity-70 mt-1 block">
+                        <span className="text-xs opacity-60 mt-1 block">
                           {message.time}
                         </span>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
                 
                 {/* Typing indicator */}
                 {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="max-w-xs px-4 py-2 rounded-lg bg-gray-700 text-gray-100">
-                      <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="flex justify-start typing-indicator">
+                    <div className="flex items-end">
+                      <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center mr-2">
+                        <span className="text-white text-xs">AI</span>
+                      </div>
+                      <div className="px-3 py-2 rounded-lg bg-gray-700 rounded-bl-sm">
+                        <div className="flex items-center space-x-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        </div>
                       </div>
                     </div>
                   </div>

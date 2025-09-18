@@ -9,6 +9,89 @@ interface FeaturesProps {
 export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const t = translations[language];
 
+  const [roiInputs, setRoiInputs] = useState({
+    employees: 3,
+    hourlyWage: 25,
+    hoursPerDay: 8
+  });
+
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  const [animatedStats, setAnimatedStats] = useState({
+    conversations: 0,
+    appointments: 0,
+    responseTime: 0,
+    satisfaction: 0
+  });
+
+  useEffect(() => {
+    const targetStats = {
+      conversations: 2847,
+      appointments: 156,
+      responseTime: 1.8,
+      satisfaction: 94.2
+    };
+
+    const animateStats = () => {
+      const duration = 2000;
+      const steps = 60;
+      const stepDuration = duration / steps;
+
+      let currentStep = 0;
+
+      const interval = setInterval(() => {
+        currentStep++;
+        const progress = currentStep / steps;
+
+        setAnimatedStats({
+          conversations: Math.floor(targetStats.conversations * progress),
+          appointments: Math.floor(targetStats.appointments * progress),
+          responseTime: targetStats.responseTime * progress,
+          satisfaction: targetStats.satisfaction * progress
+        });
+
+        if (currentStep >= steps) {
+          clearInterval(interval);
+        }
+      }, stepDuration);
+    };
+
+    animateStats();
+  }, []);
+
+  const roi = {
+    monthlySavings: roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7,
+    paybackMonths: Math.ceil(299 / ((roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7) / 12)),
+    yearlyROI: ((roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7 * 12 - 299) / 299) * 100
+  };
+
+  const faqData = [
+    {
+      question: language === 'tr' ? 'AI asistanı ne kadar sürede kurulur?' : 'How long does it take to set up the AI assistant?',
+      answer: language === 'tr' 
+        ? 'Kurulum süreci genellikle 24-48 saat içinde tamamlanır. Bu süre içinde AI asistanınız şirketinizin verilerini öğrenir ve test edilir.'
+        : 'The setup process is typically completed within 24-48 hours. During this time, your AI assistant learns your company data and is tested.'
+    },
+    {
+      question: language === 'tr' ? 'Mevcut sistemlerimle entegre olur mu?' : 'Does it integrate with my existing systems?',
+      answer: language === 'tr'
+        ? 'Evet, CRM, ERP, e-ticaret platformları ve diğer iş uygulamalarınızla sorunsuz entegre olur. API desteği ile özel entegrasyonlar da mümkündür.'
+        : 'Yes, it seamlessly integrates with CRM, ERP, e-commerce platforms, and other business applications. Custom integrations are also possible with API support.'
+    },
+    {
+      question: language === 'tr' ? 'Verilerim güvende mi?' : 'Is my data secure?',
+      answer: language === 'tr'
+        ? 'Verileriniz ISO 27001 sertifikalı sunucularda, end-to-end şifreleme ile korunur. GDPR ve diğer veri koruma yasalarına tam uyumluyuz.'
+        : 'Your data is protected on ISO 27001 certified servers with end-to-end encryption. We are fully compliant with GDPR and other data protection laws.'
+    },
+    {
+      question: language === 'tr' ? 'Kaç dil destekliyor?' : 'How many languages does it support?',
+      answer: language === 'tr'
+        ? '50+ dilde hizmet verebilir. Türkçe, İngilizce, Almanca, Fransızca, İspanyolca ve daha birçok dil için optimize edilmiştir.'
+        : 'It can serve in 50+ languages. Optimized for Turkish, English, German, French, Spanish, and many more languages.'
+    }
+  ];
+
   const features = [
     {
       icon: Brain,
@@ -103,29 +186,6 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
                       </li>
                     ))}
                   </ul>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-                    </div>
-                    
-                    <div>
-                      <p className="text-gray-300 text-sm mb-3 leading-relaxed">{feature.details}</p>
-                      <ul className="space-y-1">
-                        {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className="flex items-start text-sm text-gray-300">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 mt-1.5 flex-shrink-0"></div>
-                            <span>{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
                 </div>
               );
             })}

@@ -125,10 +125,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const roi = calculateROI();
 
   return (
-    <section className="py-20 bg-black relative dynamic-bg">
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="logo-glow"></div>
+    <section className="py-20 bg-black relative">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">

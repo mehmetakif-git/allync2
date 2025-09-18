@@ -39,14 +39,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   return (
-    <section className="py-20 relative dynamic-bg">
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="mesh-gradient"></div>
-      
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="mesh-gradient"></div>
+    <section className="py-20 relative bg-black">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">

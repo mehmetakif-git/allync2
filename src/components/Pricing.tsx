@@ -10,14 +10,7 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section className="py-20 relative dynamic-bg">
-      {/* Background Effects */}
-      <div className="wave-gradient"></div>
-      <div className="logo-watermark" style={{ fontSize: '15rem', opacity: 0.03 }}>A</div>
-      
-      {/* Background Effects */}
-      <div className="wave-gradient"></div>
-      <div className="logo-watermark" style={{ fontSize: '15rem', opacity: 0.03 }}>A</div>
+    <section className="py-20 relative bg-black">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">

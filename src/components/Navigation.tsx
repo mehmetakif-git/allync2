@@ -95,7 +95,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
         isScrollingUp ? 'translate-y-0' : '-translate-y-full'
       } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       style={{ 
-        paddingTop: 'env(safe-area-inset-top)',
+        paddingTop: 'max(1rem, env(safe-area-inset-top))',
         background: 'rgba(0, 0, 0, 0.9)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',

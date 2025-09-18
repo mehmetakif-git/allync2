@@ -10,85 +10,6 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile Animation Disable */
-@media (hover: none) and (pointer: coarse) {
-  * {
-    transition: none !important;
-    transform: none !important;
-    animation: none !important;
-  }
-  
-  .btn-premium,
-  .btn-glow,
-  .btn-ripple,
-  .magnetic,
-  .card-depth,
-  .holographic-shimmer,
-  .particle-burst,
-  .energy-wave,
-  .scan-reveal,
-  .trust-badge {
-    transition: none !important;
-    transform: none !important;
-    animation: none !important;
-  }
-  
-  .btn-premium:hover,
-  .btn-premium:active {
-    transform: none !important;
-    box-shadow: none !important;
-  }
-  
-  .feature-card:hover,
-  .package-card:hover {
-    transform: none !important;
-  }
-  
-  .group:hover .group-hover\:translate-x-1,
-  .group:hover .group-hover\:scale-110 {
-    transform: none !important;
-  }
-}
-
-/* Touch Device Optimization */
-@media (hover: none) {
-  .hover\:bg-white\/10:hover,
-  .hover\:bg-white\/20:hover,
-  .hover\:scale-110:hover,
-  .hover\:translate-x-1:hover,
-  .hover\:translateY-2:hover {
-    background: inherit !important;
-    transform: none !important;
-  }
-  
-  .btn-premium:active {
-    opacity: 0.8;
-    background: rgba(26, 26, 26, 0.9) !important;
-  }
-  
-  button:active {
-    opacity: 0.7;
-  }
-}
-
-/* Desktop-only hover effects */
-@media (hover: hover) and (pointer: fine) {
-  .btn-premium:hover {
-    transform: scale(1.05) translateY(-2px);
-    background: linear-gradient(135deg, #000000, #1a1a1a);
-    box-shadow: 0 8px 25px rgba(64, 64, 64, 0.5);
-    border-color: #404040;
-  }
-  
-  .feature-card:hover {
-    transform: translateY(-2px);
-  }
-  
-  .package-card:hover {
-    transform: translateY(-5px);
-  }
-}
-
 /* Prevent horizontal overflow */
 html, body {
   overflow-x: hidden;
@@ -2357,13 +2278,8 @@ html {
   overflow: hidden;
   background: linear-gradient(135deg, #1a1a1a, #404040);
   border: 1px solid #333333;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 15px rgba(64, 64, 64, 0.3);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .btn-premium {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
 }
 
 .btn-premium::before {
@@ -2374,16 +2290,18 @@ html {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .btn-premium::before {
-    transition: left 0.5s;
-  }
-  
-  .btn-premium:hover::before {
-    left: 100%;
-  }
+.btn-premium:hover {
+  transform: scale(1.05) translateY(-2px);
+  background: linear-gradient(135deg, #000000, #1a1a1a);
+  box-shadow: 0 8px 25px rgba(64, 64, 64, 0.5);
+  border-color: #404040;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
 }
 
 .btn-premium:active {
@@ -2391,236 +2309,42 @@ html {
   box-shadow: 0 2px 10px rgba(64, 64, 64, 0.3);
 }
 
-@media (hover: none) {
-  .btn-premium:active {
-    transform: none;
-    opacity: 0.8;
-  }
-}
-
 /* Pulsing glow effect */
-@media (hover: hover) and (pointer: fine) {
-  .btn-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-}
-
-@media (hover: none) {
-  .btn-glow {
-    animation: none;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-    50% {
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1);
-    }
-  }
-}
-
-/* Ripple effect - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .btn-ripple {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn-ripple::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-  }
-  
-  .btn-ripple:active::after {
-    width: 300px;
-    height: 300px;
-  }
-}
-
-/* Disable ripple on mobile */
-@media (hover: none) {
-  .btn-ripple::after {
-    display: none;
-  }
-}
-
-/* Card hover effects - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .feature-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .package-card {
-    transition: transform 0.3s ease;
-  }
-}
-
-/* Remove card transitions on mobile */
-@media (hover: none) {
-  .feature-card,
-  .package-card {
-    transition: none;
-  }
-}
-
-/* Navigation hover effects - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .nav-item {
-    transition: colors 0.3s ease;
-  }
-}
-
-@media (hover: none) {
-  .nav-item {
-    transition: none;
-  }
-}
-
-/* Trust badge effects - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .trust-badge {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  
-  .trust-badge::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    opacity: 0;
-  }
-  
-  .trust-badge:hover::before {
-    opacity: 1;
-    transform: rotate(45deg) translate(50%, 50%);
-  }
-}
-
-@media (hover: none) {
-  .trust-badge::before {
-    display: none;
-  }
-}
-
-/* Magnetic effect - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .magnetic {
-    transition: transform 0.3s ease;
-  }
-}
-
-@media (hover: none) {
-  .magnetic {
-    transition: none;
-  }
-}
-
-/* Glitch effect - desktop only */
-@media (hover: hover) and (pointer: fine) {
-  .glitch {
-    position: relative;
-    color: #ffffff;
-  }
-  
-  .glitch:hover::before,
-  .glitch:hover::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .glitch:hover::before {
-    animation: glitch-1 0.3s infinite;
-    color: #666666;
-    z-index: -1;
-  }
-  
-  .glitch:hover::after {
-    animation: glitch-2 0.3s infinite;
-    color: #404040;
-    z-index: -2;
-  }
-}
-
-@media (hover: none) {
-  .glitch::before,
-  .glitch::after {
-    display: none;
-  }
-}
-
-/* Remove all complex animations on mobile */
-@media (hover: none) and (pointer: coarse) {
-  .animate-pulse,
-  .animate-spin,
-  .animate-bounce,
-  .animate-fadeIn,
-  .animate-slideInLeft,
-  .animate-slideInRight,
-  .animate-glow {
-    animation: none !important;
-  }
-  
-  .fade-in-up,
-  .fade-in-left,
-  .fade-in-right,
-  .scale-in,
-  .card-slide-up,
-  .section-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-  
-  .counter-animate,
-  .holographic-shimmer,
-  .particle-burst,
-  .energy-wave,
-  .scan-reveal {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-/* Keep essential animations only on desktop */
-@media (hover: hover) and (pointer: fine) {
-  .btn-glow {
+.btn-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1);
   }
 }
 
-/* Performance optimizations for mobile */
-@media (hover: none) {
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000;
-  }
+/* Ripple effect */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+  width: 300px;
+  height: 300px;
 }
 
 /* Loading spinner */

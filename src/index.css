@@ -828,6 +828,70 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  /* Hero section mobile positioning fix */
+  .hero-section {
+    padding-top: 120px !important;
+    margin-top: 0 !important;
+  }
+  
+  .hero-logo {
+    margin-top: 20px !important;
+  }
+  
+  /* Mobile scroll reveal animations */
+  .section-reveal,
+  .fade-in-up,
+  .fade-in-left,
+  .fade-in-right,
+  .scale-in,
+  .card-slide-up,
+  .counter-animate,
+  .scan-reveal,
+  .holographic-shimmer,
+  .particle-burst,
+  .energy-wave {
+    opacity: 0 !important;
+    transform: translateY(30px) !important;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
+    will-change: transform, opacity !important;
+  }
+  
+  .section-reveal.visible,
+  .fade-in-up.visible,
+  .fade-in-left.visible,
+  .fade-in-right.visible,
+  .scale-in.visible,
+  .card-slide-up.visible,
+  .counter-animate.visible,
+  .scan-reveal.visible,
+  .holographic-shimmer.visible,
+  .particle-burst.visible,
+  .energy-wave.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  
+  /* Staggered animation delays for mobile */
+  .stagger-1 {
+    transition-delay: 0.1s !important;
+  }
+  
+  .stagger-2 {
+    transition-delay: 0.2s !important;
+  }
+  
+  .stagger-3 {
+    transition-delay: 0.3s !important;
+  }
+  
+  .stagger-4 {
+    transition-delay: 0.4s !important;
+  }
+  
+  .stagger-5 {
+    transition-delay: 0.5s !important;
+  }
+  
   /* ROI Calculator centering fixes */
   .roi-calculator {
     display: flex !important;

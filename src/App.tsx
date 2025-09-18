@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
-import { ChatDemo } from './components/ChatDemo';
+import WhatsAppChatDemo from './components/WhatsAppChatDemo';
 import { PackagesBrochure } from './components/PackagesBrochure';
-import { IndustryExamples } from './components/IndustryExamples';
 import { Features } from './components/Features';
 import { Pricing } from './components/Pricing';
 import { Contact } from './components/Contact';
@@ -33,13 +32,10 @@ function App() {
         <Hero language={language} />
       </div>
       <section id="chat-demo" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-        <ChatDemo language={language} />
+        <WhatsAppChatDemo language={language} />
       </section>
       <section id="packages" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <PackagesBrochure language={language} />
-      </section>
-      <section id="industry-examples" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-        <IndustryExamples language={language} />
       </section>
       <section id="features" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <Features language={language} />

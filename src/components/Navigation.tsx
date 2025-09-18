@@ -21,7 +21,6 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
     { id: 'hero', label: language === 'tr' ? 'Ana Sayfa' : 'Home' },
     { id: 'chat-demo', label: 'Demo' },
     { id: 'packages', label: language === 'tr' ? 'Paketler' : 'Packages' },
-    { id: 'industry-examples', label: language === 'tr' ? 'Sektörler' : 'Industries' },
     { id: 'features', label: language === 'tr' ? 'Özellikler' : 'Features' },
     { id: 'pricing', label: language === 'tr' ? 'Fiyatlar' : 'Pricing' },
     { id: 'contact', label: language === 'tr' ? 'İletişim' : 'Contact' }

@@ -3,6 +3,7 @@ import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { ChatDemo } from './components/ChatDemo';
+import { PackagesBrochure } from './components/PackagesBrochure';
 import { IndustryExamples } from './components/IndustryExamples';
 import { Features } from './components/Features';
 import { Pricing } from './components/Pricing';
@@ -39,6 +40,10 @@ function App() {
       <div className="section-separator"></div>
       <section id="chat-demo">
         <ChatDemo language={language} />
+      </section>
+      <div className="section-separator"></div>
+      <section id="packages">
+        <PackagesBrochure language={language} />
       </section>
       <div className="section-separator"></div>
       <section id="industry-examples">

@@ -127,7 +127,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
   return (
     <section className="py-8 md:py-16 bg-black relative features-section" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
       
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 50px', display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 fade-in-up text-glow">
             {t.featuresTitle}

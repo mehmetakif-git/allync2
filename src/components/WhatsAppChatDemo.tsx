@@ -233,7 +233,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
   }, [displayedMessages, isTyping]);
 
   return (
-    <section id="chat-demo" className="py-8 md:py-16 bg-black" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
+    <section className="py-8 md:py-16 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

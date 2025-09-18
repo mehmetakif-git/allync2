@@ -706,6 +706,36 @@ select option {
     opacity: 1 !important;
   }
   
+  /* Fix specific mobile visibility issues */
+  #section-chat-demo,
+  #chat-demo,
+  #contact,
+  #features,
+  #packages,
+  #industry-examples,
+  #pricing {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Ensure all main sections are visible */
+  section[id] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix any accidentally hidden containers */
+  .max-w-1200px,
+  .container,
+  .main-content,
+  .page-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
   .packages-grid {
     grid-template-columns: 1fr;
     gap: 20px;

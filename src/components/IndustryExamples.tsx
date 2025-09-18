@@ -397,9 +397,9 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
   }, [selectedIndustry]);
 
   return (
-    <section className="py-20 relative">
+    <section className="py-14 relative" style={{ display: 'block', opacity: 1 }}>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.industryTitle}</h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.industrySubtitle}</p>

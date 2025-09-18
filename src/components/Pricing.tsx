@@ -10,9 +10,9 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section className="py-20 relative bg-black">
+    <section className="py-16 relative bg-black" style={{ display: 'block', opacity: 1 }}>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         <div className="text-center mb-16 section-reveal">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-gray-500/20 to-gray-400/20 border border-gray-500/30 mb-6">
             <Star className="w-4 h-4 text-gray-300 mr-2" />

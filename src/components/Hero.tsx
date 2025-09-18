@@ -11,9 +11,9 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-black" {...props}>
+    <div className="min-h-screen relative overflow-hidden bg-black py-12" {...props}>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+      <div className="relative z-10 max-w-1200px mx-auto px-5 sm:px-6 lg:px-8 pt-24 pb-12" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', opacity: 1 }}>
         <div className="text-center">
           {/* Badge */}
           <div className="hero-logo inline-flex items-center px-4 py-2 rounded-full glass bg-white/5 border border-gray-600 mb-8 hover:bg-white/10 transition-all duration-500 magnetic">

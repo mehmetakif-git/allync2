@@ -736,6 +736,128 @@ select option {
     opacity: 1 !important;
   }
   
+  /* Fix ChatDemo component visibility */
+  .chat-demo-container,
+  .demo-chat-container,
+  .chat-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    min-height: 300px !important;
+  }
+  
+  /* Fix Features components visibility */
+  .features-grid,
+  .feature-card,
+  .features-section {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix Testimonials section visibility */
+  .testimonials-section,
+  .testimonial-card,
+  .testimonials-grid {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix Pricing section visibility */
+  .pricing-section,
+  .pricing-card,
+  .pricing-grid {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix Contact section visibility */
+  .contact-section,
+  .contact-form,
+  .contact-info {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix ROI Calculator visibility */
+  .roi-calculator,
+  .calculator-inputs,
+  .roi-results,
+  .calculator-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+  }
+  
+  /* Fix Before/After Comparison visibility */
+  .before-after-comparison,
+  .comparison-grid,
+  .comparison-card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix FAQ Section visibility */
+  .faq-section,
+  .faq-item,
+  .faq-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix Trust Badges visibility */
+  .trust-badges,
+  .trust-badge,
+  .badges-container {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix any grid containers that might be hidden */
+  .grid,
+  .grid-cols-1,
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix flex containers that might be hidden */
+  .flex,
+  .flex-col,
+  .flex-row {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix any components with animation classes that might be hidden */
+  .fade-in-up,
+  .fade-in-left,
+  .fade-in-right,
+  .scale-in,
+  .section-reveal,
+  .card-slide-up,
+  .counter-animate,
+  .scan-reveal,
+  .holographic-shimmer,
+  .particle-burst,
+  .energy-wave {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
   .packages-grid {
     grid-template-columns: 1fr;
     gap: 20px;

@@ -437,8 +437,8 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
             </div>
 
             <div className="bg-gray-900 rounded-xl p-6">
-              <div className="demo-chat-container">
-                <div className="space-y-4 h-full">
+              <div className="demo-chat-container" style={{ minHeight: '400px' }}>
+                <div className="space-y-4" style={{ minHeight: '350px', paddingBottom: '20px' }}>
                   {selectedIndustryData.demo.slice(0, currentMessage + 1).map((message, index) => (
                     <div
                       key={index}

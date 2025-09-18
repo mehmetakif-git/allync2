@@ -47,26 +47,36 @@ section {
 }
 
 /* Packages section specific fixes */
+.packages-section {
+  padding: 80px 0;
+  background: black;
+  position: relative;
+}
+
 .packages-container {
-  max-width: 100%;
-  overflow-x: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
 }
 
-.package-grid {
+.packages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
   max-width: 100%;
   box-sizing: border-box;
 }
 
-/* Brochure container fixes */
-.brochure-page {
+.package-card {
   max-width: 100%;
-  width: 100%;
+  padding: 30px;
   box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.package-card:hover {
+  transform: translateY(-5px);
 }
 
 /* Grid and flex container fixes */
@@ -88,13 +98,17 @@ section {
     max-width: calc(100vw - 2rem);
   }
   
-  .package-grid {
+  .packages-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
   }
   
   .packages-container {
     padding: 0 16px;
+  }
+  
+  .package-card {
+    padding: 20px;
   }
 }
 

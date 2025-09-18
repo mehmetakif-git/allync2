@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MessageCircle, Star, Check, Zap, Eye, Mic, FileText, Heart, Sparkles } from 'lucide-react';
+import React from 'react';
+import { Check, Star, Zap, Eye, Mic, FileText, Heart, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
 import logoSvg from '/logo.svg';
 
@@ -8,148 +8,10 @@ interface PackagesBrochureProps {
 }
 
 export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const brochureRef = useRef<HTMLDivElement>(null);
-
-  const totalPages = 5;
-
-  const pages = [
-    {
-      id: 'cover',
-      theme: 'gradient-to-br from-gray-900 to-black',
-      content: 'cover'
-    },
-    {
-      id: 'basic',
-      theme: 'gradient-to-br from-green-900/20 to-green-800/10',
-      accent: 'green',
-      content: 'basic'
-    },
-    {
-      id: 'pro',
-      theme: 'gradient-to-br from-purple-900/20 to-purple-800/10',
-      accent: 'purple',
-      content: 'pro'
-    },
-    {
-      id: 'premium',
-      theme: 'gradient-to-br from-red-900/20 to-red-800/10',
-      accent: 'red',
-      content: 'premium'
-    },
-    {
-      id: 'addon',
-      theme: 'gradient-to-br from-yellow-900/20 to-yellow-800/10',
-      accent: 'yellow',
-      content: 'addon'
-    }
-  ];
-
-  const nextPage = () => {
-    if (currentPage < totalPages - 1 && !isFlipping) {
-      setIsFlipping(true);
-      setTimeout(() => {
-        setCurrentPage(prev => prev + 1);
-        setIsFlipping(false);
-      }, 400);
-    }
-  };
-
-  const prevPage = () => {
-    if (currentPage > 0 && !isFlipping) {
-      setIsFlipping(true);
-      setTimeout(() => {
-        setCurrentPage(prev => prev - 1);
-        setIsFlipping(false);
-      }, 400);
-    }
-  };
-
-  const goToPage = (pageIndex: number) => {
-    if (pageIndex !== currentPage && !isFlipping) {
-      setIsFlipping(true);
-      setTimeout(() => {
-        setCurrentPage(pageIndex);
-        setIsFlipping(false);
-      }, 400);
-    }
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') nextPage();
-      if (e.key === 'ArrowLeft') prevPage();
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentPage]);
-
-  // Touch navigation
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) nextPage();
-    if (isRightSwipe) prevPage();
-  };
-
-  const renderCoverPage = () => (
-    <div className="flex flex-col items-center justify-center h-full text-center p-8">
-      <div className="mb-8">
-        <img src={logoSvg} alt="Allync" className="w-24 h-24 mx-auto mb-6" />
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 glitch" data-text="Allync">
-          Allync
-        </h1>
-        <p className="text-xl text-gray-300 mb-2">Beyond Human Automation</p>
-      </div>
-      
-      <div className="space-y-4 mb-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-white">
-          {language === 'tr' ? 'Paket Broşürü' : 'Package Brochure'}
-        </h2>
-        <p className="text-lg text-gray-400 max-w-md">
-          {language === 'tr' 
-            ? 'WhatsApp AI Asistanları için özel paket seçenekleri'
-            : 'Special package options for WhatsApp AI Assistants'
-          }
-        </p>
-      </div>
-
-      <div className="flex items-center space-x-4 text-sm text-gray-400">
-        <div className="flex items-center">
-          <Star className="w-4 h-4 text-yellow-400 mr-1" />
-          <span>%99 Memnuniyet</span>
-        </div>
-        <div className="flex items-center">
-          <Zap className="w-4 h-4 text-blue-400 mr-1" />
-          <span>7/24 Destek</span>
-        </div>
-        <div className="flex items-center">
-          <Check className="w-4 h-4 text-green-400 mr-1" />
-          <span>ISO Sertifikalı</span>
-        </div>
-      </div>
-    </div>
-  );
+  const t = translations[language];
 
   const renderBasicPlan = () => (
-    <div className="p-8 h-full flex flex-col">
+    <div className="package-card bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
@@ -159,7 +21,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         <p className="text-gray-400">Küçük işletmeler için ideal başlangıç çözümü</p>
       </div>
 
-      <div className="flex-1 space-y-4">
+      <div className="space-y-4 mb-8">
         {[
           'WhatsApp Business üzerinden hızlı kurulum (48–72 saat)',
           '%99 müşteri memnuniyeti garantisi',
@@ -184,7 +46,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         ))}
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="text-center">
         <button className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors duration-300">
           {language === 'tr' ? 'Başlangıç Paketini Seç' : 'Choose Basic Plan'}
         </button>
@@ -193,7 +55,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderProPlan = () => (
-    <div className="p-8 h-full flex flex-col">
+    <div className="package-card bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
@@ -207,7 +69,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         <p className="text-sm text-gray-400 italic">Basic Plan özelliklerine ek olarak:</p>
       </div>
 
-      <div className="flex-1 space-y-4">
+      <div className="space-y-4 mb-8">
         {[
           'Google Sheets / Excel entegrasyonu',
           'Google Takvim ile otomatik randevu kaydı',
@@ -232,7 +94,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         ))}
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="text-center">
         <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors duration-300">
           {language === 'tr' ? 'Pro Paketini Seç' : 'Choose Pro Plan'}
         </button>
@@ -241,7 +103,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderPremiumPlan = () => (
-    <div className="p-8 h-full flex flex-col">
+    <div className="package-card bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
@@ -255,7 +117,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         <p className="text-sm text-gray-400 italic">Basic + Pro özelliklerine ek olarak:</p>
       </div>
 
-      <div className="flex-1 space-y-4">
+      <div className="space-y-4 mb-8">
         {[
           'CRM / ERP sistemleriyle entegrasyon (Salesforce, Zoho, SAP)',
           'Stok yönetim sistemleriyle tam uyum',
@@ -280,7 +142,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         ))}
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="text-center">
         <button className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-300">
           {language === 'tr' ? 'Premium Paketini Seç' : 'Choose Premium Plan'}
         </button>
@@ -288,8 +150,8 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
     </div>
   );
 
-  const renderAddonPage = () => (
-    <div className="p-8 h-full flex flex-col">
+  const renderAddonPlan = () => (
+    <div className="package-card bg-gradient-to-br from-yellow-900/20 to-yellow-800/10 border border-yellow-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-yellow-500/20 border border-yellow-500/30 rounded-full mb-4">
           <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
@@ -299,7 +161,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         <p className="text-gray-400">Her pakete opsiyonel olarak eklenebilir</p>
       </div>
 
-      <div className="flex-1 space-y-6">
+      <div className="space-y-6 mb-8">
         <div className="space-y-3">
           <div className="flex items-center">
             <Mic className="w-6 h-6 text-yellow-400 mr-3" />
@@ -352,7 +214,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         </div>
       </div>
 
-      <div className="mt-8 text-center space-y-4">
+      <div className="text-center space-y-4">
         <button className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors duration-300">
           {language === 'tr' ? 'Add-On Paketini Ekle' : 'Add Add-On Package'}
         </button>
@@ -371,30 +233,9 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
     </div>
   );
 
-  const renderPageContent = (pageData: any) => {
-    switch (pageData.content) {
-      case 'cover':
-        return renderCoverPage();
-      case 'basic':
-        return renderBasicPlan();
-      case 'pro':
-        return renderProPlan();
-      case 'premium':
-        return renderPremiumPlan();
-      case 'addon':
-        return renderAddonPage();
-      default:
-        return null;
-    }
-  };
-
   return (
-    <section className="py-20 relative bg-black min-h-screen packages-container">
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="mesh-gradient"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 packages-container">
+    <section className="packages-section">
+      <div className="packages-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {language === 'tr' ? 'Paket Seçenekleri' : 'Package Options'}
@@ -407,94 +248,14 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           </p>
         </div>
 
-        {/* Brochure Container */}
-        <div 
-          ref={brochureRef}
-          className="relative max-w-4xl mx-auto brochure-page"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Page Container */}
-          <div className="relative perspective-1000">
-            <div 
-              className={`bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl transition-all duration-800 ${
-                isFlipping ? 'flip-animation' : ''
-              }`}
-              style={{
-                minHeight: '600px',
-                transformStyle: 'preserve-3d',
-                backfaceVisibility: 'hidden'
-              }}
-            >
-              {renderPageContent(pages[currentPage])}
-            </div>
-          </div>
-
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-between mt-8">
-            <button
-              onClick={prevPage}
-              disabled={currentPage === 0}
-              className={`flex items-center px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                currentPage === 0
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5 mr-2" />
-              {language === 'tr' ? 'Önceki' : 'Previous'}
-            </button>
-
-            {/* Page Indicators */}
-            <div className="flex items-center space-x-2">
-              {pages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToPage(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentPage
-                      ? 'bg-white scale-125'
-                      : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={nextPage}
-              disabled={currentPage === totalPages - 1}
-              className={`flex items-center px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                currentPage === totalPages - 1
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              {language === 'tr' ? 'Sonraki' : 'Next'}
-              <ChevronRight className="w-5 h-5 ml-2" />
-            </button>
-          </div>
-
-          {/* Page Counter */}
-          <div className="text-center mt-4">
-            <span className="text-gray-400 text-sm">
-              {currentPage + 1} / {totalPages}
-            </span>
-          </div>
-
-          {/* Keyboard Instructions */}
-          <div className="text-center mt-4">
-            <p className="text-gray-500 text-xs">
-              {language === 'tr' 
-                ? 'Klavye ok tuşları ile de gezinebilirsiniz'
-                : 'Use keyboard arrow keys to navigate'
-              }
-            </p>
-          </div>
+        <div className="packages-grid">
+          {renderBasicPlan()}
+          {renderProPlan()}
+          {renderPremiumPlan()}
+          {renderAddonPlan()}
         </div>
 
-        {/* Contact CTA */}
-        <div className="text-center mt-16 packages-container">
+        <div className="text-center mt-16">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-white mb-4">
               {language === 'tr' ? 'Hangi Paket Size Uygun?' : 'Which Package Suits You?'}

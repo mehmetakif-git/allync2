@@ -17,26 +17,17 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
           <span className="text-green-300 font-semibold">BASIC PLAN</span>
         </div>
-        <h2 className="text-3xl font-bold text-white mb-2">Başlangıç Paketi</h2>
-        <p className="text-gray-400">Küçük işletmeler için ideal başlangıç çözümü</p>
+        <h2 className="text-3xl font-bold text-white mb-2">{t.basicPlan}</h2>
+        <p className="text-gray-400">{t.basicPlanDesc}</p>
       </div>
 
       <div className="space-y-4 mb-8">
-        {[
-          'WhatsApp Business üzerinden hızlı kurulum (48–72 saat)',
-          '%99 müşteri memnuniyeti garantisi',
-          'Çok Dilli AI Desteği (50+ dil)',
-          'Günlük/haftalık raporlar (WhatsApp üzerinden)',
-          '7/24 kesintisiz yanıt sistemi',
-          'KVKK uyumlu, argo/kötüye kullanım filtresi',
-          'Yüksek Güvenlik & ISO Sertifikaları',
-          'İşletme anlık yazışmaları takip edebilir'
-        ].map((feature, index) => (
+        {t.basicPlanFeatures.map((feature, index) => (
           <div key={index} className="flex items-start">
             <Check className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
             <span className="text-gray-300 text-sm leading-relaxed">
               {feature}
-              {(feature.includes('Çok Dilli') || feature.includes('ISO')) && (
+              {(feature.includes('Multi-Language') || feature.includes('Çok Dilli') || feature.includes('ISO')) && (
                 <span className="ml-2 px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
                   HIGHLIGHT
                 </span>
@@ -47,8 +38,13 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
       </div>
 
       <div className="text-center">
-        <button className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors duration-300">
-          {language === 'tr' ? 'Başlangıç Paketini Seç' : 'Choose Basic Plan'}
+        <button 
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors duration-300">
+          {t.chooseBasicPlan}
         </button>
       </div>
     </div>
@@ -61,30 +57,23 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
           <span className="text-purple-300 font-semibold">PRO PLAN</span>
         </div>
-        <h2 className="text-3xl font-bold text-white mb-2">Orta Paket</h2>
-        <p className="text-gray-400">Büyüyen işletmeler için gelişmiş özellikler</p>
+        <h2 className="text-3xl font-bold text-white mb-2">{t.proPlan}</h2>
+        <p className="text-gray-400">{t.proPlanDesc}</p>
       </div>
 
       <div className="mb-6">
-        <p className="text-sm text-gray-400 italic">Basic Plan özelliklerine ek olarak:</p>
+        <p className="text-sm text-gray-400 italic">
+          {language === 'tr' ? 'Basic Plan özelliklerine ek olarak:' : 'In addition to Basic Plan features:'}
+        </p>
       </div>
 
       <div className="space-y-4 mb-8">
-        {[
-          'Google Sheets / Excel entegrasyonu',
-          'Google Takvim ile otomatik randevu kaydı',
-          'İkinci WhatsApp numarası desteği (toplam 2 numara)',
-          'Raporlar hem WhatsApp hem bulut ortamında takip',
-          'Çok Dilli AI Desteği (50+ dil)',
-          'Yüksek Güvenlik & ISO Sertifikaları',
-          'Gelişmiş analitik ve raporlama',
-          'Öncelikli müşteri desteği'
-        ].map((feature, index) => (
+        {t.proPlanFeatures.map((feature, index) => (
           <div key={index} className="flex items-start">
             <Check className="w-5 h-5 text-purple-400 mr-3 mt-0.5 flex-shrink-0" />
             <span className="text-gray-300 text-sm leading-relaxed">
               {feature}
-              {(feature.includes('Çok Dilli') || feature.includes('ISO')) && (
+              {(feature.includes('Multi-Language') || feature.includes('Çok Dilli') || feature.includes('ISO')) && (
                 <span className="ml-2 px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
                   HIGHLIGHT
                 </span>
@@ -95,8 +84,13 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
       </div>
 
       <div className="text-center">
-        <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors duration-300">
-          {language === 'tr' ? 'Pro Paketini Seç' : 'Choose Pro Plan'}
+        <button 
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors duration-300">
+          {t.chooseProPlan}
         </button>
       </div>
     </div>
@@ -109,30 +103,23 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
           <span className="text-red-300 font-semibold">PREMIUM / ENTERPRISE</span>
         </div>
-        <h2 className="text-3xl font-bold text-white mb-2">En Yüksek Paket</h2>
-        <p className="text-gray-400">Kurumsal işletmeler için tam entegrasyon</p>
+        <h2 className="text-3xl font-bold text-white mb-2">{t.premiumPlan}</h2>
+        <p className="text-gray-400">{t.premiumPlanDesc}</p>
       </div>
 
       <div className="mb-6">
-        <p className="text-sm text-gray-400 italic">Basic + Pro özelliklerine ek olarak:</p>
+        <p className="text-sm text-gray-400 italic">
+          {language === 'tr' ? 'Basic + Pro özelliklerine ek olarak:' : 'In addition to Basic + Pro features:'}
+        </p>
       </div>
 
       <div className="space-y-4 mb-8">
-        {[
-          'CRM / ERP sistemleriyle entegrasyon (Salesforce, Zoho, SAP)',
-          'Stok yönetim sistemleriyle tam uyum',
-          'Kurumsal raporlama araçlarına aktarım (Power BI, Tableau)',
-          'Yazıcı entegrasyonu: belirlenen saatlerde otomatik çıktı',
-          'IoT cihaz entegrasyonu (POS, kiosk, ekran, sensörler)',
-          '5 adede kadar WhatsApp numarası eklenebilir',
-          'Çok Dilli AI Desteği (50+ dil)',
-          'Yüksek Güvenlik & ISO Sertifikaları'
-        ].map((feature, index) => (
+        {t.premiumPlanFeatures.map((feature, index) => (
           <div key={index} className="flex items-start">
             <Check className="w-5 h-5 text-red-400 mr-3 mt-0.5 flex-shrink-0" />
             <span className="text-gray-300 text-sm leading-relaxed">
               {feature}
-              {(feature.includes('Çok Dilli') || feature.includes('ISO')) && (
+              {(feature.includes('Multi-Language') || feature.includes('Çok Dilli') || feature.includes('ISO')) && (
                 <span className="ml-2 px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded-full">
                   HIGHLIGHT
                 </span>
@@ -143,8 +130,13 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
       </div>
 
       <div className="text-center">
-        <button className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-300">
-          {language === 'tr' ? 'Premium Paketini Seç' : 'Choose Premium Plan'}
+        <button 
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-300">
+          {t.choosePremiumPlan}
         </button>
       </div>
     </div>
@@ -157,66 +149,66 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
           <span className="text-yellow-300 font-semibold">ADD-ON PACKAGE</span>
         </div>
-        <h2 className="text-3xl font-bold text-white mb-2">Beyond Human Automation</h2>
-        <p className="text-gray-400">Her pakete opsiyonel olarak eklenebilir</p>
+        <h2 className="text-3xl font-bold text-white mb-2">{t.addonPlan}</h2>
+        <p className="text-gray-400">{t.addonPlanDesc}</p>
       </div>
 
       <div className="space-y-6 mb-8">
         <div className="space-y-3">
           <div className="flex items-center">
             <Mic className="w-6 h-6 text-yellow-400 mr-3" />
-            <h3 className="text-lg font-semibold text-white">Voice AI</h3>
+            <h3 className="text-lg font-semibold text-white">{t.voiceAI}</h3>
           </div>
           <div className="ml-9 space-y-2">
-            <p className="text-gray-300 text-sm">• Sesli mesaj gönderir</p>
-            <p className="text-gray-300 text-sm">• Gelen sesli mesajları analiz edip yazılı veya sesli yanıt üretir</p>
+            <p className="text-gray-300 text-sm">• {t.voiceAIDesc}</p>
           </div>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center">
             <Eye className="w-6 h-6 text-yellow-400 mr-3" />
-            <h3 className="text-lg font-semibold text-white">Vision AI</h3>
+            <h3 className="text-lg font-semibold text-white">{t.visionAI}</h3>
           </div>
           <div className="ml-9 space-y-2">
-            <p className="text-gray-300 text-sm">• Görsel mesajları analiz eder (ürün, belge, fatura, katalog vb.)</p>
-            <p className="text-gray-300 text-sm">• İşletme tarafından belirlenen görselleri otomatik gönderir</p>
+            <p className="text-gray-300 text-sm">• {t.visionAIDesc}</p>
           </div>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center">
             <FileText className="w-6 h-6 text-yellow-400 mr-3" />
-            <h3 className="text-lg font-semibold text-white">Doc AI</h3>
+            <h3 className="text-lg font-semibold text-white">{t.docAI}</h3>
           </div>
           <div className="ml-9 space-y-2">
-            <p className="text-gray-300 text-sm">• PDF, Word, Excel gibi belgeleri tanır, özet çıkarır</p>
-            <p className="text-gray-300 text-sm">• Faturaları ve formları otomatik işler</p>
+            <p className="text-gray-300 text-sm">• {t.docAIDesc}</p>
           </div>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center">
             <Heart className="w-6 h-6 text-yellow-400 mr-3" />
-            <h3 className="text-lg font-semibold text-white">Emotion AI</h3>
+            <h3 className="text-lg font-semibold text-white">{t.emotionAI}</h3>
           </div>
           <div className="ml-9 space-y-2">
-            <p className="text-gray-300 text-sm">• Mesajlardaki duygu durumunu algılar</p>
-            <p className="text-gray-300 text-sm">• Duruma uygun özel senaryo başlatır</p>
+            <p className="text-gray-300 text-sm">• {t.emotionAIDesc}</p>
           </div>
         </div>
 
         <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-white mb-2">✨ Özel İstek Esnekliği</h3>
-          <p className="text-gray-300 text-sm mb-2">• İşletmeye özel yeni özellikler geliştirilebilir</p>
-          <p className="text-gray-300 text-sm mb-2">• Tüm güncellemeler otomatik olarak sisteme entegre edilir</p>
-          <p className="text-yellow-300 text-sm font-semibold">• Allync'te sınır yok: Beyond Human Automation.</p>
+          <h3 className="text-lg font-semibold text-white mb-2">✨ {t.customRequestFlexibility}</h3>
+          <p className="text-gray-300 text-sm mb-2">• {t.customRequestFlexibilityDesc}</p>
+          <p className="text-yellow-300 text-sm font-semibold">• {t.beyondHumanAutomation}</p>
         </div>
       </div>
 
       <div className="text-center space-y-4">
-        <button className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors duration-300">
-          {language === 'tr' ? 'Add-On Paketini Ekle' : 'Add Add-On Package'}
+        <button 
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors duration-300">
+          {t.addAddonPackage}
         </button>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -238,13 +230,10 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
       <div className="packages-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {language === 'tr' ? 'Paket Seçenekleri' : 'Package Options'}
+            {t.packagesTitle}
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            {language === 'tr' 
-              ? 'İşletmeniz için en uygun AI asistan paketini seçin'
-              : 'Choose the most suitable AI assistant package for your business'
-            }
+            {t.packagesSubtitle}
           </p>
         </div>
 
@@ -258,13 +247,10 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         <div className="text-center mt-16">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-white mb-4">
-              {language === 'tr' ? 'Hangi Paket Size Uygun?' : 'Which Package Suits You?'}
+              {t.whichPackageSuits}
             </h3>
             <p className="text-gray-400 mb-6">
-              {language === 'tr' 
-                ? 'Uzmanlarımızla konuşun ve işletmeniz için en uygun paketi belirleyin'
-                : 'Talk to our experts and determine the most suitable package for your business'
-              }
+              {t.talkToExperts}
             </p>
             <button 
               onClick={() => {
@@ -276,7 +262,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
               className="btn-premium btn-glow btn-ripple px-8 py-4 rounded-lg font-semibold text-white flex items-center justify-center mx-auto"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
-              {language === 'tr' ? 'Ücretsiz Danışmanlık Al' : 'Get Free Consultation'}
+              {t.getFreeConsultation}
             </button>
           </div>
         </div>

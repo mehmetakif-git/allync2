@@ -11,7 +11,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-black py-12" {...props}>
+    <div className="min-h-screen relative overflow-hidden bg-black py-8 md:py-12" {...props}>
 
       <div className="relative z-10 max-w-1200px mx-auto px-5 sm:px-6 lg:px-8 pt-24 pb-12" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', opacity: 1 }}>
         <div className="text-center">
@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
           </div>
 
           {/* Feature highlights */}
-          <div className="hero-features grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="hero-features grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto">
             <div className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/10 transition-all duration-500 card-depth magnetic">
               <img src={logoSvg} alt="Allync" className="w-8 h-8 mb-4 mx-auto" />
               <h3 className="text-lg font-semibold text-white mb-2">{t.humanLike}</h3>

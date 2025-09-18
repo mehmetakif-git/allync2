@@ -12,26 +12,17 @@ import { Footer } from './components/Footer';
 
 function App() {
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
-  const [isLoading, setIsLoading] = useState(true);
-  const [animationsEnabled, setAnimationsEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
   };
 
-  const handleLoadingComplete = () => {
-    setIsLoading(false);
-  };
-
-  if (isLoading) {
-    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
-  }
-
   return (
     <div className="min-h-screen bg-black">
       <Navigation language={language} onLanguageToggle={toggleLanguage} />
       <section id="hero">
-        <Hero language={language} id="hero" />
+        <Hero language={language} />
       </section>
       <section id="chat-demo">
         <ChatDemo language={language} />

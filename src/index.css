@@ -1374,6 +1374,13 @@ html {
   transform: translateY(30px) scale(0.95);
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
               transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* Loading Screen Styles */
 .loading-screen {
   background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);

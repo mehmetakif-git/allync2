@@ -39,9 +39,9 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   return (
-    <section className="py-8 md:py-12 relative bg-black" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-12 relative bg-black contact-section" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
       
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {t.contactTitle}
@@ -54,10 +54,10 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 form-grid">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">{t.fullName} *</label>
@@ -161,7 +161,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-8 fade-in-right">
+          <div className="space-y-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-2xl p-6 lg:p-8">
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
               

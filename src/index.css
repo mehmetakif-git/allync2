@@ -858,6 +858,321 @@ select option {
     opacity: 1 !important;
   }
   
+  /* Mobile responsive text sizing */
+  .text-4xl {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+  
+  .text-5xl {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+  
+  .text-6xl {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+  
+  .text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  /* Mobile button sizing and touch targets */
+  .btn,
+  .btn-premium,
+  button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    touch-action: manipulation;
+  }
+  
+  /* Mobile form inputs */
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+  }
+  
+  /* Mobile container adjustments */
+  .max-w-1200px {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  /* Mobile grid adjustments */
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .lg\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .lg\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .md\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Mobile spacing adjustments */
+  .gap-8 {
+    gap: 1rem;
+  }
+  
+  .gap-6 {
+    gap: 1rem;
+  }
+  
+  .gap-12 {
+    gap: 1.5rem;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
+  
+  /* Mobile padding adjustments */
+  .p-8 {
+    padding: 1.5rem;
+  }
+  
+  .p-6 {
+    padding: 1rem;
+  }
+  
+  .px-8 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  /* Mobile image scaling */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Mobile overflow fixes */
+  .overflow-hidden {
+    overflow: visible;
+  }
+  
+  /* Mobile chat demo specific fixes */
+  .chat-container {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .message-container {
+    max-height: 350px;
+  }
+  
+  /* Mobile industry selector */
+  .industry-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .industry-button {
+    width: 100%;
+    padding: 0.75rem;
+    text-align: left;
+    font-size: 0.875rem;
+  }
+  
+  /* Mobile WhatsApp chat interface */
+  .whatsapp-chat {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .chat-header {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .chat-messages {
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message-bubble {
+    max-width: 80%;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  /* Mobile contact form fixes */
+  .contact-form {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Mobile pricing cards */
+  .pricing-card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  /* Mobile features grid */
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+    height: auto;
+    min-height: 200px;
+  }
+  
+  /* Mobile ROI calculator */
+  .roi-calculator {
+    padding: 1rem;
+  }
+  
+  .calculator-inputs,
+  .roi-results {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Mobile FAQ section */
+  .faq-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .faq-question {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  
+  .faq-answer {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Mobile trust badges */
+  .trust-badges {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .trust-badge {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Mobile navigation fixes */
+  .mobile-menu {
+    display: block;
+  }
+  
+  .desktop-menu {
+    display: none;
+  }
+  
+  /* Mobile hero section */
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .hero-features {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Mobile testimonials */
+  .testimonial-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Mobile before/after comparison */
+  .comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .comparison-card {
+    padding: 1rem;
+  }
+  
+  /* Mobile stats and counters */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .counter-number {
+    font-size: 1.5rem;
+  }
+  
+  .counter-label {
+    font-size: 0.75rem;
+  }
+  
   .packages-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -912,6 +1227,88 @@ select option {
   
   .mb-16 {
     margin-bottom: 1.5rem;
+  }
+  
+  /* Mobile-specific overflow and positioning fixes */
+  body {
+    overflow-x: hidden;
+  }
+  
+  .relative {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .absolute {
+    position: relative;
+  }
+  
+  /* Mobile z-index fixes */
+  .z-50 {
+    z-index: 50;
+  }
+  
+  .z-40 {
+    z-index: 40;
+  }
+  
+  .z-30 {
+    z-index: 30;
+  }
+  
+  /* Mobile content width constraints */
+  * {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  
+  /* Mobile scroll behavior */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Mobile touch improvements */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Mobile animation performance */
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    animation-duration: 1s;
+  }
+  
+  /* Mobile loading states */
+  .loading-screen {
+    padding: 1rem;
+  }
+  
+  .loading-logo {
+    transform: scale(0.8);
+  }
+  
+  /* Mobile modal adjustments */
+  .modal {
+    margin: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Mobile footer adjustments */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 

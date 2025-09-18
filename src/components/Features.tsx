@@ -125,9 +125,9 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const roi = calculateROI();
 
   return (
-    <section className="py-8 md:py-16 bg-black relative" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-16 bg-black relative features-section" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
       
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 fade-in-up text-glow">
             {t.featuresTitle}
@@ -184,7 +184,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="mb-8 md:mb-20 fade-in-up features-section">
+        <div className="mb-8 md:mb-20 fade-in-up features-section" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
           <div className="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
@@ -224,7 +224,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* ROI Calculator */}
-        <div className="mb-8 md:mb-20 section-reveal">
+        <div className="mb-8 md:mb-20 section-reveal roi-calculator" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
           <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'ROI Hesaplayıcı' : 'ROI Calculator'}
@@ -239,7 +239,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Calculator Inputs */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left">
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left calculator-inputs" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <h4 className="text-xl font-bold text-white mb-6">
                 {language === 'tr' ? 'Mevcut Durumunuz' : 'Your Current Situation'}
               </h4>
@@ -305,7 +305,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
             </div>
 
             {/* ROI Results */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right">
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right roi-results" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <h4 className="text-xl font-bold text-white mb-6">
                 {language === 'tr' ? 'Tasarruf Hesabınız' : 'Your Savings'}
               </h4>
@@ -349,7 +349,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Before/After Comparison */}
-        <div className="mb-8 md:mb-20 holographic-shimmer">
+        <div className="mb-8 md:mb-20 holographic-shimmer before-after-comparison" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
           <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'Önce vs Sonra' : 'Before vs After'}
@@ -364,7 +364,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Before */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left">
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left comparison-card" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <h4 className="text-xl font-bold text-white mb-6 text-center">
                 {language === 'tr' ? '❌ Manuel Süreç' : '❌ Manual Process'}
               </h4>
@@ -386,7 +386,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
             </div>
 
             {/* After */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right">
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right comparison-card" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <h4 className="text-xl font-bold text-white mb-6 text-center">
                 {language === 'tr' ? '✅ AI Otomasyonu' : '✅ AI Automation'}
               </h4>
@@ -410,7 +410,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* FAQ Section */}
-        <div className="mb-8 md:mb-20 scan-reveal">
+        <div className="mb-8 md:mb-20 scan-reveal faq-section" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
           <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'Sık Sorulan Sorular' : 'Frequently Asked Questions'}
@@ -425,17 +425,17 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
           <div className="max-w-3xl mx-auto space-y-4">
             {faqData.map((faq, index) => (
-              <div key={index} className="glass bg-white/5 border border-gray-600 rounded-xl overflow-hidden card-slide-up"
+              <div key={index} className="glass bg-white/5 border border-gray-600 rounded-xl overflow-hidden card-slide-up faq-item"
                    style={{ animationDelay: `${index * 0.1}s` }}>
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-all duration-300"
+                  className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-all duration-300 faq-question"
                 >
                   <h4 className="text-lg font-semibold text-white">{faq.question}</h4>
                   <ChevronDown className={`w-5 h-5 text-gray-400 accordion-arrow ${expandedFaq === index ? 'open' : ''}`} />
                 </button>
                 <div className={`accordion-content ${expandedFaq === index ? 'open' : ''}`}>
-                  <div className="px-6 pb-6">
+                  <div className="px-6 pb-6 faq-answer">
                     <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
                   </div>
                 </div>
@@ -445,24 +445,24 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Trust Badges */}
-        <div className="text-center particle-burst">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
-            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center">
+        <div className="text-center particle-burst trust-badges" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto badges-container">
+            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <Shield className="w-8 h-8 text-gray-300 mx-auto mb-2" />
               <p className="text-sm text-gray-300 font-semibold">ISO 27001</p>
               <p className="text-xs text-gray-500">Certified</p>
             </div>
-            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center">
+            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <CheckCircle className="w-8 h-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-300 font-semibold">GDPR</p>
               <p className="text-xs text-gray-500">Compliant</p>
             </div>
-            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center">
+            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <Activity className="w-8 h-8 text-gray-500 mx-auto mb-2" />
               <p className="text-sm text-gray-300 font-semibold">SOC 2</p>
               <p className="text-xs text-gray-500">Type II</p>
             </div>
-            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center">
+            <div className="trust-badge glass bg-white/5 border border-gray-600 rounded-lg p-4 text-center" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
               <Clock className="w-8 h-8 text-gray-600 mx-auto mb-2" />
               <p className="text-sm text-gray-300 font-semibold">99.9%</p>
               <p className="text-xs text-gray-500">SLA Guarantee</p>

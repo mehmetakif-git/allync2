@@ -10,9 +10,9 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section className="py-8 md:py-16 relative bg-black" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-16 relative bg-black pricing-section" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
       
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-gray-500/20 to-gray-400/20 border border-gray-500/30 mb-6">
             <Star className="w-4 h-4 text-gray-300 mr-2" />
@@ -29,7 +29,7 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
 
         <div className="max-w-4xl mx-auto">
           {/* Main Pricing Card */}
-          <div className="relative scale-in">
+          <div className="relative scale-in pricing-card" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             {/* Popular badge */}
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
               <div className="bg-gradient-to-r from-gray-700 to-gray-600 px-6 py-2 rounded-full text-white font-semibold text-sm border border-gray-500">
@@ -129,21 +129,21 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
           </div>
 
           {/* Value Proposition */}
-         <div className="mt-8 md:mt-16 text-center fade-in-up">
+         <div className="mt-8 md:mt-16 text-center fade-in-up" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-8">
               <h3 className="text-2xl font-bold text-white mb-4">{t.calculateROI}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 stats-grid">
                 <div>
-                  <p className="text-3xl font-bold text-gray-300">$5,000+</p>
-                  <p className="text-gray-400">{t.monthlySavings}</p>
+                  <p className="text-3xl font-bold text-gray-300 counter-number">$5,000+</p>
+                  <p className="text-gray-400 counter-label">{t.monthlySavings}</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-gray-400">50%</p>
-                  <p className="text-gray-400">{t.moreAppointments}</p>
+                  <p className="text-3xl font-bold text-gray-400 counter-number">50%</p>
+                  <p className="text-gray-400 counter-label">{t.moreAppointments}</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-gray-500">24/7</p>
-                  <p className="text-gray-400">{t.neverMissCustomer}</p>
+                  <p className="text-3xl font-bold text-gray-500 counter-number">24/7</p>
+                  <p className="text-gray-400 counter-label">{t.neverMissCustomer}</p>
                 </div>
               </div>
             </div>

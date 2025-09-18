@@ -118,10 +118,10 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
 
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
           {/* Chat Interface */}
-          <div className="relative fade-in-left order-2 lg:order-1">
+          <div className="relative fade-in-left order-2 lg:order-1" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-6 shadow-2xl chat-container">
               {/* Chat Header */}
-              <div className="flex items-center mb-4 lg:mb-6 p-3 lg:p-4 glass bg-white/5 rounded-lg border border-gray-700 holographic-shimmer">
+              <div className="flex items-center mb-4 lg:mb-6 p-3 lg:p-4 glass bg-white/5 rounded-lg border border-gray-700 holographic-shimmer" style={{ display: 'flex', visibility: 'visible', opacity: 1 }}>
                 <img src={logoSvg} alt="Allync" className="w-10 h-10 mr-3" />
                 <div>
                   <h3 className="text-white font-semibold">Allync AI</h3>
@@ -133,7 +133,7 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
               </div>
 
               {/* Messages */}
-              <div className="demo-chat-container space-y-3 lg:space-y-4 overflow-y-auto message-container px-1">
+              <div className="demo-chat-container space-y-3 lg:space-y-4 overflow-y-auto message-container px-1" style={{ display: 'block', visibility: 'visible', opacity: 1, height: 'auto', minHeight: '300px' }}>
                 {conversation.map((msg, index) => (
                   <div
                     key={index}
@@ -182,7 +182,7 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
           </div>
 
           {/* Benefits */}
-          <div className="space-y-6 lg:space-y-8 fade-in-right order-1 lg:order-2">
+          <div className="space-y-6 lg:space-y-8 fade-in-right order-1 lg:order-2" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <div className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/10 transition-all duration-500 card-depth">
               <h3 className="text-xl font-semibold text-white mb-3 flex items-center">
                 <img src={logoSvg} alt="Allync" className="w-6 h-6 mr-3" />

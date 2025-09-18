@@ -751,6 +751,31 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  /* ROI Calculator centering fixes */
+  .roi-calculator {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  
+  .calculator-inputs,
+  .roi-results {
+    margin: 0 auto !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 350px !important;
+  }
+  
+  .roi-calculator .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+  }
+  
   /* Force center alignment for all major sections on mobile */
   .roi-calculator,
   .faq-section,

@@ -12,7 +12,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const t = translations[language];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -28,37 +28,39 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   ];
 
   useEffect(() => {
-    let ticking = false;
+    // Show navigation after loader completes
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 4500);
 
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const sections = navItems.map(item => document.getElementById(item.id));
-          const scrollPosition = currentScrollY + 100;
+      const currentScrollY = window.scrollY;
+      
+      // Show/hide back to top button
+      setShowBackToTop(currentScrollY > 500);
+      
+      // Navigation visibility based on scroll direction
+      if (currentScrollY > 100) {
+        setIsScrollingUp(currentScrollY < lastScrollY);
+      } else {
+        setIsScrollingUp(true);
+      }
+      setLastScrollY(currentScrollY);
 
-          // Update active section
-          for (let i = sections.length - 1; i >= 0; i--) {
-            const section = sections[i];
-            if (section && section.offsetTop <= scrollPosition) {
-              setActiveSection(navItems[i].id);
-              break;
-            }
-          }
+      // Update active section
+      const sections = navItems.map(item => document.getElementById(item.id));
+      const scrollPosition = currentScrollY + 100;
 
-          // Update scroll direction and visibility
-          if (currentScrollY > lastScrollY) {
-            setIsScrollingUp(false);
-          } else {
-            setIsScrollingUp(true);
-          }
-
-          setLastScrollY(currentScrollY);
-          setShowBackToTop(currentScrollY > 300);
-          
-          ticking = false;
-        });
-        ticking = true;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(navItems[i].id);
+          break;
+        }
       }
     };
 
@@ -69,10 +71,12 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offsetTop = sectionId === 'hero' ? 0 : element.offsetTop - 80;
+      const safeAreaTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-area-inset-top') || '0');
+      const offsetTop = sectionId === 'hero' ? 0 : element.offsetTop - (100 + safeAreaTop);
       window.scrollTo({
         top: offsetTop,
-        behavior: 'smooth'
+        behavior: 'smooth',
+        block: 'start'
       });
     }
     setIsMenuOpen(false);
@@ -81,7 +85,8 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
+      block: 'start'
     });
   };
 
@@ -90,105 +95,101 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   return (
     <>
       {/* Navigation Bar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
         isScrollingUp ? 'translate-y-0' : '-translate-y-full'
-      } ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      style={{ 
-        paddingTop: 'env(safe-area-inset-top)',
-        background: 'rgba(0, 0, 0, 0.9)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div 
-              className="flex items-center cursor-pointer group"
-              onClick={() => scrollToSection('hero')}
-            >
-              <img src={logoSvg} alt="Allync" className="h-8 w-auto mr-3 transition-transform duration-300 group-hover:scale-110" />
-              <span className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-gray-300">
-                Allync
-              </span>
-            </div>
+      }`}>
+        <div className="glass bg-black/80 backdrop-blur-lg border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <div 
+                className="flex items-center cursor-pointer group"
+                onClick={() => scrollToSection('hero')}
+              >
+                <img src={logoSvg} alt="Allync" className="h-8 w-auto mr-3 group-hover:scale-110 transition-transform duration-300" />
+                <span className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors duration-300">
+                  Allync
+                </span>
+              </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.id
+                        ? 'text-white'
+                        : 'text-gray-400 hover:text-gray-300'
+                    }`}
+                  >
+                    {item.label}
+                    {activeSection === item.id && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full"></div>
+                    )}
+                  </button>
+                ))}
+                
+                {/* Language Toggle */}
                 <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.id
-                      ? 'text-white'
-                      : 'text-gray-400 hover:text-gray-300'
-                  }`}
+                  onClick={onLanguageToggle}
+                  className="flex items-center px-3 py-2 glass bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
                 >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full"></div>
-                  )}
+                  <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
                 </button>
-              ))}
-              
-              {/* Language Toggle */}
-              <button
-                onClick={onLanguageToggle}
-                className="flex items-center px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
-              >
-                <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
-              </button>
-            </div>
+              </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-4">
-              <button
-                onClick={onLanguageToggle}
-                className="flex items-center px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
-              >
-                <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
-              </button>
-              
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
+              {/* Mobile Menu Button */}
+              <div className="md:hidden flex items-center space-x-4">
+                <button
+                  onClick={onLanguageToggle}
+                  className="flex items-center px-3 py-2 glass bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
+                >
+                  <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
+                </button>
+                
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="p-2 glass bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
+                >
+                  {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
           </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden glass bg-black/90 backdrop-blur-lg border-t border-white/10">
+              <div className="px-4 py-4 space-y-2">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.id
+                        ? 'text-white bg-white/10'
+                        : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-black/90 backdrop-blur-lg border-t border-white/10">
-            <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.id
-                      ? 'text-white bg-white/10'
-                      : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* Back to Top Button */}
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white/10 backdrop-blur-lg border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300"
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 glass bg-white/10 backdrop-blur-lg border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 animate-fadeIn"
           style={{ 
-            marginBottom: 'env(safe-area-inset-bottom)',
-            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
+            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)',
+            animation: 'fadeIn 0.3s ease-out'
           }}
         >
           <ChevronUp className="w-5 h-5" />

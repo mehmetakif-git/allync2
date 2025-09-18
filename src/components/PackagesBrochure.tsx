@@ -248,7 +248,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.packagesSubtitle}</p>
         </div>
 
-        <div className="packages-grid">
+        <div className="packages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
           {renderBasicPlan()}
           {renderProPlan()}
           {renderPremiumPlan()}

@@ -405,14 +405,14 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.industrySubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12 industry-grid">
           {industries.map((industry) => {
             const IconComponent = industry.icon;
             return (
               <button
                 key={industry.id}
                 onClick={() => setSelectedIndustry(industry.id)}
-                className={`p-4 rounded-xl transition-all duration-300 ${
+                className={`industry-card p-4 rounded-xl transition-all duration-300 ${
                   selectedIndustry === industry.id
                     ? 'bg-gray-600 text-white shadow-lg shadow-gray-500/25'
                     : 'bg-white/10 text-gray-300 hover:bg-white/20'

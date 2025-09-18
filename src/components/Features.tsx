@@ -184,34 +184,38 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="mb-20 fade-in-up">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mb-20 fade-in-up features-section">
+          <div className="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               
               return (
                 <div
                   key={index}
-                  className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 hover:scale-105 transition-all duration-500 card-depth card-slide-up"
+                  className="feature-card group rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 transition-all duration-300 card-depth card-slide-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-white mb-4">{feature.title}</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">{feature.description}</p>
-                  
-                  <div className="opacity-100">
-                    <p className="text-gray-300 text-sm mb-4 leading-relaxed">{feature.details}</p>
-                    <ul className="space-y-2">
-                      {feature.benefits.map((benefit, benefitIndex) => (
-                        <li key={benefitIndex} className="flex items-center text-sm text-gray-300">
-                          <div className="w-1.5 h-1.5 bg-white rounded-full mr-3"></div>
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="card-content">
+                    <div>
+                      <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      
+                      <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                      <p className="text-gray-400 mb-4 leading-relaxed">{feature.description}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-gray-300 text-sm mb-3 leading-relaxed">{feature.details}</p>
+                      <ul className="space-y-1">
+                        {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
+                          <li key={benefitIndex} className="flex items-start text-sm text-gray-300">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 mt-1.5 flex-shrink-0"></div>
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               );

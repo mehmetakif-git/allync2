@@ -734,6 +734,78 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  /* Force center alignment for all major sections on mobile */
+  .roi-calculator,
+  .faq-section,
+  .before-after-comparison,
+  .testimonials,
+  .pricing-section,
+  .contact-section,
+  .features-section {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Center all headers and paragraphs in these sections */
+  .roi-calculator h1,
+  .roi-calculator h2,
+  .roi-calculator h3,
+  .roi-calculator h4,
+  .roi-calculator p,
+  .faq-section h1,
+  .faq-section h2,
+  .faq-section h3,
+  .faq-section h4,
+  .faq-section p,
+  .before-after-comparison h1,
+  .before-after-comparison h2,
+  .before-after-comparison h3,
+  .before-after-comparison h4,
+  .before-after-comparison p,
+  .testimonials h1,
+  .testimonials h2,
+  .testimonials h3,
+  .testimonials h4,
+  .testimonials p,
+  .pricing-section h1,
+  .pricing-section h2,
+  .pricing-section h3,
+  .pricing-section h4,
+  .pricing-section p,
+  .contact-section h1,
+  .contact-section h2,
+  .contact-section h3,
+  .contact-section h4,
+  .contact-section p,
+  .features-section h1,
+  .features-section h2,
+  .features-section h3,
+  .features-section h4,
+  .features-section p {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Center all content blocks and containers */
+  .roi-calculator > *,
+  .faq-section > *,
+  .before-after-comparison > *,
+  .testimonials > *,
+  .pricing-section > *,
+  .contact-section > *,
+  .features-section > * {
+    text-align: center !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
   section {
     padding: 2rem 0;
   }

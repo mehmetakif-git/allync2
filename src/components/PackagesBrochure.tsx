@@ -389,12 +389,12 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   };
 
   return (
-    <section className="py-20 relative bg-black min-h-screen">
+    <section className="py-20 relative bg-black min-h-screen packages-container">
       {/* Background Effects */}
       <div className="diagonal-gradient"></div>
       <div className="mesh-gradient"></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 packages-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {language === 'tr' ? 'Paket Seçenekleri' : 'Package Options'}
@@ -410,7 +410,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         {/* Brochure Container */}
         <div 
           ref={brochureRef}
-          className="relative max-w-4xl mx-auto"
+          className="relative max-w-4xl mx-auto brochure-page"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -418,7 +418,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           {/* Page Container */}
           <div className="relative perspective-1000">
             <div 
-              className={`brochure-page bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl transition-all duration-800 ${
+              className={`bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl transition-all duration-800 ${
                 isFlipping ? 'flip-animation' : ''
               }`}
               style={{
@@ -494,7 +494,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         </div>
 
         {/* Contact CTA */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-16 packages-container">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-white mb-4">
               {language === 'tr' ? 'Hangi Paket Size Uygun?' : 'Which Package Suits You?'}

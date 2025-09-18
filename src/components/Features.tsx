@@ -17,48 +17,6 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
-  const [animatedStats, setAnimatedStats] = useState({
-    conversations: 0,
-    appointments: 0,
-    responseTime: 0,
-    satisfaction: 0
-  });
-
-  useEffect(() => {
-    const targetStats = {
-      conversations: 2847,
-      appointments: 156,
-      responseTime: 1.8,
-      satisfaction: 94.2
-    };
-
-    const animateStats = () => {
-      const duration = 2000;
-      const steps = 60;
-      const stepDuration = duration / steps;
-
-      let currentStep = 0;
-
-      const interval = setInterval(() => {
-        currentStep++;
-        const progress = currentStep / steps;
-
-        setAnimatedStats({
-          conversations: Math.floor(targetStats.conversations * progress),
-          appointments: Math.floor(targetStats.appointments * progress),
-          responseTime: targetStats.responseTime * progress,
-          satisfaction: targetStats.satisfaction * progress
-        });
-
-        if (currentStep >= steps) {
-          clearInterval(interval);
-        }
-      }, stepDuration);
-    };
-
-    animateStats();
-  }, []);
-
   const roi = {
     monthlySavings: roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7,
     paybackMonths: Math.ceil(299 / ((roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22 * 0.7) / 12)),
@@ -435,63 +393,6 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
               <Clock className="w-8 h-8 text-gray-600 mx-auto mb-2" />
               <p className="text-sm text-gray-300 font-semibold">99.9%</p>
               <p className="text-xs text-gray-500">SLA Guarantee</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Live Statistics Dashboard */}
-        <div className="text-center mb-6 md:mb-12 mt-8 md:mt-20 energy-wave">
-          <h3 className="text-3xl font-bold text-white mb-4">{t.dashboardIncluded}</h3>
-          <p className="text-gray-400">{t.dashboardIncludedDesc}</p>
-        </div>
-
-        <div className="relative max-w-5xl mx-auto">
-          <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 shadow-2xl">
-            {/* Mock Dashboard */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Stats Cards */}
-              <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-                <div className="glass bg-white/5 rounded-lg p-4 border border-gray-600">
-                  <h4 className="text-gray-300 text-sm font-medium">{t.totalConversations}</h4>
-                  <p className="text-2xl font-bold text-white">{animatedStats.conversations.toLocaleString()}</p>
-                  <p className="text-gray-400 text-xs">↗ +12% {language === 'tr' ? 'bu hafta' : 'this week'}</p>
-                </div>
-                <div className="glass bg-white/5 rounded-lg p-4 border border-gray-600">
-                  <h4 className="text-gray-300 text-sm font-medium">{t.appointmentsBooked}</h4>
-                  <p className="text-2xl font-bold text-white">{animatedStats.appointments}</p>
-                  <p className="text-gray-400 text-xs">↗ +8% {language === 'tr' ? 'bu hafta' : 'this week'}</p>
-                </div>
-                <div className="glass bg-white/5 rounded-lg p-4 border border-gray-600">
-                  <h4 className="text-gray-300 text-sm font-medium">{t.responseTime}</h4>
-                  <p className="text-2xl font-bold text-white">{animatedStats.responseTime.toFixed(1)}s</p>
-                  <p className="text-gray-400 text-xs">{t.averageResponse}</p>
-                </div>
-                <div className="glass bg-white/5 rounded-lg p-4 border border-gray-600">
-                  <h4 className="text-gray-300 text-sm font-medium">{t.customerSatisfaction}</h4>
-                  <p className="text-2xl font-bold text-white">{animatedStats.satisfaction.toFixed(1)}%</p>
-                  <p className="text-gray-400 text-xs">↗ +2% {language === 'tr' ? 'bu ay' : 'this month'}</p>
-                </div>
-              </div>
-
-              {/* Activity Feed */}
-              <div className="glass bg-white/5 rounded-lg p-4 border border-gray-700">
-                <h4 className="text-white font-medium mb-4">{t.recentActivity}</h4>
-                <div className="space-y-3">
-                  {[
-                    { action: t.newAppointmentBooked, time: language === 'tr' ? '2 dk önce' : '2 min ago', color: 'white' },
-                    { action: t.customerInquiryHandled, time: language === 'tr' ? '5 dk önce' : '5 min ago', color: 'gray-300' },
-                    { action: t.reportGenerated, time: language === 'tr' ? '1 saat önce' : '1 hour ago', color: 'gray-400' },
-                  ].map((activity, i) => (
-                    <div key={i} className="flex items-center text-sm">
-                      <div className={`w-2 h-2 bg-white rounded-full mr-3 ${i === 0 ? 'animate-pulse' : ''}`}></div>
-                      <div className="flex-1">
-                        <p className="text-gray-300">{activity.action}</p>
-                        <p className="text-gray-500 text-xs">{activity.time}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>

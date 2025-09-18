@@ -1193,6 +1193,23 @@ select option {
     padding: 1rem !important;
   }
   
+  /* Mobile back button arrow icon sizing */
+  .back-to-top button svg,
+  .back-button svg,
+  button svg[class*="chevron"],
+  button svg[class*="arrow"] {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 20px !important;
+  }
+  
+  /* Specific targeting for ChevronUp icon in back to top button */
+  .fixed.bottom-8.right-8 svg,
+  .fixed[class*="bottom"] svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
   /* Ensure equal spacing between elements */
   .space-y-6 > * + * {
     margin-top: 1.5rem !important;

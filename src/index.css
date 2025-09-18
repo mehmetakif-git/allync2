@@ -1702,6 +1702,93 @@ html {
     transform: none;
   }
 }
+
+/* Disable ALL hover effects on mobile/touch devices */
+@media (hover: none) and (pointer: coarse) {
+  *:hover,
+  .btn:hover,
+  .btn-premium:hover,
+  .btn-glow:hover,
+  .btn-ripple:hover,
+  .card:hover,
+  .feature-card:hover,
+  .industry-card:hover,
+  .package-card:hover,
+  .trust-badge:hover,
+  .legal-link:hover,
+  .legal-modal-close:hover,
+  .group:hover,
+  .magnetic:hover,
+  .card-depth:hover,
+  a:hover,
+  button:hover,
+  .glass:hover,
+  .nav-item:hover,
+  .hero-buttons button:hover,
+  .contact-form button:hover,
+  .pricing-card:hover,
+  .testimonial-card:hover,
+  .demo-control:hover,
+  .accordion-item:hover,
+  .faq-item:hover,
+  .stats-card:hover,
+  .service-card:hover,
+  .portfolio-item:hover,
+  .team-member:hover,
+  .social-link:hover,
+  .footer-link:hover,
+  .menu-item:hover,
+  .dropdown-item:hover,
+  .tab-item:hover,
+  .slider-control:hover,
+  .modal-close:hover,
+  .tooltip-trigger:hover,
+  .badge:hover,
+  .chip:hover,
+  .tag:hover,
+  .icon:hover,
+  .logo:hover,
+  .brand:hover,
+  .cta:hover,
+  .action:hover,
+  .interactive:hover,
+  .clickable:hover,
+  .selectable:hover,
+  .hoverable:hover {
+    transform: none !important;
+    scale: none !important;
+    box-shadow: inherit !important;
+    background: inherit !important;
+    background-color: inherit !important;
+    color: inherit !important;
+    border-color: inherit !important;
+    opacity: inherit !important;
+    filter: inherit !important;
+    text-shadow: inherit !important;
+    border-radius: inherit !important;
+    backdrop-filter: inherit !important;
+    -webkit-backdrop-filter: inherit !important;
+  }
+  
+  /* Disable hover pseudo-elements */
+  *:hover::before,
+  *:hover::after {
+    opacity: inherit !important;
+    transform: inherit !important;
+    background: inherit !important;
+    box-shadow: inherit !important;
+  }
+  
+  /* Disable group hover effects */
+  .group:hover .group-hover\:translate-x-1,
+  .group:hover .group-hover\:scale-110,
+  .group:hover .group-hover\:opacity-100,
+  .group:hover .group-hover\:visible {
+    transform: inherit !important;
+    opacity: inherit !important;
+    visibility: inherit !important;
+  }
+}
 }
 
 .fade-in-up.visible {

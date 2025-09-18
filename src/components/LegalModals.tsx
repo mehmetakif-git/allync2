@@ -296,10 +296,10 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
 
   const renderModal = (content: any) => (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 legal-modal-backdrop w-full h-full overflow-hidden"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 legal-modal-backdrop"
       onClick={handleBackdropClick}
     >
-      <div className="legal-modal-container w-full max-w-4xl mx-auto overflow-hidden">
+      <div className="legal-modal-container">
         <div className="legal-modal-header">
           <h2 className="text-2xl font-bold text-white">{content.title}</h2>
           <button
@@ -311,13 +311,13 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
           </button>
         </div>
         
-        <div className="legal-modal-content overflow-y-auto max-h-96">
+        <div className="legal-modal-content">
           <p className="text-sm text-gray-400 mb-6">{content.lastUpdated}</p>
           
           {content.content.map((section: any, index: number) => (
             <div key={index} className="mb-6">
               <h3 className="text-lg font-semibold text-white mb-3">{section.heading}</h3>
-              <p className="text-gray-300 leading-relaxed break-words">{section.text}</p>
+              <p className="text-gray-300 leading-relaxed">{section.text}</p>
             </div>
           ))}
         </div>

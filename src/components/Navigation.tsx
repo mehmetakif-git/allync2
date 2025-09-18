@@ -92,11 +92,11 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   return (
     <>
       {/* Navigation Bar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 w-full max-w-full overflow-hidden ${
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
         isScrollingUp ? 'translate-y-0' : '-translate-y-full'
       }`}>
-        <div className="glass bg-black/80 backdrop-blur-lg border-b border-white/10 w-full">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="glass bg-black/80 backdrop-blur-lg border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
               <div 
@@ -110,12 +110,12 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
               </div>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-4 lg:space-x-8 flex-wrap">
+              <div className="hidden md:flex items-center space-x-8">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`relative px-2 lg:px-3 py-2 text-sm font-medium transition-colors duration-300 whitespace-nowrap ${
+                    className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
                       activeSection === item.id
                         ? 'text-white'
                         : 'text-gray-400 hover:text-gray-300'
@@ -131,7 +131,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
                 {/* Language Toggle */}
                 <button
                   onClick={onLanguageToggle}
-                  className="flex items-center px-2 lg:px-3 py-2 glass bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300 flex-shrink-0"
+                  className="flex items-center px-3 py-2 glass bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all duration-300"
                 >
                   <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
                 </button>
@@ -158,13 +158,13 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden glass bg-black/90 backdrop-blur-lg border-t border-white/10 w-full overflow-hidden">
+            <div className="md:hidden glass bg-black/90 backdrop-blur-lg border-t border-white/10">
               <div className="px-4 py-4 space-y-2">
                 {navItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 overflow-hidden ${
+                    className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 ${
                       activeSection === item.id
                         ? 'text-white bg-white/10'
                         : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'

@@ -47,6 +47,10 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
 
   return (
     <section className="py-20 relative dynamic-bg">
+      {/* Background Effects */}
+      <div className="diagonal-gradient"></div>
+      <div className="mesh-gradient"></div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

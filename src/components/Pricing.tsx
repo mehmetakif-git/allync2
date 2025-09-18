@@ -11,6 +11,14 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
 
   return (
     <section className="py-20 relative dynamic-bg">
+      {/* Background Effects */}
+      <div className="wave-gradient"></div>
+      <div className="logo-watermark" style={{ fontSize: '15rem', opacity: 0.03 }}>A</div>
+      
+      {/* Background Effects */}
+      <div className="wave-gradient"></div>
+      <div className="logo-watermark" style={{ fontSize: '15rem', opacity: 0.03 }}>A</div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-gray-500/20 to-gray-400/20 border border-gray-500/30 mb-6">

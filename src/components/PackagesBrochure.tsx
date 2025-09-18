@@ -390,6 +390,10 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
 
   return (
     <section className="py-20 relative bg-black min-h-screen">
+      {/* Background Effects */}
+      <div className="diagonal-gradient"></div>
+      <div className="mesh-gradient"></div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -412,11 +416,15 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           onTouchEnd={handleTouchEnd}
         >
           {/* Page Container */}
-          <div className="relative">
+          <div className="relative perspective-1000">
             <div 
-              className={`bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl w-full`}
+              className={`brochure-page bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl transition-all duration-800 ${
+                isFlipping ? 'flip-animation' : ''
+              }`}
               style={{
-                minHeight: '600px'
+                minHeight: '600px',
+                transformStyle: 'preserve-3d',
+                backfaceVisibility: 'hidden'
               }}
             >
               {renderPageContent(pages[currentPage])}
@@ -486,12 +494,12 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         </div>
 
         {/* Contact CTA */}
-        <div className="text-center mt-16 w-full">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-8 max-w-2xl mx-auto w-full overflow-hidden">
+        <div className="text-center mt-16">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-white mb-4">
               {language === 'tr' ? 'Hangi Paket Size Uygun?' : 'Which Package Suits You?'}
             </h3>
-            <p className="text-gray-400 mb-6 px-2">
+            <p className="text-gray-400 mb-6">
               {language === 'tr' 
                 ? 'Uzmanlarımızla konuşun ve işletmeniz için en uygun paketi belirleyin'
                 : 'Talk to our experts and determine the most suitable package for your business'
@@ -504,7 +512,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
                   contactSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="btn-premium btn-glow btn-ripple px-4 md:px-8 py-4 rounded-lg font-semibold text-white flex items-center justify-center mx-auto w-full max-w-xs"
+              className="btn-premium btn-glow btn-ripple px-8 py-4 rounded-lg font-semibold text-white flex items-center justify-center mx-auto"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
               {language === 'tr' ? 'Ücretsiz Danışmanlık Al' : 'Get Free Consultation'}

@@ -8,18 +8,6 @@ interface FeaturesProps {
 
 export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const t = translations[language];
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [roiInputs, setRoiInputs] = useState({
-    employees: 2,
-    hourlyWage: 15,
-    hoursPerDay: 8
-  });
-  const [animatedStats, setAnimatedStats] = useState({
-    conversations: 0,
-    appointments: 0,
-    responseTime: 0,
-    satisfaction: 0
-  });
 
   const features = [
     {
@@ -78,131 +66,52 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
     }
   ];
 
-  const faqData = [
-    {
-      question: language === 'tr' ? 'AI asistanı ne kadar sürede kurulur?' : 'How long does AI assistant setup take?',
-      answer: language === 'tr' ? 'Kurulum süreci 24-48 saat içinde tamamlanır. Verilerinizi analiz eder, özelleştirmelerinizi yapar ve test ederiz.' : 'Setup process completes within 24-48 hours. We analyze your data, make customizations, and test everything.'
-    },
-    {
-      question: language === 'tr' ? 'Hangi dilleri destekliyor?' : 'Which languages are supported?',
-      answer: language === 'tr' ? 'Türkçe, İngilizce, Arapça ve 50+ dil desteği mevcuttur. Çoklu dil desteği ile global müşterilerinize hizmet verebilirsiniz.' : 'Turkish, English, Arabic and 50+ languages supported. Serve your global customers with multi-language support.'
-    },
-    {
-      question: language === 'tr' ? 'Mevcut sistemlerle entegre olur mu?' : 'Does it integrate with existing systems?',
-      answer: language === 'tr' ? 'CRM, ERP, takvim uygulamaları ve ödeme sistemleri ile entegre olur. API desteği ile özel entegrasyonlar da mümkündür.' : 'Integrates with CRM, ERP, calendar apps and payment systems. Custom integrations possible with API support.'
-    },
-    {
-      question: language === 'tr' ? 'Veri güvenliği nasıl sağlanıyor?' : 'How is data security ensured?',
-      answer: language === 'tr' ? 'End-to-end şifreleme, GDPR uyumluluğu ve ISO 27001 sertifikası ile verileriniz güvende. Düzenli güvenlik denetimleri yapılır.' : 'End-to-end encryption, GDPR compliance and ISO 27001 certification keeps your data safe. Regular security audits conducted.'
-    }
-  ];
-
-  // Animated counters
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimatedStats(prev => ({
-        conversations: prev.conversations < 2847 ? prev.conversations + 47 : 2847,
-        appointments: prev.appointments < 156 ? prev.appointments + 3 : 156,
-        responseTime: prev.responseTime < 0.3 ? Math.min(prev.responseTime + 0.01, 0.3) : 0.3,
-        satisfaction: prev.satisfaction < 98.5 ? prev.satisfaction + 1.5 : 98.5
-      }));
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // ROI Calculator
-  const calculateROI = () => {
-    const monthlyCost = roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22; // 22 working days
-    const aiCost = 2000; // One-time cost
-    const monthlySavings = monthlyCost * 0.7; // 70% automation
-    const paybackMonths = Math.ceil(aiCost / monthlySavings);
-    const yearlyROI = ((monthlySavings * 12 - aiCost) / aiCost) * 100;
-
-    return { monthlySavings, paybackMonths, yearlyROI };
-  };
-
-  const roi = calculateROI();
-
   return (
-    <section className="py-8 md:py-16 bg-black relative" style={{ display: 'block', opacity: 1 }}>
-      
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="text-center mb-8 md:mb-16 section-reveal">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 fade-in-up text-glow">
+    <section className="py-8 md:py-16 bg-black relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {t.featuresTitle}
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.featuresSubtitle}</p>
         </div>
 
-        {/* Business Intelligence Dashboard */}
-        <div className="mb-8 md:mb-20 fade-in-up">
-          <div className="text-center mb-6 md:mb-12">
-            <h3 className="text-3xl font-bold text-white mb-4">
-              {language === 'tr' ? 'Gerçek Zamanlı İş Zekası' : 'Real-Time Business Intelligence'}
-            </h3>
-            <p className="text-gray-400">
-              {language === 'tr' 
-                ? 'AI asistanınızın performansını canlı olarak izleyin'
-                : 'Monitor your AI assistant performance in real-time'
-              }
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-4 md:mb-8">
-            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate">
-              <Activity className="w-8 h-8 text-white mx-auto mb-3" />
-              <p className="text-2xl font-bold text-white">{animatedStats.conversations.toLocaleString()}</p>
-              <p className="text-gray-400 text-sm">{language === 'tr' ? 'Günlük Mesaj' : 'Daily Messages'}</p>
-              <div className="mt-2 text-xs text-gray-500">↗ +12% {language === 'tr' ? 'bu hafta' : 'this week'}</div>
-            </div>
-            
-            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate stagger-1">
-              <Clock className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-              <p className="text-2xl font-bold text-white">{animatedStats.responseTime.toFixed(1)}s</p>
-              <p className="text-gray-400 text-sm">{language === 'tr' ? 'Ortalama Yanıt' : 'Avg Response'}</p>
-              <div className="mt-2 text-xs text-gray-500">↘ -0.2s {language === 'tr' ? 'bu ay' : 'this month'}</div>
-            </div>
-            
-            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate stagger-2">
-              <Users className="w-8 h-8 text-gray-400 mx-auto mb-3" />
-              <p className="text-2xl font-bold text-white">{animatedStats.satisfaction.toFixed(1)}%</p>
-              <p className="text-gray-400 text-sm">{language === 'tr' ? 'Memnuniyet' : 'Satisfaction'}</p>
-              <div className="mt-2 text-xs text-gray-500">↗ +2.1% {language === 'tr' ? 'bu ay' : 'this month'}</div>
-            </div>
-            
-            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate stagger-3">
-              <CheckCircle className="w-8 h-8 text-gray-500 mx-auto mb-3" />
-              <p className="text-2xl font-bold text-white">99.9%</p>
-              <p className="text-gray-400 text-sm">{language === 'tr' ? 'Çalışma Süresi' : 'Uptime'}</p>
-              <div className="uptime-indicator mt-2">
-                <div className="uptime-dot"></div>
-                <span className="text-xs">{language === 'tr' ? 'Operasyonel' : 'Operational'}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Features Grid */}
-        <div className="mb-8 md:mb-20 fade-in-up features-section">
-          <div className="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mb-8 md:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               
               return (
                 <div
                   key={index}
-                  className="feature-card group rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 transition-all duration-300 card-depth card-slide-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="group rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 transition-all duration-300 p-6"
                 >
-                  <div className="card-content">
-                    <div>
-                      <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      
-                      <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                      <p className="text-gray-400 mb-4 leading-relaxed">{feature.description}</p>
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                  <p className="text-gray-400 mb-4 leading-relaxed">{feature.description}</p>
+                  
+                  <p className="text-gray-300 text-sm mb-3 leading-relaxed">{feature.details}</p>
+                  <ul className="space-y-1">
+                    {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
+                      <li key={benefitIndex} className="flex items-start text-sm text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 mt-1.5 flex-shrink-0"></div>
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
                     </div>
                     
                     <div>

@@ -8,10 +8,6 @@ interface IndustryExamplesProps {
 
 export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) => {
   const t = translations[language];
-  const [selectedIndustry, setSelectedIndustry] = useState('salon');
-  const [currentMessage, setCurrentMessage] = useState(0);
-  const [isTyping, setIsTyping] = useState(false);
-  const [displayedText, setDisplayedText] = useState('');
 
   const industries = [
     {
@@ -352,67 +348,25 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
     }
   ];
 
+  const [selectedIndustry, setSelectedIndustry] = useState('salon');
   const selectedIndustryData = industries.find(ind => ind.id === selectedIndustry) || industries[0];
 
-  React.useEffect(() => {
-    const conversation = selectedIndustryData.demo;
-    if (currentMessage < conversation.length) {
-      const currentMsg = conversation[currentMessage];
-      
-      if (currentMsg.type === 'bot') {
-        setIsTyping(true);
-        setDisplayedText('');
-        
-        let index = 0;
-        const typingInterval = setInterval(() => {
-          if (index < currentMsg.message.length) {
-            setDisplayedText(currentMsg.message.slice(0, index + 1));
-            index++;
-          } else {
-            clearInterval(typingInterval);
-            setIsTyping(false);
-            setTimeout(() => {
-              setCurrentMessage(prev => prev + 1);
-            }, 2000);
-          }
-        }, 50);
-        
-        return () => clearInterval(typingInterval);
-      } else {
-        setDisplayedText(currentMsg.message);
-        setTimeout(() => {
-          setCurrentMessage(prev => prev + 1);
-        }, 1500);
-      }
-    } else {
-      setTimeout(() => {
-        setCurrentMessage(0);
-      }, 3000);
-    }
-  }, [currentMessage, selectedIndustry]);
-
-  React.useEffect(() => {
-    setCurrentMessage(0);
-    setDisplayedText('');
-  }, [selectedIndustry]);
-
   return (
-    <section className="py-8 md:py-14 relative" style={{ display: 'block', opacity: 1 }}>
-      
-      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+    <section className="py-8 md:py-14 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.industryTitle}</h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.industrySubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6 md:mb-12 industry-grid">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6 md:mb-12">
           {industries.map((industry) => {
             const IconComponent = industry.icon;
             return (
               <button
                 key={industry.id}
                 onClick={() => setSelectedIndustry(industry.id)}
-                className={`industry-card p-4 rounded-xl transition-all duration-300 ${
+                className={`p-4 rounded-xl transition-all duration-300 ${
                   selectedIndustry === industry.id
                     ? 'bg-gray-600 text-white shadow-lg shadow-gray-500/25'
                     : 'bg-white/10 text-gray-300 hover:bg-white/20'
@@ -437,9 +391,8 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
             </div>
 
             <div className="bg-gray-900 rounded-xl p-6">
-              <div className="demo-chat-container">
-                <div className="space-y-4 h-full">
-                  {selectedIndustryData.demo.slice(0, currentMessage + 1).map((message, index) => (
+              <div className="space-y-4" style={{ height: '300px', overflowY: 'auto' }}>
+                {selectedIndustryData.demo.map((message, index) => (
                     <div
                       key={index}
                       className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -452,12 +405,7 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
                         }`}
                       >
                         <p className="text-sm">
-                          {index === currentMessage && message.type === 'bot'
-                            ? displayedText
-                            : message.message}
-                          {index === currentMessage && message.type === 'bot' && isTyping && (
-                            <span className="animate-pulse">|</span>
-                          )}
+                          {message.message}
                         </p>
                         <span className="text-xs opacity-70 mt-1 block">
                           {message.time}
@@ -465,7 +413,6 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
                       </div>
                     </div>
                   ))}
-                </div>
               </div>
             </div>
           </div>

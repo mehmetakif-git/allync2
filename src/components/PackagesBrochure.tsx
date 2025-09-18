@@ -18,7 +18,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   };
 
   const renderBasicPlan = () => (
-    <div className="package-card bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-500/30 rounded-2xl p-8">
+    <div className="bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
@@ -62,7 +62,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderProPlan = () => (
-    <div className="package-card bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/30 rounded-2xl p-8">
+    <div className="bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
@@ -110,7 +110,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderPremiumPlan = () => (
-    <div className="package-card bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-500/30 rounded-2xl p-8">
+    <div className="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
@@ -158,7 +158,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderAddonPlan = () => (
-    <div className="package-card bg-gradient-to-br from-yellow-900/20 to-yellow-800/10 border border-yellow-500/30 rounded-2xl p-8">
+    <div className="bg-gradient-to-br from-yellow-900/20 to-yellow-800/10 border border-yellow-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-yellow-500/20 border border-yellow-500/30 rounded-full mb-4">
           <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />
@@ -241,14 +241,14 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   return (
-    <section className="packages-section" style={{ overflowX: 'hidden' }}>
-      <div className="packages-container">
+    <section className="py-8 md:py-16 bg-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.packagesTitle}</h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.packagesSubtitle}</p>
         </div>
 
-        <div className="packages-grid" style={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           {renderBasicPlan()}
           {renderProPlan()}
           {renderPremiumPlan()}
@@ -261,7 +261,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
             <p className="text-gray-400 mb-6">{t.talkToExperts}</p>
             <button 
               onClick={scrollToContact}
-              className="btn-premium btn-glow btn-ripple px-8 py-4 rounded-lg font-semibold text-white flex items-center justify-center mx-auto"
+              className="btn-premium px-8 py-4 rounded-lg font-semibold text-white flex items-center justify-center mx-auto"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
               {t.getFreeConsultation}

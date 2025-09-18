@@ -7,11 +7,11 @@ interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   language: 'tr' | 'en';
 }
 
-export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
+export const Hero: React.FC<HeroProps> = ({ language }) => {
   const t = translations[language];
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-black py-8 md:py-12" {...props}>
+    <section className="min-h-screen relative overflow-hidden bg-black py-8 md:py-12" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="text-center">

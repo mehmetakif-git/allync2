@@ -18,7 +18,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   };
 
   const renderBasicPlan = () => (
-    <div className="bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-500/30 rounded-2xl p-8">
+    <div className="package-card basic-card bg-gradient-to-br from-green-900/20 to-green-800/10 border border-green-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
@@ -62,7 +62,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderProPlan = () => (
-    <div className="bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/30 rounded-2xl p-8">
+    <div className="package-card pro-card bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
@@ -110,7 +110,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderPremiumPlan = () => (
-    <div className="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-500/30 rounded-2xl p-8">
+    <div className="package-card premium-card bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-red-500/20 border border-red-500/30 rounded-full mb-4">
           <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
@@ -158,7 +158,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   const renderAddonPlan = () => (
-    <div className="bg-gradient-to-br from-yellow-900/20 to-yellow-800/10 border border-yellow-500/30 rounded-2xl p-8">
+    <div className="package-card addon-card bg-gradient-to-br from-yellow-900/20 to-yellow-800/10 border border-yellow-500/30 rounded-2xl p-8">
       <div className="text-center mb-8">
         <div className="inline-flex items-center px-4 py-2 bg-yellow-500/20 border border-yellow-500/30 rounded-full mb-4">
           <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />

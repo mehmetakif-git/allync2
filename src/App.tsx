@@ -27,28 +27,32 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black app-loaded">
+    <div className="min-h-screen bg-black app-loaded" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
       <Navigation language={language} onLanguageToggle={toggleLanguage} />
-      <Hero language={language} id="hero" />
-      <section id="chat-demo">
+      <div id="hero" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+        <Hero language={language} />
+      </div>
+      <section id="chat-demo" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <ChatDemo language={language} />
       </section>
-      <section id="packages">
+      <section id="packages" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <PackagesBrochure language={language} />
       </section>
-      <section id="industry-examples">
+      <section id="industry-examples" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <IndustryExamples language={language} />
       </section>
-      <section id="features">
+      <section id="features" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <Features language={language} />
       </section>
-      <section id="pricing">
+      <section id="pricing" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <Pricing language={language} />
       </section>
-      <section id="contact" className="scroll-mt-20">
+      <section id="contact" className="scroll-mt-20" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
         <Contact language={language} />
       </section>
-      <Footer language={language} />
+      <div style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+        <Footer language={language} />
+      </div>
     </div>
   );
 }

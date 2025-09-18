@@ -206,23 +206,25 @@ nav {
 
 @media (max-width: 768px) {
   .demo-chat-container {
-    height: 300px !important;
-    max-height: 300px !important;
-    overflow-y: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
     overflow-x: hidden !important;
     padding: 12px !important;
   }
   
   .message-container {
-    max-height: 250px !important;
-    overflow-y: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
     overflow-x: hidden !important;
+    height: auto !important;
   }
   
   .chat-container {
-    max-height: 300px !important;
-    overflow-y: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
     overflow-x: hidden !important;
+    height: auto !important;
   }
   
   .message-item {

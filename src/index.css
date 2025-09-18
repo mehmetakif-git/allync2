@@ -10,43 +10,11 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile Status Bar & Safe Area Handling */
-:root {
-  --safe-area-inset-top: env(safe-area-inset-top);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom);
-  --safe-area-inset-left: env(safe-area-inset-left);
-  --safe-area-inset-right: env(safe-area-inset-right);
-  --status-bar-color: #000000;
-  --navbar-bg: #000000;
-}
-
-/* Mobile viewport and safe area handling */
-body {
-  padding-top: var(--safe-area-inset-top);
-  padding-bottom: var(--safe-area-inset-bottom);
-  padding-left: var(--safe-area-inset-left);
-  padding-right: var(--safe-area-inset-right);
-}
-
-/* Header/Navbar adjustments for notch */
-.header, .navbar, header, nav {
-  padding-top: calc(var(--safe-area-inset-top) + 1rem);
-  background-color: var(--navbar-bg);
-}
-
-/* Full viewport height handling */
-.full-height {
-  height: 100vh;
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
-}
-
 /* Prevent horizontal overflow */
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
   box-sizing: border-box;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
 }
 
 * {
@@ -1280,34 +1248,6 @@ html {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(80px + var(--safe-area-inset-top));
-}
-
-/* Mobile smooth scroll optimization */
-@media (max-width: 768px) {
-  html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  body {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
-  
-  /* Prevent scroll jitter on mobile */
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  
-  /* Optimize transitions for mobile */
-  .btn-premium, button {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
 }
 
 /* Custom scrollbar */

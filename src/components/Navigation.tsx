@@ -71,12 +71,10 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const safeAreaTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-area-inset-top') || '0');
-      const offsetTop = sectionId === 'hero' ? 0 : element.offsetTop - (100 + safeAreaTop);
+      const offsetTop = sectionId === 'hero' ? 0 : element.offsetTop - 100;
       window.scrollTo({
         top: offsetTop,
-        behavior: 'smooth',
-        block: 'start'
+        behavior: 'smooth'
       });
     }
     setIsMenuOpen(false);
@@ -85,8 +83,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
-      block: 'start'
+      behavior: 'smooth'
     });
   };
 

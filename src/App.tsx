@@ -21,10 +21,6 @@ function App() {
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
-    // Enable animations after a short delay
-    setTimeout(() => {
-      setAnimationsEnabled(true);
-    }, 500);
   };
 
   if (isLoading) {
@@ -32,33 +28,27 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+    <div className="min-h-screen bg-black">
       <Navigation language={language} onLanguageToggle={toggleLanguage} />
-      <section className="hero-section">
+      <section id="hero">
         <Hero language={language} id="hero" />
       </section>
-      <div className="section-separator"></div>
       <section id="chat-demo">
         <ChatDemo language={language} />
       </section>
-      <div className="section-separator"></div>
       <section id="packages">
         <PackagesBrochure language={language} />
       </section>
-      <div className="section-separator"></div>
       <section id="industry-examples">
         <IndustryExamples language={language} />
       </section>
-      <div className="section-separator"></div>
       <section id="features">
         <Features language={language} />
       </section>
-      <div className="section-separator"></div>
       <section id="pricing">
         <Pricing language={language} />
       </section>
-      <div className="section-separator"></div>
-      <section id="contact" className="scroll-mt-20">
+      <section id="contact">
         <Contact language={language} />
       </section>
       <Footer language={language} />

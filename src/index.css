@@ -660,10 +660,31 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+  
+  .py-16 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .py-14 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  
+  .py-12 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
   .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: calc(100vw - 2rem);
+    display: block;
+    opacity: 1;
   }
   
   .packages-grid {

@@ -194,7 +194,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
             boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
           }}
         >
-          <ChevronUp className="w-10 h-10 md:w-5 md:h-5" />
+          <ChevronUp className="w-20 h-20 md:w-20 md:h-20" />
         </button>
       )}
     </>

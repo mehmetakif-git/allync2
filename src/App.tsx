@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
-import WhatsAppChatDemo from './components/WhatsAppChatDemo';
+import { ChatDemo } from './components/ChatDemo';
 import { PackagesBrochure } from './components/PackagesBrochure';
+import { IndustryExamples } from './components/IndustryExamples';
 import { Features } from './components/Features';
 import { Pricing } from './components/Pricing';
 import { Contact } from './components/Contact';
@@ -12,6 +13,7 @@ import { Footer } from './components/Footer';
 function App() {
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
   const [isLoading, setIsLoading] = useState(true);
+  const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -19,6 +21,10 @@ function App() {
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
+    // Enable animations after a short delay
+    setTimeout(() => {
+      setAnimationsEnabled(true);
+    }, 500);
   };
 
   if (isLoading) {
@@ -26,29 +32,36 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black app-loaded" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+    <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
       <Navigation language={language} onLanguageToggle={toggleLanguage} />
-      <div id="hero" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-        <Hero language={language} />
-      </div>
-      <section id="chat-demo" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-        <WhatsAppChatDemo language={language} />
+      <section className="hero-section" style={{ position: 'relative', zIndex: 10 }}>
+        <Hero language={language} id="hero" />
       </section>
-      <section id="packages" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="section-separator"></div>
+      <section id="chat-demo" style={{ position: 'relative', zIndex: 9 }}>
+        <ChatDemo language={language} />
+      </section>
+      <div className="section-separator"></div>
+      <section id="packages" style={{ position: 'relative', zIndex: 8 }}>
         <PackagesBrochure language={language} />
       </section>
-      <section id="features" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="section-separator"></div>
+      <section id="industry-examples" style={{ position: 'relative', zIndex: 7 }}>
+        <IndustryExamples language={language} />
+      </section>
+      <div className="section-separator"></div>
+      <section id="features" style={{ position: 'relative', zIndex: 6 }}>
         <Features language={language} />
       </section>
-      <section id="pricing" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="section-separator"></div>
+      <section id="pricing" style={{ position: 'relative', zIndex: 5 }}>
         <Pricing language={language} />
       </section>
-      <section id="contact" className="scroll-mt-20" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="section-separator"></div>
+      <section id="contact" className="scroll-mt-20" style={{ position: 'relative', zIndex: 4 }}>
         <Contact language={language} />
       </section>
-      <div style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-        <Footer language={language} />
-      </div>
+      <Footer language={language} />
     </div>
   );
 }

@@ -34,31 +34,31 @@ function App() {
   return (
     <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
       <Navigation language={language} onLanguageToggle={toggleLanguage} />
-      <section className="hero-section">
+      <section className="hero-section" style={{ position: 'relative', zIndex: 10 }}>
         <Hero language={language} id="hero" />
       </section>
       <div className="section-separator"></div>
-      <section id="chat-demo">
+      <section id="chat-demo" style={{ position: 'relative', zIndex: 9 }}>
         <ChatDemo language={language} />
       </section>
       <div className="section-separator"></div>
-      <section id="packages">
+      <section id="packages" style={{ position: 'relative', zIndex: 8 }}>
         <PackagesBrochure language={language} />
       </section>
       <div className="section-separator"></div>
-      <section id="industry-examples">
+      <section id="industry-examples" style={{ position: 'relative', zIndex: 7 }}>
         <IndustryExamples language={language} />
       </section>
       <div className="section-separator"></div>
-      <section id="features">
+      <section id="features" style={{ position: 'relative', zIndex: 6 }}>
         <Features language={language} />
       </section>
       <div className="section-separator"></div>
-      <section id="pricing">
+      <section id="pricing" style={{ position: 'relative', zIndex: 5 }}>
         <Pricing language={language} />
       </section>
       <div className="section-separator"></div>
-      <section id="contact" className="scroll-mt-20">
+      <section id="contact" className="scroll-mt-20" style={{ position: 'relative', zIndex: 4 }}>
         <Contact language={language} />
       </section>
       <Footer language={language} />

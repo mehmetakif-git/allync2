@@ -2,10 +2,21 @@
 export class ScrollAnimations {
   private observer: IntersectionObserver;
   private animatedElements = new Set<Element>();
+  private isMobile = window.innerWidth <= 768;
+  private throttleTimeout: number | null = null;
 
   constructor() {
+    // Mobile-optimized intersection observer
     this.observer = new IntersectionObserver(
       (entries) => {
+        if (this.isMobile && this.throttleTimeout) return;
+        
+        if (this.isMobile) {
+          this.throttleTimeout = window.setTimeout(() => {
+            this.throttleTimeout = null;
+          }, 100);
+        }
+        
         entries.forEach((entry) => {
           // Only animate if animations are enabled
           const appContainer = document.querySelector('.animations-enabled');
@@ -16,8 +27,8 @@ export class ScrollAnimations {
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: this.isMobile ? 0.05 : 0.1,
+        rootMargin: this.isMobile ? '0px 0px -20px 0px' : '0px 0px -50px 0px'
       }
     );
 

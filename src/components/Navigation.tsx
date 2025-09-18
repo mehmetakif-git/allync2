@@ -98,7 +98,9 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
         paddingTop: 'env(safe-area-inset-top)',
         background: 'rgba(0, 0, 0, 0.9)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        willChange: 'transform',
+        transform: 'translate3d(0, 0, 0)'
       }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">

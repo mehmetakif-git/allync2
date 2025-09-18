@@ -125,10 +125,10 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
   const roi = calculateROI();
 
   return (
-    <section className="py-16 bg-black relative" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-16 bg-black relative" style={{ display: 'block', opacity: 1 }}>
       
       <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="text-center mb-16 section-reveal">
+        <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 fade-in-up text-glow">
             {t.featuresTitle}
           </h2>
@@ -136,8 +136,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Business Intelligence Dashboard */}
-        <div className="mb-20 fade-in-up">
-          <div className="text-center mb-12">
+        <div className="mb-8 md:mb-20 fade-in-up">
+          <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'Gerçek Zamanlı İş Zekası' : 'Real-Time Business Intelligence'}
             </h3>
@@ -149,7 +149,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-4 md:mb-8">
             <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate">
               <Activity className="w-8 h-8 text-white mx-auto mb-3" />
               <p className="text-2xl font-bold text-white">{animatedStats.conversations.toLocaleString()}</p>
@@ -184,7 +184,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="mb-20 fade-in-up features-section">
+        <div className="mb-8 md:mb-20 fade-in-up features-section">
           <div className="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
@@ -224,8 +224,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* ROI Calculator */}
-        <div className="mb-20 section-reveal">
-          <div className="text-center mb-12">
+        <div className="mb-8 md:mb-20 section-reveal">
+          <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'ROI Hesaplayıcı' : 'ROI Calculator'}
             </h3>
@@ -349,8 +349,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Before/After Comparison */}
-        <div className="mb-20 holographic-shimmer">
-          <div className="text-center mb-12">
+        <div className="mb-8 md:mb-20 holographic-shimmer">
+          <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'Önce vs Sonra' : 'Before vs After'}
             </h3>
@@ -410,8 +410,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* FAQ Section */}
-        <div className="mb-20 scan-reveal">
-          <div className="text-center mb-12">
+        <div className="mb-8 md:mb-20 scan-reveal">
+          <div className="text-center mb-6 md:mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               {language === 'tr' ? 'Sık Sorulan Sorular' : 'Frequently Asked Questions'}
             </h3>
@@ -471,7 +471,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
         </div>
 
         {/* Live Statistics Dashboard */}
-        <div className="text-center mb-12 mt-20 energy-wave">
+        <div className="text-center mb-6 md:mb-12 mt-8 md:mt-20 energy-wave">
           <h3 className="text-3xl font-bold text-white mb-4">{t.dashboardIncluded}</h3>
           <p className="text-gray-400">{t.dashboardIncludedDesc}</p>
         </div>

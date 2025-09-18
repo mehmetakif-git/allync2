@@ -397,15 +397,15 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
   }, [selectedIndustry]);
 
   return (
-    <section className="py-14 relative" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-14 relative" style={{ display: 'block', opacity: 1 }}>
       
       <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.industryTitle}</h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.industrySubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12 industry-grid">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6 md:mb-12 industry-grid">
           {industries.map((industry) => {
             const IconComponent = industry.icon;
             return (

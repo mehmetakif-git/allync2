@@ -46,10 +46,10 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
   };
 
   return (
-    <section className="py-16 relative bg-black" style={{ display: 'block', opacity: 1 }}>
+    <section className="py-8 md:py-16 relative bg-black" style={{ display: 'block', opacity: 1 }}>
       
       <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="text-center mb-16 section-reveal">
+        <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             {t.chatDemoTitle}
           </h2>
@@ -116,7 +116,7 @@ export const ChatDemo: React.FC<ChatDemoProps> = ({ language }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
           {/* Chat Interface */}
           <div className="relative fade-in-left order-2 lg:order-1">
             <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-6 shadow-2xl chat-container">

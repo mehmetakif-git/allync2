@@ -6,6 +6,11 @@ export class ScrollAnimations {
   private throttleTimeout: number | null = null;
 
   constructor() {
+    // Disable animations on mobile for performance
+    if (this.isMobile) {
+      return;
+    }
+    
     // Mobile-optimized intersection observer
     this.observer = new IntersectionObserver(
       (entries) => {
@@ -36,6 +41,11 @@ export class ScrollAnimations {
   }
 
   private init() {
+    // Skip initialization on mobile
+    if (this.isMobile) {
+      return;
+    }
+    
     // Wait for DOM to be ready and animations to be enabled
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.observeElements());
@@ -46,6 +56,11 @@ export class ScrollAnimations {
   }
 
   private observeElements() {
+    // Skip on mobile
+    if (this.isMobile) {
+      return;
+    }
+    
     const animationClasses = [
       '.fade-in-up',
       '.fade-in-left',
@@ -69,6 +84,12 @@ export class ScrollAnimations {
   }
 
   private animateElement(element: Element) {
+    // Skip animations on mobile
+    if (this.isMobile) {
+      element.classList.add('visible');
+      return;
+    }
+    
     element.classList.add('visible');
 
     // Special handling for counters

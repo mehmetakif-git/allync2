@@ -12,6 +12,10 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   const t = translations[language];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrollingUp, setIsScrollingUp] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const navItems = [
     { id: 'hero', label: language === 'tr' ? 'Ana Sayfa' : 'Home' },
@@ -24,117 +28,33 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
   ];
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const sections = navItems.map(item => document.getElementById(item.id));
-      const scrollPosition = currentScrollY + 100;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const sections = navItems.map(item => document.getElementById(item.id));
+          const scrollPosition = currentScrollY + 100;
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navItems[i].id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navItems]);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offsetTop = sectionId === 'hero' ? 0 : element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
-    setIsMenuOpen(false);
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-lg border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div 
-            className="flex items-center cursor-pointer"
-            onClick={() => scrollToSection('hero')}
-          >
-            <img src={logoSvg} alt="Allync" className="h-8 w-auto mr-3" />
-            <span className="text-xl font-bold text-white">Allync</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`px-3 py-2 text-sm font-medium transition-colors ${
-                  activeSection === item.id
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-gray-300'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-            
-            {/* Language Toggle */}
-            <button
-              onClick={onLanguageToggle}
-              className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all"
-            >
-              <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              onClick={onLanguageToggle}
-              className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all"
-            >
-              <span className="text-sm font-medium">{language === 'tr' ? 'EN' : 'TR'}</span>
-            </button>
-            
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-all"
-            >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-black/90 backdrop-blur-lg border-t border-white/10">
-          <div className="px-4 py-4 space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeSection === item.id
-                    ? 'text-white bg-white/10'
-                    : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
+          // Update active section
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = sections[i];
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(navItems[i].id);
+              break;
+            }
           }
+
+          // Update scroll direction and visibility
+          if (currentScrollY > lastScrollY) {
+            setIsScrollingUp(false);
+          } else {
+            setIsScrollingUp(true);
+          }
+
+          setLastScrollY(currentScrollY);
+          setShowBackToTop(currentScrollY > 300);
           
           ticking = false;
         });

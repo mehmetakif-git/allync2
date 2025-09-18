@@ -1206,8 +1206,8 @@ select option {
   /* Specific targeting for ChevronUp icon in back to top button */
   .fixed.bottom-8.right-8 svg,
   .fixed[class*="bottom"] svg {
-    width: 20px !important;
-    height: 20px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
   
   /* Ensure equal spacing between elements */

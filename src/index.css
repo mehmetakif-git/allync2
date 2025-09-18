@@ -838,7 +838,7 @@ select option {
     margin-top: 20px !important;
   }
   
-  /* Mobile scroll reveal animations */
+  /* Mobile scroll reveal animations - standardized */
   .section-reveal,
   .fade-in-up,
   .fade-in-left,
@@ -851,7 +851,7 @@ select option {
   .particle-burst,
   .energy-wave {
     opacity: 0 !important;
-    transform: translateY(30px) !important;
+    transform: translateY(20px) !important;
     transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
     will-change: transform, opacity !important;
   }
@@ -871,7 +871,7 @@ select option {
     transform: translateY(0) !important;
   }
   
-  /* Staggered animation delays for mobile */
+  /* Standardized staggered animation delays */
   .stagger-1 {
     transition-delay: 0.1s !important;
   }
@@ -890,6 +890,23 @@ select option {
   
   .stagger-5 {
     transition-delay: 0.5s !important;
+  }
+  
+  /* Remove conflicting animation classes */
+  .fade-in-left {
+    transform: translateY(20px) !important;
+  }
+  
+  .fade-in-right {
+    transform: translateY(20px) !important;
+  }
+  
+  .scale-in {
+    transform: translateY(20px) scale(1) !important;
+  }
+  
+  .scale-in.visible {
+    transform: translateY(0) scale(1) !important;
   }
   
   /* ROI Calculator centering fixes */
@@ -1505,23 +1522,55 @@ select option {
     margin-top: 1rem;
   }
   
-  /* Mobile padding adjustments */
-  .p-8 {
-    padding: 1.6rem;
+  /* Standardized mobile padding */
+  .p-8,
+  .p-6,
+  .package-card,
+  .feature-card,
+  .pricing-card,
+  .testimonial-card,
+  .comparison-card,
+  .calculator-inputs,
+  .roi-results,
+  .contact-form,
+  .contact-info,
+  .faq-item,
+  .trust-badge {
+    padding: 1.5rem !important;
   }
   
-  .p-6 {
-    padding: 1rem;
+  /* Consistent container padding */
+  .packages-container,
+  .features-section,
+  .pricing-section,
+  .contact-section,
+  .roi-calculator,
+  .before-after-comparison,
+  .faq-section,
+  .trust-badges {
+    padding: 1.5rem !important;
   }
   
   .px-8 {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
   
   .py-8 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+  }
+  
+  /* Standardized section spacing */
+  section {
+    padding: 2rem 0 !important;
+  }
+  
+  .py-16,
+  .py-14,
+  .py-12 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
   }
   
   /* Mobile image scaling */
@@ -1606,50 +1655,51 @@ select option {
   /* Mobile features grid */
   .features-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem !important;
+    padding: 1.5rem !important;
   }
   
   .feature-card {
-    padding: 1.5rem;
-    height: auto;
-    min-height: 200px;
+    padding: 1.5rem !important;
+    height: auto !important;
+    min-height: 250px !important;
   }
   
   /* Mobile ROI calculator */
   .roi-calculator {
-    padding: 1rem;
+    padding: 1.5rem !important;
   }
   
   .calculator-inputs,
   .roi-results {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
   
   /* Mobile FAQ section */
   .faq-item {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem !important;
   }
   
   .faq-question {
-    font-size: 1rem;
-    padding: 1rem;
+    font-size: 1rem !important;
+    padding: 1.5rem !important;
   }
   
   .faq-answer {
-    padding: 1rem;
-    font-size: 0.875rem;
+    padding: 1.5rem !important;
+    font-size: 0.875rem !important;
   }
   
   /* Mobile trust badges */
   .trust-badges {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    gap: 1rem !important;
   }
   
   .trust-badge {
-    padding: 0.75rem;
-    font-size: 0.75rem;
+    padding: 1rem !important;
+    font-size: 0.875rem !important;
   }
   
   /* Mobile navigation fixes */
@@ -1675,98 +1725,122 @@ select option {
   
   /* Mobile testimonials */
   .testimonial-card {
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
   
   .testimonial-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem !important;
   }
   
   /* Mobile before/after comparison */
   .comparison-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem !important;
   }
   
   .comparison-card {
-    padding: 1rem;
+    padding: 1.5rem !important;
   }
   
   /* Mobile stats and counters */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 1rem !important;
   }
   
   .stat-card {
-    padding: 1rem;
-    text-align: center;
+    padding: 1.5rem !important;
+    text-align: center !important;
   }
   
   .counter-number {
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
   }
   
   .counter-label {
-    font-size: 0.75rem;
+    font-size: 0.875rem !important;
   }
   
+  /* Standardized package cards */
   .packages-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 1.5rem !important;
   }
   
   .packages-container {
-    padding: 0 16px;
+    padding: 0 1.5rem !important;
   }
   
   .package-card {
-    padding: 20px;
-    height: auto;
-    min-height: 500px;
+    padding: 1.5rem !important;
+    height: auto !important;
+    min-height: 500px !important;
   }
 
+  /* Standardized features grid */
   .features-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
   }
 
   .feature-card {
-    height: auto;
-    min-height: 300px;
+    height: auto !important;
+    min-height: 300px !important;
   }
 
+  /* Industry grid standardization */
   .industry-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 1rem !important;
   }
 
+  /* Chat demo standardization */
   .demo-chat-container {
-    height: 300px;
+    height: auto !important;
+    min-height: 400px !important;
   }
 
   .message-container {
-    max-height: 250px;
+    max-height: none !important;
+    min-height: 350px !important;
   }
   
-  /* Remove spacing between sections on mobile */
+  /* Standardized section separators */
   .section-separator {
-    margin: 1rem 0;
+    margin: 1.5rem 0 !important;
   }
   
-  /* Reduce component margins */
+  /* Standardized component margins */
   .mb-8 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem !important;
   }
   
   .mb-12 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem !important;
   }
   
   .mb-16 {
     margin-bottom: 1.5rem;
+  }
+  
+  /* Standardized gap spacing */
+  .gap-8,
+  .gap-6,
+  .gap-12 {
+    gap: 1.5rem !important;
+  }
+  
+  .gap-4 {
+    gap: 1rem !important;
+  }
+  
+  /* Standardized space-y spacing */
+  .space-y-8 > * + *,
+  .space-y-6 > * + *,
+  .space-y-4 > * + * {
+    margin-top: 1.5rem !important;
   }
   
   /* Mobile-specific overflow and positioning fixes */

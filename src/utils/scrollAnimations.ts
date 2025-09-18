@@ -9,26 +9,21 @@ export class ScrollAnimations {
     // Mobile-optimized intersection observer
     this.observer = new IntersectionObserver(
       (entries) => {
-        if (this.isMobile && this.throttleTimeout) return;
-        
-        if (this.isMobile) {
-          this.throttleTimeout = window.setTimeout(() => {
-            this.throttleTimeout = null;
-          }, 100);
-        }
-        
         entries.forEach((entry) => {
           // Only animate if animations are enabled
           const appContainer = document.querySelector('.animations-enabled');
           if (entry.isIntersecting && !this.animatedElements.has(entry.target) && appContainer) {
-            this.animateElement(entry.target);
-            this.animatedElements.add(entry.target);
+            // Add small delay to prevent simultaneous animations
+            setTimeout(() => {
+              this.animateElement(entry.target);
+              this.animatedElements.add(entry.target);
+            }, 50);
           }
         });
       },
       {
-        threshold: this.isMobile ? 0.05 : 0.1,
-        rootMargin: this.isMobile ? '0px 0px -20px 0px' : '0px 0px -50px 0px'
+        threshold: this.isMobile ? 0.1 : 0.15,
+        rootMargin: this.isMobile ? '0px 0px -30px 0px' : '0px 0px -50px 0px'
       }
     );
 
@@ -63,12 +58,19 @@ export class ScrollAnimations {
     animationClasses.forEach(className => {
       const elements = document.querySelectorAll(className);
       elements.forEach(element => {
+        // Add will-change for better performance
+        (element as HTMLElement).style.willChange = 'transform, opacity';
         this.observer.observe(element);
       });
     });
   }
 
   private animateElement(element: Element) {
+    // Remove will-change after animation completes
+    setTimeout(() => {
+      (element as HTMLElement).style.willChange = 'auto';
+    }, 600);
+    
     element.classList.add('visible');
 
     // Special handling for counters

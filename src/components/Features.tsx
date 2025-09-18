@@ -165,7 +165,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
                   { metric: language === 'tr' ? 'Çalışma saatleri' : 'Working hours', value: '9:00-18:00', color: 'text-gray-500' },
                   { metric: language === 'tr' ? 'Kaçırılan sorgu' : 'Missed inquiries', value: '%30', color: 'text-gray-500' },
                   { metric: language === 'tr' ? 'İnsan hatası' : 'Human error', value: '%15', color: 'text-gray-500' },
-                  { metric: language === 'tr' ? 'Aylık maliyet' : 'Monthly cost', value: `$${(roiInputs.employees * roiInputs.hourlyWage * roiInputs.hoursPerDay * 22).toLocaleString()}`, color: 'text-gray-500' }
+                  { metric: language === 'tr' ? 'Aylık maliyet' : 'Monthly cost', value: '$5,000', color: 'text-gray-500' }
                 ].map((item, index) => (
                   <div key={index} className="flex justify-between items-center p-3 bg-black/30 rounded-lg">
                     <span className="text-gray-400">{item.metric}</span>

@@ -250,6 +250,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
     };
   }, [isPlaying, selectedIndustryData]);
@@ -297,9 +298,11 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
       if (intervalRef.current) {
-        clearTimeout(intervalRef.current);
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, []);

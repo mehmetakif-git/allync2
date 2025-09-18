@@ -349,8 +349,41 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
   ];
 
   const [selectedIndustry, setSelectedIndustry] = useState('salon');
+  const [displayedMessages, setDisplayedMessages] = useState<any[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
   const selectedIndustryData = industries.find(ind => ind.id === selectedIndustry) || industries[0];
 
+  // Animated chat demo effect
+  React.useEffect(() => {
+    const messages = selectedIndustryData.demo;
+    setDisplayedMessages([]);
+    setCurrentMessageIndex(0);
+    setIsTyping(false);
+
+    const showMessages = () => {
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index < messages.length) {
+          setIsTyping(true);
+          
+          setTimeout(() => {
+            setDisplayedMessages(prev => [...prev, messages[index]]);
+            setIsTyping(false);
+            index++;
+          }, 1500);
+        } else {
+          clearInterval(interval);
+        }
+      }, 2500);
+
+      return interval;
+    };
+
+    const timer = setTimeout(showMessages, 500);
+    return () => clearTimeout(timer);
+  }, [selectedIndustry, selectedIndustryData.demo]);
   return (
     <section className="py-8 md:py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -392,10 +425,15 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
 
             <div className="bg-gray-900 rounded-xl p-6">
               <div className="space-y-4" style={{ height: '300px', overflowY: 'auto' }}>
-                {selectedIndustryData.demo.map((message, index) => (
+                {displayedMessages.map((message, index) => (
                     <div
                       key={index}
-                      className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                      className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
+                      style={{ 
+                        animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
+                        opacity: 0,
+                        transform: 'translateY(20px)'
+                      }}
                     >
                       <div
                         className={`max-w-xs px-4 py-2 rounded-lg ${
@@ -413,6 +451,19 @@ export const IndustryExamples: React.FC<IndustryExamplesProps> = ({ language }) 
                       </div>
                     </div>
                   ))}
+                
+                {/* Typing indicator */}
+                {isTyping && (
+                  <div className="flex justify-start">
+                    <div className="max-w-xs px-4 py-2 rounded-lg bg-gray-700 text-gray-100">
+                      <div className="flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

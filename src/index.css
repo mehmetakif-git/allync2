@@ -596,6 +596,9 @@ select option {
 .legal-modal-backdrop {
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .legal-modal-container {
@@ -607,6 +610,9 @@ select option {
   width: 100%;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .legal-modal-header {
@@ -641,6 +647,8 @@ select option {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .legal-link {
@@ -651,10 +659,50 @@ select option {
   text-decoration: underline;
   font-size: 14px;
   transition: color 0.2s ease;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .legal-link:hover {
   color: #ffffff;
+}
+
+/* Legal modals container fix */
+.legal-modals-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Industry chat animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+/* Typing indicator animation */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1.4s infinite ease-in-out both;
 }
 
 /* Mobile responsive fixes */
@@ -759,6 +807,16 @@ select option {
   
   .mb-16 {
     margin-bottom: 1.5rem;
+  }
+  
+  /* Legal links mobile fix */
+  .legal-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .legal-link {
+    font-size: 12px;
   }
 }
 

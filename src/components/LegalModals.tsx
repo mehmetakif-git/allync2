@@ -326,23 +326,26 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
   );
 
   return (
-    <>
+    <div style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
       <div className="legal-links">
         <button
           onClick={() => openModal('privacy')}
           className="legal-link"
+          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
         >
           {language === 'tr' ? 'Gizlilik Politikası' : 'Privacy Policy'}
         </button>
         <button
           onClick={() => openModal('terms')}
           className="legal-link"
+          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
         >
           {language === 'tr' ? 'Hizmet Şartları' : 'Terms of Service'}
         </button>
         <button
           onClick={() => openModal('cookies')}
           className="legal-link"
+          style={{ display: 'inline-block', visibility: 'visible', opacity: 1 }}
         >
           {language === 'tr' ? 'Çerez Politikası' : 'Cookie Policy'}
         </button>
@@ -351,6 +354,6 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       {activeModal === 'privacy' && renderModal(privacyContent)}
       {activeModal === 'terms' && renderModal(termsContent)}
       {activeModal === 'cookies' && renderModal(cookieContent)}
-    </>
+    </div>
   );
 };

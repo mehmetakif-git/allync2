@@ -195,7 +195,7 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
               return (
                 <div
                   key={index}
-                className="group p-6 rounded-xl glass bg-white/5 border border-gray-600 card-depth card-slide-up feature-card"
+                  className="p-6 rounded-xl glass bg-white/5 border border-gray-600"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">

@@ -124,9 +124,6 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
                       ? 'text-white'
                       : 'text-gray-400 hover:text-gray-300'
                   }`}
-                  style={{
-                    transition: window.matchMedia('(hover: hover)').matches ? 'colors 0.3s ease' : 'none'
-                  }}
                 >
                   {item.label}
                   {activeSection === item.id && (

@@ -241,14 +241,14 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
   );
 
   return (
-    <section className="packages-section">
+    <section className="packages-section" style={{ overflowX: 'hidden' }}>
       <div className="packages-container">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{t.packagesTitle}</h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.packagesSubtitle}</p>
         </div>
 
-        <div className="packages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="packages-grid" style={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
           {renderBasicPlan()}
           {renderProPlan()}
           {renderPremiumPlan()}

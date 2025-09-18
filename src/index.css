@@ -74,6 +74,7 @@ nav {
   padding: 80px 0;
   background: black;
   position: relative;
+  overflow-x: hidden;
 }
 
 .packages-container {
@@ -81,12 +82,14 @@ nav {
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .packages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   overflow: visible;

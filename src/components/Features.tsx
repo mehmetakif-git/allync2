@@ -126,10 +126,6 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
   return (
     <section className="py-20 bg-black relative dynamic-bg">
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="logo-glow"></div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 fade-in-up text-glow">

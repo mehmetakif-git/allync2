@@ -390,10 +390,6 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
 
   return (
     <section className="py-20 relative bg-black min-h-screen">
-      {/* Background Effects */}
-      <div className="diagonal-gradient"></div>
-      <div className="mesh-gradient"></div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -410,23 +406,17 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
         {/* Brochure Container */}
         <div 
           ref={brochureRef}
-          className="relative max-w-4xl mx-auto w-full overflow-hidden"
+          className="relative max-w-4xl mx-auto"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
           {/* Page Container */}
-          <div className="relative perspective-1000">
+          <div className="relative">
             <div 
-              className={`brochure-page bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl transition-all duration-800 w-full max-w-full overflow-hidden ${
-                isFlipping ? 'flip-animation' : ''
-              }`}
+              className={`bg-gradient-to-br ${pages[currentPage].theme} border border-white/10 rounded-2xl shadow-2xl w-full`}
               style={{
-                minHeight: 'min(600px, 80vh)',
-                maxWidth: '100%',
-                width: '100%',
-                transformStyle: 'preserve-3d',
-                backfaceVisibility: 'hidden'
+                minHeight: '600px'
               }}
             >
               {renderPageContent(pages[currentPage])}

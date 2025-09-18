@@ -1,7 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { translations } from '../utils/translations';
-import { LegalModals } from './LegalModals';
 import logoSvg from '/logo.svg';
 
 interface FooterProps {
@@ -86,7 +85,17 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
               © 2025 Allync. {t.allRightsReserved}
             </p>
-            <LegalModals language={language} />
+            <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+              <span className="hover:text-gray-300 transition-colors duration-300">
+                {language === 'tr' ? 'Gizlilik Politikası' : 'Privacy Policy'}
+              </span>
+              <span className="hover:text-gray-300 transition-colors duration-300">
+                {language === 'tr' ? 'Hizmet Şartları' : 'Terms of Service'}
+              </span>
+              <span className="hover:text-gray-300 transition-colors duration-300">
+                {language === 'tr' ? 'Çerez Politikası' : 'Cookie Policy'}
+              </span>
+            </div>
           </div>
         </div>
       </div>

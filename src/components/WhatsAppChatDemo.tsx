@@ -29,7 +29,6 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [speed, setSpeed] = useState(1); // 0.5 = slow, 1 = normal, 2 = fast
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
 
@@ -231,7 +230,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
       if (message.type === 'ai') {
         setIsTyping(true);
         await new Promise(resolve => {
-          timeoutRef.current = setTimeout(resolve, (1500 / speed));
+          timeoutRef.current = setTimeout(resolve, 1500);
         });
         setIsTyping(false);
       }
@@ -243,7 +242,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
       // Wait before next message
       if (i < messages.length - 1) {
         await new Promise(resolve => {
-          timeoutRef.current = setTimeout(resolve, (message.type === 'user' ? 1000 : 2000) / speed);
+          timeoutRef.current = setTimeout(resolve, message.type === 'user' ? 1000 : 2000);
         });
       }
     }
@@ -311,7 +310,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                   onClick={() => handleIndustryChange(industry.id)}
                   className={`w-full p-4 rounded-xl text-left transition-all duration-300 ${
                     selectedIndustry === industry.id
-                      ? 'bg-green-600 text-white shadow-lg'
+                      ? 'bg-gray-600 text-white shadow-lg'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20'
                   }`}
                 >
@@ -328,21 +327,21 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
           <div className="lg:col-span-3">
             <div className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-700">
               {/* WhatsApp Header */}
-              <div className="bg-green-600 p-4 flex items-center justify-between">
+              <div className="bg-gray-700 p-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <img src={logoSvg} alt="Allync" className="w-10 h-10 rounded-full mr-3 bg-white p-1" />
                   <div>
                     <h4 className="text-white font-semibold">Allync AI</h4>
-                    <div className="flex items-center text-green-100 text-sm">
-                      <div className="w-2 h-2 bg-green-200 rounded-full mr-2 animate-pulse"></div>
+                    <div className="flex items-center text-gray-300 text-sm">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mr-2 animate-pulse"></div>
                       {language === 'tr' ? 'çevrimiçi' : 'online'}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-white cursor-pointer hover:text-green-200" />
-                  <Video className="w-5 h-5 text-white cursor-pointer hover:text-green-200" />
-                  <MoreVertical className="w-5 h-5 text-white cursor-pointer hover:text-green-200" />
+                  <Phone className="w-5 h-5 text-white cursor-pointer hover:text-gray-300" />
+                  <Video className="w-5 h-5 text-white cursor-pointer hover:text-gray-300" />
+                  <MoreVertical className="w-5 h-5 text-white cursor-pointer hover:text-gray-300" />
                 </div>
               </div>
 
@@ -357,7 +356,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                     >
                       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                         message.type === 'user'
-                          ? 'bg-green-500 text-white rounded-br-sm'
+                          ? 'bg-gray-600 text-white rounded-br-sm'
                           : 'bg-white text-gray-800 rounded-bl-sm'
                       }`}>
                         <p className="text-sm leading-relaxed">{message.message}</p>
@@ -410,7 +409,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
               <button
                 onClick={isPlaying ? pauseDemo : playDemo}
-                className="flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors duration-300"
+                className="flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors duration-300"
               >
                 {isPlaying ? (
                   <>
@@ -432,21 +431,6 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                 <RotateCcw className="w-5 h-5 mr-2" />
                 {language === 'tr' ? 'Sıfırla' : 'Reset'}
               </button>
-
-              <div className="flex items-center space-x-3">
-                <span className="text-gray-400 text-sm">
-                  {language === 'tr' ? 'Hız:' : 'Speed:'}
-                </span>
-                <select
-                  value={speed}
-                  onChange={(e) => setSpeed(Number(e.target.value))}
-                  className="bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  <option value={0.5}>{language === 'tr' ? 'Yavaş' : 'Slow'}</option>
-                  <option value={1}>{language === 'tr' ? 'Normal' : 'Normal'}</option>
-                  <option value={2}>{language === 'tr' ? 'Hızlı' : 'Fast'}</option>
-                </select>
-              </div>
             </div>
 
             {/* Progress Indicator */}
@@ -457,7 +441,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
               </div>
               <div className="w-full bg-gray-700 rounded-full h-2">
                 <div 
-                  className="bg-green-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-gray-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(currentMessageIndex / selectedIndustryData.conversation.length) * 100}%` }}
                 ></div>
               </div>

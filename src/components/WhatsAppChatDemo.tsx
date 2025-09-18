@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Volume2, Paperclip, Smile, Mic, Phone, Video, MoreVertical } from 'lucide-react';
+import { Phone, Video, MoreVertical } from 'lucide-react';
 import { translations } from '../utils/translations';
 import logoSvg from '/logo.svg';
 
@@ -26,12 +26,9 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
   const t = translations[language];
   const [selectedIndustry, setSelectedIndustry] = useState('salon');
   const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const industries: Industry[] = [
     {
@@ -208,18 +205,22 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
 
   // Auto-play conversation effect
   useEffect(() => {
-    if (!isPlaying) return;
-
-    const messages = selectedIndustryData.conversation;
+    const conversation = selectedIndustryData.conversation;
     let messageIndex = 0;
+    
+    // Clear previous messages and timeouts
+    setDisplayedMessages([]);
+    setIsTyping(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-    const playNextMessage = () => {
-      if (messageIndex >= messages.length) {
-        setIsPlaying(false);
+    const showNextMessage = () => {
+      if (messageIndex >= conversation.length) {
         return;
       }
 
-      const message = messages[messageIndex];
+      const message = conversation[messageIndex];
 
       // Show typing indicator for AI messages
       if (message.type === 'ai') {
@@ -227,33 +228,30 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
         timeoutRef.current = setTimeout(() => {
           setIsTyping(false);
           setDisplayedMessages(prev => [...prev, message]);
-          setCurrentMessageIndex(messageIndex + 1);
           messageIndex++;
           
           // Schedule next message
-          timeoutRef.current = setTimeout(playNextMessage, 2000);
+          timeoutRef.current = setTimeout(showNextMessage, 2500);
         }, 1500);
       } else {
         // User messages appear immediately
         setDisplayedMessages(prev => [...prev, message]);
-        setCurrentMessageIndex(messageIndex + 1);
         messageIndex++;
         
         // Schedule next message
-        timeoutRef.current = setTimeout(playNextMessage, 1000);
+        timeoutRef.current = setTimeout(showNextMessage, 1500);
       }
     };
 
-    // Start playing messages
-    playNextMessage();
+    // Start the conversation after a brief delay
+    timeoutRef.current = setTimeout(showNextMessage, 1000);
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
       }
     };
-  }, [isPlaying, selectedIndustryData]);
+  }, [selectedIndustry, selectedIndustryData]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -263,33 +261,8 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     scrollToBottom();
   }, [displayedMessages]);
 
-  const playDemo = () => {
-    setIsPlaying(true);
-  };
-
-  const pauseDemo = () => {
-    setIsPlaying(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    setIsTyping(false);
-  };
-
-  const resetDemo = () => {
-    setIsPlaying(false);
-    setDisplayedMessages([]);
-    setCurrentMessageIndex(0);
-    setIsTyping(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
   const handleIndustryChange = (industryId: string) => {
     if (industryId !== selectedIndustry) {
-      resetDemo();
       setSelectedIndustry(industryId);
     }
   };
@@ -298,11 +271,6 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
       }
     };
   }, []);
@@ -358,7 +326,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                   <div>
                     <h4 className="text-white font-semibold">Allync AI</h4>
                     <div className="flex items-center text-gray-300 text-sm">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mr-2 animate-pulse"></div>
+                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
                       {language === 'tr' ? 'çevrimiçi' : 'online'}
                     </div>
                   </div>
@@ -382,7 +350,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                         message.type === 'user'
                           ? 'bg-gray-600 text-white rounded-br-sm'
-                          : 'bg-white text-gray-800 rounded-bl-sm'
+                          : 'bg-gray-300 text-gray-800 rounded-bl-sm'
                       }`}>
                         <p className="text-sm leading-relaxed">{message.message}</p>
                         <div className="flex items-center justify-end mt-1 space-x-1">
@@ -404,7 +372,7 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                   {/* Typing Indicator */}
                   {isTyping && (
                     <div className="flex justify-start">
-                      <div className="bg-white text-gray-800 px-4 py-2 rounded-lg rounded-bl-sm max-w-xs">
+                      <div className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg rounded-bl-sm max-w-xs">
                         <div className="flex items-center space-x-1">
                           <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
                           <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -417,58 +385,13 @@ export const WhatsAppChatDemo: React.FC<WhatsAppChatDemoProps> = ({ language }) 
                 </div>
               </div>
 
-              {/* Chat Input Area */}
+              {/* Chat Input Area (Visual Only) */}
               <div className="bg-gray-700 p-4 flex items-center space-x-3">
-                <Smile className="w-6 h-6 text-gray-400 cursor-pointer hover:text-gray-300" />
-                <Paperclip className="w-6 h-6 text-gray-400 cursor-pointer hover:text-gray-300" />
                 <div className="flex-1 bg-gray-600 rounded-full px-4 py-2">
                   <span className="text-gray-400 text-sm">
                     {language === 'tr' ? 'Mesaj yazın...' : 'Type a message...'}
                   </span>
                 </div>
-                <Mic className="w-6 h-6 text-gray-400 cursor-pointer hover:text-gray-300" />
-              </div>
-            </div>
-
-            {/* Demo Controls */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <button
-                onClick={isPlaying ? pauseDemo : playDemo}
-                className="flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors duration-300"
-              >
-                {isPlaying ? (
-                  <>
-                    <Pause className="w-5 h-5 mr-2" />
-                    {language === 'tr' ? 'Duraklat' : 'Pause'}
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-5 h-5 mr-2" />
-                    {language === 'tr' ? 'Demoyu Başlat' : 'Start Demo'}
-                  </>
-                )}
-              </button>
-              
-              <button
-                onClick={resetDemo}
-                className="flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors duration-300"
-              >
-                <RotateCcw className="w-5 h-5 mr-2" />
-                {language === 'tr' ? 'Sıfırla' : 'Reset'}
-              </button>
-            </div>
-
-            {/* Progress Indicator */}
-            <div className="mt-4">
-              <div className="flex justify-between text-sm text-gray-400 mb-2">
-                <span>{language === 'tr' ? 'İlerleme' : 'Progress'}</span>
-                <span>{currentMessageIndex}/{selectedIndustryData.conversation.length}</span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="bg-gray-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(currentMessageIndex / selectedIndustryData.conversation.length) * 100}%` }}
-                ></div>
               </div>
             </div>
           </div>

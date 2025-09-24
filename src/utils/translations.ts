@@ -174,6 +174,14 @@ export const translations = {
     cookiePolicy: "Çerez Politikası",
     allRightsReserved: "Tüm hakları saklıdır.",
 
+    // Company Information
+    companyCompliance: "Allync Yapay Zeka Entegrasyon Sistemleri, operasyon merkezi olarak Katar'da hizmet vermektedir. Müşteri verileri ilgili ülkelerin yerel yasaları çerçevesinde, KVKK ve gizlilik sözleşmeleri ile korunur.",
+    dataProtection: "Verileriniz kendi ülkenizdeki sunucularda barındırılır ve yasal düzenlemelere uygun olarak güvence altına alınır.",
+    primaryPhone: "+974 5107 9565",
+    secondaryPhone: "+90 536 247 7824",
+    complianceTitle: "Güvenlik ve Uyumluluk",
+    certifications: "Sertifikalarımız",
+
     // Packages Section
     packagesTitle: "Paket Seçenekleri",
     packagesSubtitle: "İşletmeniz için en uygun AI asistan paketini seçin",
@@ -382,6 +390,14 @@ export const translations = {
     termsOfService: "Terms of Service",
     cookiePolicy: "Cookie Policy",
     allRightsReserved: "All rights reserved.",
+
+    // Company Information
+    companyCompliance: "Allync AI Integration Systems operates with its operational center in Qatar. Customer data is protected under local laws of relevant countries, GDPR and privacy agreements.",
+    dataProtection: "Your data is hosted on servers in your own country and secured in compliance with legal regulations.",
+    primaryPhone: "+974 5107 9565",
+    secondaryPhone: "+90 536 247 7824",
+    complianceTitle: "Security and Compliance",
+    certifications: "Our Certifications",
 
     // Packages Section
     packagesTitle: "Package Options",

@@ -215,6 +215,32 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <h4 className="text-lg font-semibold text-white mb-2">{t.guarantee}</h4>
               <p className="text-gray-400 text-sm">{t.guaranteeDesc}</p>
             </div>
+
+            {/* Company Compliance */}
+            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-6">
+              <h4 className="text-lg font-semibold text-white mb-4">{t.complianceTitle}</h4>
+              <p className="text-gray-400 text-sm mb-4 leading-relaxed">{t.companyCompliance}</p>
+              <p className="text-gray-400 text-sm mb-4 leading-relaxed">{t.dataProtection}</p>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center text-gray-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-medium">ISO 27001</span>
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-medium">GDPR</span>
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-medium">SOC 2</span>
+                </div>
+                <div className="flex items-center text-gray-300">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-medium">%99.9 SLA</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

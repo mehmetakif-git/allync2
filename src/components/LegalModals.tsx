@@ -80,7 +80,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. İletişim',
-        text: 'Gizlilik politikası ile ilgili sorularınız için: E-posta: info@allync.com.tr | Telefon: +974 123 456 789'
+        text: 'Gizlilik politikası ile ilgili sorularınız için: E-posta: info@allync.com.tr | Telefon: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   } : {
@@ -121,7 +121,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. Contact',
-        text: 'For questions about privacy policy: Email: info@allync.com.tr | Phone: +974 123 456 789'
+        text: 'For questions about privacy policy: Email: info@allync.com.tr | Phone: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   };
@@ -248,7 +248,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. İletişim',
-        text: 'Çerez politikası hakkında sorularınız için: info@allync.com.tr'
+        text: 'Çerez politikası hakkında sorularınız için: info@allync.com.tr | Telefon: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   } : {
@@ -289,7 +289,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. Contact',
-        text: 'For questions about cookie policy: info@allync.com.tr'
+        text: 'For questions about cookie policy: info@allync.com.tr | Phone: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   };

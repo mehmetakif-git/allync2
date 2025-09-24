@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronUp } from 'lucide-react';
+import { Menu, X, ChevronUp, Phone } from 'lucide-react';
 import { translations } from '../utils/translations';
 import logoSvg from '/logo.svg';
 
@@ -117,17 +117,6 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {/* Contact Numbers */}
-              <div className="flex items-center space-x-4 text-sm">
-                <a 
-                  href="tel:+97451079565" 
-                  className="flex items-center text-gray-400 hover:text-gray-300 transition-colors"
-                >
-                  <Phone className="w-4 h-4 mr-1" />
-                  {t.primaryPhone}
-                </a>
-              </div>
-              
               {navItems.map((item) => (
                 <button
                   key={item.id}

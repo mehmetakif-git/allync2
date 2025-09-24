@@ -1907,7 +1907,7 @@ select option {
   /* Mobile scroll behavior */
   html {
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   
   /* Mobile touch improvements */

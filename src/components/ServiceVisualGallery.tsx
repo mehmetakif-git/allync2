@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { useOutsideClick } from '../hooks/use-outside-click';
+import { GlowingEffect } from './ui/GlowingEffect';
 
 interface ServiceVisualGalleryProps {
   images: string[];
@@ -16,144 +17,87 @@ export const ServiceVisualGallery: React.FC<ServiceVisualGalleryProps> = ({
   gradient,
   icon: Icon
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(modalRef, () => {
-    if (isOpen) setIsOpen(false);
-  });
+  useOutsideClick(ref, () => setIsExpanded(false));
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsExpanded(false);
+      if (e.key === 'ArrowLeft') setCurrentIndex(prev => prev === 0 ? images.length - 1 : prev - 1);
+      if (e.key === 'ArrowRight') setCurrentIndex(prev => prev === images.length - 1 ? 0 : prev + 1);
     };
-  }, [isOpen]);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (!isOpen) return;
-    if (e.key === 'Escape') setIsOpen(false);
-    if (e.key === 'ArrowLeft') handlePrevious();
-    if (e.key === 'ArrowRight') handleNext();
-  };
-
-  useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex]);
+  }, [images.length]);
 
   return (
     <>
       <motion.div
-        onClick={() => setIsOpen(true)}
-        className="visual-mockup-placeholder h-72 lg:h-96 w-full bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl flex items-center justify-center overflow-hidden relative group cursor-pointer hover:border-white/20 transition-all duration-500"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        layoutId={`gallery-${title}`}
+        onClick={() => setIsExpanded(true)}
+        className="relative h-72 lg:h-96 w-full bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:border-white/20 group"
       >
-        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-        <div className="relative z-10 text-center">
-          <Icon className="w-24 h-24 text-gray-600 mb-4 mx-auto" />
-          <p className="text-gray-500 text-sm font-medium">Visual Gallery</p>
-          <p className="text-gray-600 text-xs mt-2">{title}</p>
-          <div className="mt-4 flex items-center justify-center gap-2 text-gray-500">
-            <Maximize2 className="w-4 h-4" />
-            <span className="text-xs">Click to expand</span>
-          </div>
-        </div>
+        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
+        <Icon className="w-24 h-24 text-gray-600 mb-4" />
+        <p className="text-gray-500 text-sm font-medium">{title}</p>
+        <p className="text-gray-600 text-xs mt-2">{images.length} images</p>
+        <Maximize2 className="w-4 h-4 text-gray-500 absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
       </motion.div>
 
       <AnimatePresence>
-        {isOpen && (
+        {isExpanded && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
           >
-            <motion.div
-              ref={modalRef}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-6xl bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl p-6 md:p-8"
-            >
+            <div ref={ref} className="relative max-w-6xl w-full">
               <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 z-10 p-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 hover:scale-110"
-                aria-label="Close gallery"
+                onClick={() => setIsExpanded(false)}
+                className="absolute -top-12 right-0 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
               >
                 <X className="w-6 h-6 text-white" />
               </button>
 
-              <div className="mb-6">
-                <h2 className="text-2xl md:text-3xl font-bold text-white text-center">
-                  {title}
-                </h2>
-              </div>
-
-              <div className="relative aspect-video bg-white/5 rounded-2xl flex items-center justify-center overflow-hidden border border-white/10">
-                <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-20`}></div>
-                <div className="relative z-10 text-center p-8">
-                  <Icon className="w-32 h-32 text-gray-400 mb-6 mx-auto" />
-                  <p className="text-gray-400 text-lg">
-                    Image Placeholder {currentIndex + 1} of {images.length}
-                  </p>
-                  <p className="text-gray-500 text-sm mt-2">{images[currentIndex]}</p>
-                </div>
-
-                {images.length > 1 && (
-                  <>
-                    <button
-                      onClick={handlePrevious}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 hover:scale-110"
-                      aria-label="Previous image"
-                    >
-                      <ChevronLeft className="w-6 h-6 text-white" />
-                    </button>
-
-                    <button
-                      onClick={handleNext}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 hover:scale-110"
-                      aria-label="Next image"
-                    >
-                      <ChevronRight className="w-6 h-6 text-white" />
-                    </button>
-                  </>
-                )}
-              </div>
+              <motion.div className="aspect-video bg-white/5 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-20`} />
+                <Icon className="w-32 h-32 text-gray-400" />
+                <p className="text-white text-lg absolute">{images[currentIndex]}</p>
+              </motion.div>
 
               {images.length > 1 && (
-                <div className="flex justify-center gap-2 mt-6">
-                  {images.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentIndex
-                          ? 'bg-white w-8'
-                          : 'bg-white/30 hover:bg-white/50'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
+                <>
+                  <button
+                    onClick={() => setCurrentIndex(prev => prev === 0 ? images.length - 1 : prev - 1)}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                  </button>
+                  <button
+                    onClick={() => setCurrentIndex(prev => prev === images.length - 1 ? 0 : prev + 1)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+                  >
+                    <ChevronRight className="w-6 h-6 text-white" />
+                  </button>
+                </>
               )}
-            </motion.div>
+
+              <div className="flex gap-2 mt-6 justify-center overflow-x-auto pb-2 scrollbar-hide">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentIndex(idx)}
+                    className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg bg-white/5 border-2 transition-all flex items-center justify-center ${idx === currentIndex ? 'border-white scale-110' : 'border-white/20 hover:border-white/40'}`}
+                  >
+                    <span className="text-xs text-gray-400">{idx + 1}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

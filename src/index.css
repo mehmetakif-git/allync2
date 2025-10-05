@@ -238,91 +238,61 @@ nav {
 }
 
 @media (max-width: 768px) {
-  .demo-chat-container {
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: none !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-    padding: 12px !important;
-  }
-  
-  .message-container {
-    height: auto !important;
-    min-height: 350px !important;
-    max-height: none !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-  }
-  
-  .chat-container {
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: none !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-  }
-  
-  .message-item {
-    margin-bottom: 12px !important;
-    max-width: 100% !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-  }
-  
-  .message-bubble {
-    max-width: 85% !important;
-    padding: 8px 12px !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-    line-height: 1.4 !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-  }
-  
-  /* WhatsApp chat interface mobile fixes */
-  .whatsapp-chat {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-  
-  .chat-header {
-    padding: 12px !important;
-    font-size: 14px !important;
-    flex-shrink: 0 !important;
-  }
-  
-  .chat-messages {
-    padding: 12px !important;
-    height: auto !important;
-    min-height: 300px !important;
-    max-height: none !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-    flex: 1 !important;
-  }
-  
-  /* Industry examples chat container */
-  .industry-grid + .bg-white\/5 {
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-  
+  .demo-chat-container,
+  .chat-container,
+  .whatsapp-chat,
+  .industry-grid + .bg-white\/5,
   .industry-grid + .bg-white\/5 .demo-chat-container {
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: none !important;
-    overflow: visible !important;
+    height: auto;
+    min-height: 400px;
+    max-height: none;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+
+  .demo-chat-container {
+    padding: 12px;
+  }
+
+  .message-container {
+    height: auto;
+    min-height: 350px;
+    max-height: none;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+
+  .message-item {
+    margin-bottom: 12px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .message-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .whatsapp-chat {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .chat-header {
+    padding: 12px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .chat-messages {
+    padding: 12px;
+    flex: 1;
   }
 }
 
@@ -828,17 +798,15 @@ select option {
 
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
-  /* Hero section mobile positioning fix */
   .hero-section {
-    padding-top: 120px !important;
-    margin-top: 0 !important;
+    padding-top: 120px;
+    margin-top: 0;
   }
-  
+
   .hero-logo {
-    margin-top: 20px !important;
+    margin-top: 20px;
   }
-  
-  /* Mobile scroll reveal animations - standardized */
+
   .section-reveal,
   .fade-in-up,
   .fade-in-left,
@@ -850,12 +818,12 @@ select option {
   .holographic-shimmer,
   .particle-burst,
   .energy-wave {
-    opacity: 0 !important;
-    transform: translateY(20px) !important;
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out !important;
-    will-change: transform, opacity !important;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: transform, opacity;
   }
-  
+
   .section-reveal.visible,
   .fade-in-up.visible,
   .fade-in-left.visible,
@@ -867,74 +835,29 @@ select option {
   .holographic-shimmer.visible,
   .particle-burst.visible,
   .energy-wave.visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Standardized staggered animation delays */
-  .stagger-1 {
-    transition-delay: 0.1s !important;
-  }
-  
-  .stagger-2 {
-    transition-delay: 0.2s !important;
-  }
-  
-  .stagger-3 {
-    transition-delay: 0.3s !important;
-  }
-  
-  .stagger-4 {
-    transition-delay: 0.4s !important;
-  }
-  
-  .stagger-5 {
-    transition-delay: 0.5s !important;
-  }
-  
-  /* Remove conflicting animation classes */
-  .fade-in-left {
-    transform: translateY(20px) !important;
-  }
-  
+
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+  .stagger-5 { transition-delay: 0.5s; }
+
+  .fade-in-left,
   .fade-in-right {
-    transform: translateY(20px) !important;
+    transform: translateY(20px);
   }
-  
+
   .scale-in {
-    transform: translateY(20px) scale(1) !important;
+    transform: translateY(20px) scale(1);
   }
-  
+
   .scale-in.visible {
-    transform: translateY(0) scale(1) !important;
+    transform: translateY(0) scale(1);
   }
-  
-  /* ROI Calculator centering fixes */
-  .roi-calculator {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-  }
-  
-  .calculator-inputs,
-  .roi-results {
-    margin: 0 auto !important;
-    display: block !important;
-    width: 100% !important;
-    max-width: 350px !important;
-  }
-  
-  .roi-calculator .grid {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 2rem !important;
-  }
-  
-  /* Force center alignment for all major sections on mobile */
+
   .roi-calculator,
   .faq-section,
   .before-after-comparison,
@@ -942,15 +865,30 @@ select option {
   .pricing-section,
   .contact-section,
   .features-section {
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 auto !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
   }
-  
-  /* Center all headers and paragraphs in these sections */
+
+  .calculator-inputs,
+  .roi-results {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .roi-calculator .grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
   .roi-calculator h1,
   .roi-calculator h2,
   .roi-calculator h3,
@@ -986,11 +924,10 @@ select option {
   .features-section h3,
   .features-section h4,
   .features-section p {
-    text-align: center !important;
-    margin: 0 auto !important;
+    text-align: center;
+    margin: 0 auto;
   }
-  
-  /* Center all content blocks and containers */
+
   .roi-calculator > *,
   .faq-section > *,
   .before-after-comparison > *,
@@ -998,135 +935,82 @@ select option {
   .pricing-section > *,
   .contact-section > *,
   .features-section > * {
-    text-align: center !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-  
-  section {
+
+  section,
+  .component-container {
     padding: 2rem 0;
   }
-  
-  .py-16 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+
+  .component-container {
+    margin-bottom: 1rem;
   }
-  
-  .py-14 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-  
+
+  .py-16,
+  .py-14,
   .py-12 {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-  
-  .component-container {
-    padding: 2rem 0;
-    margin-bottom: 1rem;
-  }
-  
-  .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl {
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: calc(100vw - 2rem);
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
   }
-  
-  /* Ensure all sections are visible on mobile */
+
   .hero-section,
   .demo-section,
   .features-section,
   .industry-section,
   .pricing-section,
   .contact-section,
-  .packages-section {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Fix specific mobile visibility issues */
-  #section-chat-demo,
-  #chat-demo,
-  #contact,
-  #features,
-  #packages,
-  #industry-examples,
-  #pricing {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Ensure all main sections are visible */
-  section[id] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Fix any accidentally hidden containers */
+  .packages-section,
+  section[id],
   .max-w-1200px,
   .container,
   .main-content,
-  .page-wrapper {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+  .page-wrapper,
+  .chat-demo-container,
+  .demo-chat-container,
+  .chat-container,
+  .features-grid,
+  .feature-card,
+  .testimonials-section,
+  .testimonial-card,
+  .testimonials-grid,
+  .pricing-card,
+  .pricing-grid,
+  .contact-form,
+  .contact-info {
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
-  
-  /* Fix ChatDemo component visibility */
+
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+
   .chat-demo-container,
   .demo-chat-container,
   .chat-container {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    height: auto !important;
-    min-height: 300px !important;
-  }
-  
-  /* Fix Features components visibility */
-  .features-grid,
-  .feature-card,
-  .features-section {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Fix Testimonials section visibility */
-  .testimonials-section,
-  .testimonial-card,
-  .testimonials-grid {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Fix Pricing section visibility */
-  .pricing-section,
-  .pricing-card,
-  .pricing-grid {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Fix Contact section visibility */
-  .contact-section,
-  .contact-form,
-  .contact-info {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    height: auto;
+    min-height: 300px;
   }
   
   /* Fix ROI Calculator visibility */

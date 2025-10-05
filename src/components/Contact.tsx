@@ -16,7 +16,14 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     business: '',
     message: ''
   });
+  const [errors, setErrors] = useState({
+    email: '',
+    phone: ''
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,8 +39,27 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'email') {
+      if (value && !emailRegex.test(value)) {
+        setErrors({ ...errors, email: language === 'tr' ? 'Geçerli bir e-posta adresi girin' : 'Enter a valid email address' });
+      } else {
+        setErrors({ ...errors, email: '' });
+      }
+    }
+
+    if (name === 'phone') {
+      if (value && !phoneRegex.test(value)) {
+        setErrors({ ...errors, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' });
+      } else {
+        setErrors({ ...errors, phone: '' });
+      }
+    }
   };
+
+  const isFormValid = formData.name && formData.email && formData.business && !errors.email && (!formData.phone || !errors.phone);
 
   return (
     <section className="py-8 md:py-12 relative bg-black contact-section" id="contact" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
@@ -79,6 +105,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                     onChange={handleChange}
                     placeholder={language === 'tr' ? 'ahmet@sirket.com' : 'john@business.com'}
                   />
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </LabelInputContainer>
               </div>
 
@@ -93,6 +120,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                     onChange={handleChange}
                     placeholder={language === 'tr' ? '+90 555 123 4567' : '+1 (555) 123-4567'}
                   />
+                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </LabelInputContainer>
 
                 <LabelInputContainer>
@@ -145,8 +173,8 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-gray-700 to-gray-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+                disabled={isSubmitting || !isFormValid}
+                className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-gray-700 to-gray-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:shadow-xl transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

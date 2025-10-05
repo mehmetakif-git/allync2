@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logoSvg from '/logo.svg';
+import { ANIMATION_DELAYS } from '../constants/animations';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -16,7 +17,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
 
   useEffect(() => {
     // Logo animation
-    setTimeout(() => setLogoVisible(true), 300);
+    setTimeout(() => setLogoVisible(true), ANIMATION_DELAYS.MODAL_ANIMATION);
 
     // Slogan typewriter effect
     setTimeout(() => {
@@ -28,7 +29,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
         } else {
           clearInterval(typeInterval);
         }
-      }, 80);
+      }, ANIMATION_DELAYS.TYPING_SPEED);
     }, 1200);
 
     // Progress bar animation
@@ -38,13 +39,13 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
           clearInterval(progressInterval);
           setTimeout(() => {
             setIsExiting(true);
-            setTimeout(onLoadingComplete, 800);
-          }, 500);
+            setTimeout(onLoadingComplete, ANIMATION_DELAYS.LOADING_COMPLETE);
+          }, ANIMATION_DELAYS.ENABLE_ANIMATIONS);
           return 100;
         }
         return prev + 2;
       });
-    }, 50);
+    }, ANIMATION_DELAYS.TYPING_SPEED);
 
     return () => {
       clearInterval(progressInterval);
@@ -53,7 +54,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
 
   const handleSkip = () => {
     setIsExiting(true);
-    setTimeout(onLoadingComplete, 300);
+    setTimeout(onLoadingComplete, ANIMATION_DELAYS.MODAL_ANIMATION);
   };
 
   return (

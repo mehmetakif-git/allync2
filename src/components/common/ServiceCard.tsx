@@ -174,32 +174,36 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/90 z-[9998]"
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-md z-[99998]"
             />
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
               <motion.div
                 ref={modalRef}
-                layoutId={`gallery-${service.title}-${expandedIndex}`}
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.9 }}
-                className="relative w-full max-w-6xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full max-w-6xl transform-gpu"
               >
                 <button
                   onClick={() => setExpandedIndex(null)}
-                  className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-10"
+                  className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-[100000]"
                 >
                   <X className="w-6 h-6 text-white" />
                 </button>
 
-                <div className="aspect-video bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                <motion.div
+                  layoutId={`gallery-${service.title}-${expandedIndex}`}
+                  className="aspect-video bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center relative overflow-hidden"
+                >
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-20`} />
                   <Icon className="w-32 h-32 text-gray-400 relative z-10" />
                   <div className="absolute bottom-6 left-6 z-20">
                     <p className="text-white text-2xl font-bold">{service.galleryImages[currentIndex]}</p>
                     <p className="text-gray-300 text-sm mt-1">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
                   </div>
-                </div>
+                </motion.div>
 
                 {service.galleryImages.length > 1 && (
                   <>

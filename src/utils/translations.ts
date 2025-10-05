@@ -2,16 +2,16 @@ export const translations = {
   tr: {
     // Hero Section
     heroSlogan: "İnsan Ötesi Otomasyon",
-    heroTitle: "İşinizi WhatsApp AI Asistanları ile Dönüştürün",
-    heroSubtitle: "7/24 müşteri desteği, randevu yönetimi ve veri analizi yapan akıllı, insan benzeri AI asistanları kurun. Tek seferlik ödeme, sınırsız imkanlar.",
-    getAssistant: "AI Asistanınızı Alın",
-    watchDemo: "Demo İzle",
-    humanLike: "İnsan Benzeri Yanıtlar",
-    humanLikeDesc: "Robotik değil, doğal hissettiren otantik konuşmalar",
-    support247: "7/24 Destek",
-    support247Desc: "Siz uyurken bile hiçbir müşteri sorgusu kaçmaz",
-    oneTimePayment: "Tek Seferlik Ödeme",
-    oneTimePaymentDesc: "Abonelik yok, sadece saf değer",
+    heroTitle: "İşinizi Yapay Zeka ile Dönüştürün",
+    heroSubtitle: "Esnek abonelik paketleri ile işletmenize özel AI ve dijital çözümler. Hemen başlayın, dilediğiniz zaman ölçeklendirin.",
+    getStarted: "Hemen Başlayın",
+    getConsultation: "Ücretsiz Danışmanlık",
+    flexiblePlans: "Esnek Paketler",
+    flexiblePlansDesc: "İhtiyaçlarınıza göre ölçeklenebilir abonelik seçenekleri",
+    customSolutions: "Özel Çözümler",
+    customSolutionsDesc: "İşletmenize özel tasarlanmış hizmetler",
+    expertSupport: "Uzman Destek",
+    expertSupportDesc: "7/24 teknik destek ve danışmanlık hizmetleri",
 
     // Chat Demo
     chatDemoTitle: "AI Asistanınızı Aksiyonda Görün",
@@ -130,8 +130,9 @@ export const translations = {
 
     // Contact
     contactTitle: "İşinizi Dönüştürmeye Hazır mısınız?",
-    contactSubtitle: "Özel AI asistan demonuzu alın ve müşteri etkileşimlerinizi nasıl devrim yaratacağını görün",
-    getCustomDemo: "Özel Demonuzu Alın",
+    contactSubtitle: "Ücretsiz danışmanlık alın ve size özel çözüm paketimizi keşfedin",
+    getCustomDemo: "Ücretsiz Danışmanlık Alın",
+    requestCustomQuote: "Özel Teklif İsteyin",
     fullName: "Ad Soyad",
     emailAddress: "E-posta Adresi",
     phoneNumber: "Telefon Numarası",
@@ -248,6 +249,18 @@ export const translations = {
     customAISolutions: "Özel AI Çözümleri",
     customAISolutionsDesc: "Benzersiz iş ihtiyaçlarınız için özel yapay zeka çözümleri geliştirin",
 
+    // AI Service Benefits
+    waAutomationBenefits: ["7/24 otomatik müşteri desteği", "Randevu yönetimi ve hatırlatmalar", "Çoklu dil desteği ve entegrasyon"],
+    instagramAutomationBenefits: ["Otomatik DM yanıtları", "Yorum yönetimi ve etkileşim", "Potansiyel müşteri toplama"],
+    textToVideoBenefits: ["Profesyonel video oluşturma", "Çoklu format desteği", "Hızlı render ve dışa aktarma"],
+    textToImageBenefits: ["Yüksek kaliteli görsel üretimi", "Sınırsız stil seçenekleri", "Ticari kullanım hakları"],
+    voiceCloningBenefits: ["Gerçekçi ses klonlama", "Çoklu dil desteği", "Özel seslendirme projelerine uygun"],
+    documentAIBenefits: ["Otomatik veri çıkarma", "OCR ve belge analizi", "Akıllı kategorizasyon"],
+    imageToVideoBenefits: ["Statik görsellerden dinamik içerik", "AI destekli animasyonlar", "Sosyal medya için optimize"],
+    videoToVideoBenefits: ["Gelişmiş video dönüşüm", "Stil transferi ve düzenleme", "Toplu işlem desteği"],
+    dataAnalysisAIBenefits: ["Büyük veri analizi", "Tahmine dayalı içgörüler", "Görselleştirme ve raporlama"],
+    customAISolutionsBenefits: ["Tam özelleştirilebilir", "İş süreçlerine entegrasyon", "Özel eğitim ve destek"],
+
     // Digital Solutions
     digitalSolutionTitle: "Allync Digital Hizmetleri",
     digitalSolutionSubtitle: "Dijital varlığınızı güçlendiren kapsamlı web ve mobil çözümler",
@@ -267,20 +280,30 @@ export const translations = {
     uiuxDesignDesc: "Kullanıcı deneyimini optimize eden, dönüşümleri artıran sezgisel tasarımlar",
     maintenanceSupport: "Bakım ve Destek",
     maintenanceSupportDesc: "Dijital varlıklarınızı sorunsuz çalışır durumda tutan sürekli bakım ve teknik destek",
+
+    // Digital Service Benefits
+    eCommerceWebsitesBenefits: ["Ödeme entegrasyonu (Stripe, PayPal)", "Envanter ve sipariş yönetimi", "SEO optimize altyapı"],
+    corporateWebsitesBenefits: ["Responsive ve modern tasarım", "CMS entegrasyonu", "Yüksek performans ve güvenlik"],
+    mobileAppDevelopmentBenefits: ["Native iOS ve Android geliştirme", "Cross-platform çözümler", "App Store yayınlama desteği"],
+    digitalMarketingBenefits: ["SEO ve SEM stratejileri", "Sosyal medya yönetimi", "İçerik pazarlama planları"],
+    iotSolutionsBenefits: ["Akıllı cihaz entegrasyonu", "Gerçek zamanlı veri toplama", "Bulut tabanlı yönetim"],
+    cloudSolutionsBenefits: ["AWS, Azure, GCP desteği", "Otomatik ölçeklendirme", "Güvenli veri migrasyonu"],
+    uiuxDesignBenefits: ["Kullanıcı araştırması ve testler", "Prototip ve wireframe", "Marka kimliği tasarımı"],
+    maintenanceSupportBenefits: ["Proaktif sistem izleme", "Düzenli güvenlik güncellemeleri", "7/24 teknik destek"],
   },
   en: {
     // Hero Section
     heroSlogan: "Beyond Human Automation",
-    heroTitle: "Transform Your Business with WhatsApp AI Assistants",
-    heroSubtitle: "Deploy intelligent, human-like AI assistants that handle customer support, bookings, and data management 24/7. One-time payment, infinite possibilities.",
-    getAssistant: "Get Your AI Assistant",
-    watchDemo: "Watch Demo",
-    humanLike: "Human-Like Responses",
-    humanLikeDesc: "Natural conversations that feel authentic, not robotic",
-    support247: "24/7 Support",
-    support247Desc: "Never miss a customer inquiry, even while you sleep",
-    oneTimePayment: "One-Time Payment",
-    oneTimePaymentDesc: "No recurring subscriptions, just pure value",
+    heroTitle: "Transform Your Business with AI",
+    heroSubtitle: "Flexible subscription packages with custom AI and digital solutions for your business. Start now, scale anytime.",
+    getStarted: "Get Started",
+    getConsultation: "Free Consultation",
+    flexiblePlans: "Flexible Plans",
+    flexiblePlansDesc: "Scalable subscription options tailored to your needs",
+    customSolutions: "Custom Solutions",
+    customSolutionsDesc: "Services designed specifically for your business",
+    expertSupport: "Expert Support",
+    expertSupportDesc: "24/7 technical support and consulting services",
 
     // Chat Demo
     chatDemoTitle: "See Your AI Assistant In Action",
@@ -399,8 +422,9 @@ export const translations = {
 
     // Contact
     contactTitle: "Ready to Transform Your Business?",
-    contactSubtitle: "Get your custom AI assistant demo and see how it can revolutionize your customer interactions",
-    getCustomDemo: "Get Your Custom Demo",
+    contactSubtitle: "Get a free consultation and discover your custom solution package",
+    getCustomDemo: "Get Free Consultation",
+    requestCustomQuote: "Request Custom Quote",
     fullName: "Full Name",
     emailAddress: "Email Address",
     phoneNumber: "Phone Number",
@@ -516,6 +540,18 @@ export const translations = {
     customAISolutions: "Custom AI Solutions",
     customAISolutionsDesc: "Develop tailored artificial intelligence solutions for your unique business needs",
 
+    // AI Service Benefits
+    waAutomationBenefits: ["24/7 automated customer support", "Appointment management and reminders", "Multi-language support and integration"],
+    instagramAutomationBenefits: ["Automated DM responses", "Comment management and engagement", "Lead capture and conversion"],
+    textToVideoBenefits: ["Professional video generation", "Multi-format support", "Fast rendering and export"],
+    textToImageBenefits: ["High-quality image generation", "Unlimited style options", "Commercial usage rights"],
+    voiceCloningBenefits: ["Realistic voice cloning", "Multi-language support", "Custom voiceover projects"],
+    documentAIBenefits: ["Automated data extraction", "OCR and document analysis", "Smart categorization"],
+    imageToVideoBenefits: ["Dynamic content from static images", "AI-powered animations", "Social media optimized"],
+    videoToVideoBenefits: ["Advanced video transformation", "Style transfer and editing", "Batch processing support"],
+    dataAnalysisAIBenefits: ["Big data analysis", "Predictive insights", "Visualization and reporting"],
+    customAISolutionsBenefits: ["Fully customizable", "Business process integration", "Custom training and support"],
+
     // Digital Solutions
     digitalSolutionTitle: "Allync Digital Services",
     digitalSolutionSubtitle: "Comprehensive web and mobile solutions that power your digital presence",
@@ -535,6 +571,16 @@ export const translations = {
     uiuxDesignDesc: "Intuitive designs that optimize user experience and increase conversions",
     maintenanceSupport: "Maintenance & Support",
     maintenanceSupportDesc: "Ongoing maintenance and technical support to keep your digital assets running smoothly",
+
+    // Digital Service Benefits
+    eCommerceWebsitesBenefits: ["Payment integration (Stripe, PayPal)", "Inventory and order management", "SEO-optimized infrastructure"],
+    corporateWebsitesBenefits: ["Responsive and modern design", "CMS integration", "High performance and security"],
+    mobileAppDevelopmentBenefits: ["Native iOS and Android development", "Cross-platform solutions", "App Store publishing support"],
+    digitalMarketingBenefits: ["SEO and SEM strategies", "Social media management", "Content marketing plans"],
+    iotSolutionsBenefits: ["Smart device integration", "Real-time data collection", "Cloud-based management"],
+    cloudSolutionsBenefits: ["AWS, Azure, GCP support", "Auto-scaling capabilities", "Secure data migration"],
+    uiuxDesignBenefits: ["User research and testing", "Prototyping and wireframing", "Brand identity design"],
+    maintenanceSupportBenefits: ["Proactive system monitoring", "Regular security updates", "24/7 technical support"],
 
     // New translations for enhanced features
     selectIndustry: "Select Industry",

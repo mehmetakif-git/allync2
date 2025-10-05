@@ -154,7 +154,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                 type="submit"
                 className="w-full btn-premium btn-glow btn-ripple px-6 py-4 rounded-lg font-semibold text-white flex items-center justify-center group min-h-[50px]"
               >
-                {t.getMyDemo}
+                {t.requestCustomQuote}
                 <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </form>

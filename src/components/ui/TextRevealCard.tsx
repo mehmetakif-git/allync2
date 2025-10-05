@@ -54,7 +54,7 @@ export const TextRevealCard = ({
       onMouseMove={mouseMoveHandler}
       ref={cardRef}
       className={cn(
-        "bg-black/20 border border-white/10 backdrop-blur-lg w-full rounded-3xl p-8 relative overflow-hidden",
+        "bg-black/20 border border-white/10 backdrop-blur-lg rounded-3xl p-8 relative overflow-hidden mx-auto",
         className
       )}
     >

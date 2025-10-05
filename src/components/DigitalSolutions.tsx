@@ -5,6 +5,7 @@ import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
 import { ServiceCard } from './common/ServiceCard';
+import { LayoutTextFlip } from './ui/LayoutTextFlip';
 
 interface DigitalSolutionsProps {
   language: 'tr' | 'en';
@@ -102,18 +103,23 @@ export const DigitalSolutions: React.FC<DigitalSolutionsProps> = ({ language }) 
       <div className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              {t.digitalSolutionTitle}
-            </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+            <div className="flex flex-col items-center justify-center mb-6">
+              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+                <LayoutTextFlip
+                  text="Allync Digital"
+                  words={[
+                    language === 'tr' ? "Web Çözümleri" : "Web Solutions",
+                    language === 'tr' ? "Mobil Uygulamalar" : "Mobile Apps",
+                    language === 'tr' ? "Bulut Sistemleri" : "Cloud Systems",
+                    language === 'tr' ? "Dijital Dönüşüm" : "Digital Transform"
+                  ]}
+                  duration={2500}
+                />
+              </motion.div>
+            </div>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               {t.digitalSolutionSubtitle}
             </p>
-            <button
-              onClick={scrollToContact}
-              className="px-8 py-4 bg-gradient-to-r from-cyan-600 to-green-600 text-white font-semibold rounded-lg hover:from-cyan-700 hover:to-green-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50"
-            >
-              {t.getConsultation}
-            </button>
           </div>
 
           <div className="space-y-32">

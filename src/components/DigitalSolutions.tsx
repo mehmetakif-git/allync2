@@ -3,9 +3,8 @@ import { ShoppingCart, Monitor, Smartphone, Target, Wifi, Cloud, Palette, Wrench
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
-import { CardContainer, CardBody, CardItem } from './ThreeDCard';
-import { ServiceVisualGallery } from './ServiceVisualGallery';
 import { ServiceDetailModal } from './ServiceDetailModal';
+import { ServiceCard } from './common/ServiceCard';
 
 interface DigitalSolutionsProps {
   language: 'tr' | 'en';
@@ -118,86 +117,17 @@ export const DigitalSolutions: React.FC<DigitalSolutionsProps> = ({ language }) 
           </div>
 
           <div className="space-y-32">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              const isOdd = index % 2 === 0;
-
-              return (
-                <div
-                  key={index}
-                  className={`flex flex-col ${isOdd ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}
-                  style={{
-                    animation: 'fade-in-up 0.8s ease-out',
-                    animationDelay: `${index * 0.1}s`,
-                    animationFillMode: 'both'
-                  }}
-                >
-                  <div className="flex-1 w-full">
-                    <CardContainer className="w-full">
-                      <CardBody className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full">
-                        <CardItem translateZ="50" className="w-full">
-                          <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
-                            <Icon className="w-10 h-10 text-white" />
-                          </div>
-                        </CardItem>
-
-                        <CardItem translateZ="60" className="w-full">
-                          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            {service.title}
-                          </h2>
-                        </CardItem>
-
-                        <CardItem translateZ="40" className="w-full">
-                          <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                            {service.description}
-                          </p>
-                        </CardItem>
-
-                        <CardItem translateZ="30" className="w-full">
-                          <div className="space-y-4 mb-8">
-                            <h3 className="text-xl font-semibold text-white mb-4">
-                              {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
-                            </h3>
-                            {service.benefits.map((benefit, idx) => (
-                              <div key={idx} className="flex items-start">
-                                <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0`}></div>
-                                <p className="text-gray-300">{benefit}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </CardItem>
-
-                        <CardItem translateZ="50" className="w-full relative z-20 pointer-events-auto">
-                          <div className="flex flex-col sm:flex-row gap-3">
-                            <button
-                              onClick={() => setOpenModalIndex(index)}
-                              className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg z-50 cursor-pointer`}
-                            >
-                              {t.moreDetailsButton}
-                            </button>
-                            <button
-                              onClick={scrollToContact}
-                              className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 z-50 cursor-pointer"
-                            >
-                              {t.requestCustomQuote}
-                            </button>
-                          </div>
-                        </CardItem>
-                      </CardBody>
-                    </CardContainer>
-                  </div>
-
-                  <div className="flex-1 w-full">
-                    <ServiceVisualGallery
-                      images={service.galleryImages}
-                      title={service.title}
-                      gradient={service.gradient}
-                      icon={Icon}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                service={service}
+                language={language}
+                isOdd={index % 2 === 0}
+                index={index}
+                onDetailClick={() => setOpenModalIndex(index)}
+                onContactClick={scrollToContact}
+              />
+            ))}
           </div>
 
           {services.map((service, index) => (

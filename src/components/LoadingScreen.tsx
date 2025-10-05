@@ -15,12 +15,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
   const fullSlogan = "Beyond Human Automation";
 
   useEffect(() => {
-    // Check if user has seen loading before
-    const hasSeenLoading = localStorage.getItem('allync-loading-seen');
-    if (hasSeenLoading) {
-      setShowSkip(true);
-    }
-
     // Logo animation
     setTimeout(() => setLogoVisible(true), 300);
 
@@ -44,7 +38,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
           clearInterval(progressInterval);
           setTimeout(() => {
             setIsExiting(true);
-            localStorage.setItem('allync-loading-seen', 'true');
             setTimeout(onLoadingComplete, 800);
           }, 500);
           return 100;
@@ -60,7 +53,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
 
   const handleSkip = () => {
     setIsExiting(true);
-    localStorage.setItem('allync-loading-seen', 'true');
     setTimeout(onLoadingComplete, 300);
   };
 

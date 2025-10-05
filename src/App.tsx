@@ -47,6 +47,7 @@ function App() {
         <SelectionScreen
           language={language}
           onSelectView={handleSelectView}
+          onLanguageToggle={toggleLanguage}
         />
       </div>
     );

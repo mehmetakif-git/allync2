@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Zap, Code } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 
 interface SelectionScreenProps {
   language: 'tr' | 'en';
   onSelectView: (view: 'ai-view' | 'digital-view') => void;
+  onLanguageToggle: () => void;
 }
 
-export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSelectView }) => {
+const titleVariants = {
+  tr: [
+    "Çözümlerinizi Seçin",
+    "Hangi Hizmeti İstersiniz?",
+    "Size Nasıl Yardımcı Olabiliriz?",
+    "İhtiyacınız Olan Nedir?",
+    "Dijital Dönüşümünüz Başlasın"
+  ],
+  en: [
+    "Choose Your Solutions",
+    "Which Service Do You Need?",
+    "How Can We Help You?",
+    "What Do You Need?",
+    "Start Your Digital Transformation"
+  ]
+};
+
+export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSelectView, onLanguageToggle }) => {
   const t = translations[language];
+
+  const [currentTitle] = useState(() => {
+    const titles = titleVariants[language];
+    return titles[Math.floor(Math.random() * titles.length)];
+  });
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
@@ -18,10 +42,22 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
+      <button
+        onClick={onLanguageToggle}
+        className="absolute top-8 right-8 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all z-20"
+      >
+        {language === 'tr' ? 'EN' : 'TR'}
+      </button>
+
       <div className="relative z-10 max-w-6xl w-full">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-white mb-16 animate-fade-in-up">
-          {t.selectionTitle}
-        </h1>
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-white mb-16"
+        >
+          {currentTitle}
+        </motion.h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           <button

@@ -23,17 +23,17 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
 
       <button
         onClick={onLanguageToggle}
-        className="absolute top-8 right-8 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all z-20"
+        className="fixed top-4 right-4 sm:top-8 sm:right-8 text-sm px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all z-[100]"
       >
         {language === 'tr' ? 'EN' : 'TR'}
       </button>
 
-      <div className="relative z-10 max-w-6xl w-full">
-        <div className="flex flex-col items-center justify-center mb-16 w-full">
+      <div className="relative z-10 max-w-[95vw] lg:max-w-6xl w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center mb-12 sm:mb-16 w-full px-4 sm:px-6">
           <TextRevealCard
             text={language === 'tr' ? "Hangi Hizmeti İstersiniz?" : "Which Service Do You Need?"}
             revealText={language === 'tr' ? "Dijital Geleceğinizi İnşa Edin" : "Build Your Digital Future"}
-            className="w-full max-w-2xl lg:max-w-4xl"
+            className="w-full max-w-[95vw] sm:max-w-2xl lg:max-w-4xl"
           >
             <TextRevealCardTitle>
               {language === 'tr'
@@ -48,11 +48,11 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           </TextRevealCard>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-4">
           <CometCard className="w-full">
             <button
               onClick={() => onSelectView('ai-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-6 sm:p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full"
               style={{ animationDelay: '0.2s' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -62,7 +62,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
                   <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
                   {t.aiPillarTitle}
                 </h2>
 
@@ -76,7 +76,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           <CometCard className="w-full">
             <button
               onClick={() => onSelectView('digital-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-6 sm:p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full"
               style={{ animationDelay: '0.4s' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -86,7 +86,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
                   <Code className="w-10 h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
                   {t.digitalPillarTitle}
                 </h2>
 

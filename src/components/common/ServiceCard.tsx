@@ -140,35 +140,31 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
 
       <div className="flex-1 w-full">
-        <CardContainer className="w-full">
-          <CardBody className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative">
-            <GlowingEffect
-              spread={40}
-              glow={true}
-              disabled={false}
-              proximity={64}
-              inactiveZone={0.01}
-              variant="default"
-            />
-            <CardItem translateZ="80" className="w-full">
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                {service.galleryImages.map((image, idx) => (
-                  <motion.div
-                    key={idx}
-                    layoutId={`gallery-${service.title}-${idx}`}
-                    onClick={() => handleThumbnailClick(idx)}
-                    className={`aspect-video rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center cursor-pointer overflow-hidden relative group hover:scale-105 transition-transform`}
-                  >
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all">
-                      <Icon className="w-8 h-8 text-white opacity-60 group-hover:opacity-80 transition-opacity" />
-                    </div>
-                    <span className="text-white text-xs font-medium z-10 absolute bottom-2">{idx + 1}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </CardItem>
-          </CardBody>
-        </CardContainer>
+        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative pointer-events-auto cursor-pointer">
+          <GlowingEffect
+            spread={40}
+            glow={true}
+            disabled={false}
+            proximity={64}
+            inactiveZone={0.01}
+            variant="default"
+          />
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
+            {service.galleryImages.map((image, idx) => (
+              <motion.div
+                key={idx}
+                layoutId={`gallery-${service.title}-${idx}`}
+                onClick={() => handleThumbnailClick(idx)}
+                className={`aspect-video rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center cursor-pointer overflow-hidden relative group hover:scale-105 transition-transform`}
+              >
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all">
+                  <Icon className="w-8 h-8 text-white opacity-60 group-hover:opacity-80 transition-opacity" />
+                </div>
+                <span className="text-white text-xs font-medium z-10 absolute bottom-2">{idx + 1}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <AnimatePresence>

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronUp, Phone } from 'lucide-react';
+import { Menu, X, ChevronUp, Phone, ArrowLeft } from 'lucide-react';
 import { translations } from '../utils/translations';
 import logoSvg from '/logo.svg';
 
 interface NavigationProps {
   language: 'tr' | 'en';
   onLanguageToggle: () => void;
+  viewMode?: 'loading' | 'selection' | 'ai-view' | 'digital-view';
+  onBackToSelection?: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageToggle }) => {
+export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageToggle, viewMode, onBackToSelection }) => {
   const t = translations[language];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -88,6 +90,8 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
 
   if (!isVisible) return null;
 
+  if (viewMode === 'selection' || viewMode === 'loading') return null;
+
   return (
     <>
       {/* Navigation Bar */}
@@ -117,22 +121,32 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
+              {(viewMode === 'ai-view' || viewMode === 'digital-view') && onBackToSelection ? (
                 <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.id
-                      ? 'text-white'
-                      : 'text-gray-400 hover:text-gray-300'
-                  }`}
+                  onClick={onBackToSelection}
+                  className="flex items-center px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all duration-300 group"
                 >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full"></div>
-                  )}
+                  <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+                  <span className="text-sm font-medium">{t.backToSolutions}</span>
                 </button>
-              ))}
+              ) : (
+                navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.id
+                        ? 'text-white'
+                        : 'text-gray-400 hover:text-gray-300'
+                    }`}
+                  >
+                    {item.label}
+                    {activeSection === item.id && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full"></div>
+                    )}
+                  </button>
+                ))
+              )}
               
               {/* Language Toggle */}
               <button
@@ -166,19 +180,32 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
         {isMenuOpen && (
           <div className="md:hidden bg-black/90 backdrop-blur-lg border-t border-white/10">
             <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => (
+              {(viewMode === 'ai-view' || viewMode === 'digital-view') && onBackToSelection ? (
                 <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.id
-                      ? 'text-white bg-white/10'
-                      : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
-                  }`}
+                  onClick={() => {
+                    onBackToSelection();
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-all duration-300"
                 >
-                  {item.label}
+                  <ArrowLeft className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">{t.backToSolutions}</span>
                 </button>
-              ))}
+              ) : (
+                navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-300 ${
+                      activeSection === item.id
+                        ? 'text-white bg-white/10'
+                        : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))
+              )}
             </div>
           </div>
         )}

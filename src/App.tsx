@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
-import { Hero } from './components/Hero';
-import { ChatDemo } from './components/ChatDemo';
-import { PackagesBrochure } from './components/PackagesBrochure';
-import { IndustryExamples } from './components/IndustryExamples';
-import { Features } from './components/Features';
-import { Pricing } from './components/Pricing';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
+import { SelectionScreen } from './components/SelectionScreen';
+import { AllyncAISolutions } from './components/AllyncAISolutions';
+import { DigitalSolutions } from './components/DigitalSolutions';
 
 function App() {
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
-  const [isLoading, setIsLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'loading' | 'selection' | 'ai-view' | 'digital-view'>('loading');
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   const toggleLanguage = () => {
@@ -20,50 +15,71 @@ function App() {
   };
 
   const handleLoadingComplete = () => {
-    setIsLoading(false);
-    // Enable animations after a short delay
+    setViewMode('selection');
     setTimeout(() => {
       setAnimationsEnabled(true);
     }, 500);
   };
 
-  if (isLoading) {
+  const handleSelectView = (view: 'ai-view' | 'digital-view') => {
+    setViewMode(view);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToSelection = () => {
+    setViewMode('selection');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (viewMode === 'loading') {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
   }
 
-  return (
-    <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-      <Navigation language={language} onLanguageToggle={toggleLanguage} />
-      <section className="hero-section" style={{ position: 'relative', zIndex: 10 }}>
-        <Hero language={language} id="hero" />
-      </section>
-      <div className="section-separator"></div>
-      <section id="chat-demo" style={{ position: 'relative', zIndex: 9 }}>
-        <ChatDemo language={language} />
-      </section>
-      <div className="section-separator"></div>
-      <section id="packages" style={{ position: 'relative', zIndex: 8 }}>
-        <PackagesBrochure language={language} />
-      </section>
-      <div className="section-separator"></div>
-      <section id="industry-examples" style={{ position: 'relative', zIndex: 7 }}>
-        <IndustryExamples language={language} />
-      </section>
-      <div className="section-separator"></div>
-      <section id="features" style={{ position: 'relative', zIndex: 6 }}>
-        <Features language={language} />
-      </section>
-      <div className="section-separator"></div>
-      <section id="pricing" style={{ position: 'relative', zIndex: 5 }}>
-        <Pricing language={language} />
-      </section>
-      <div className="section-separator"></div>
-      <section id="contact" className="scroll-mt-20" style={{ position: 'relative', zIndex: 4 }}>
-        <Contact language={language} />
-      </section>
-      <Footer language={language} />
-    </div>
-  );
+  if (viewMode === 'selection') {
+    return (
+      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <Navigation
+          language={language}
+          onLanguageToggle={toggleLanguage}
+          viewMode={viewMode}
+        />
+        <SelectionScreen
+          language={language}
+          onSelectView={handleSelectView}
+        />
+      </div>
+    );
+  }
+
+  if (viewMode === 'ai-view') {
+    return (
+      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <Navigation
+          language={language}
+          onLanguageToggle={toggleLanguage}
+          viewMode={viewMode}
+          onBackToSelection={handleBackToSelection}
+        />
+        <AllyncAISolutions language={language} />
+      </div>
+    );
+  }
+
+  if (viewMode === 'digital-view') {
+    return (
+      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <Navigation
+          language={language}
+          onLanguageToggle={toggleLanguage}
+          viewMode={viewMode}
+          onBackToSelection={handleBackToSelection}
+        />
+        <DigitalSolutions language={language} />
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export default App;

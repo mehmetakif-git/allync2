@@ -28,11 +28,11 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
       </button>
 
       <div className="relative z-10 max-w-6xl w-full">
-        <div className="mb-16">
+        <div className="flex items-center justify-center mb-16">
           <TextRevealCard
             text={language === 'tr' ? "Hangi Hizmeti İstersiniz?" : "Which Service Do You Need?"}
             revealText={language === 'tr' ? "Dijital Geleceğinizi İnşa Edin" : "Build Your Digital Future"}
-            className="mx-auto max-w-4xl"
+            className="w-full max-w-4xl"
           >
             <TextRevealCardTitle>
               {language === 'tr'

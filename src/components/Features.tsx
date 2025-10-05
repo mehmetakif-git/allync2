@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Brain, Database, FileText, Settings, Clock, Shield, Calculator, TrendingUp, Users, Zap, ChevronDown, BarChart3, Activity, CheckCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { GlowingEffect } from './ui/GlowingEffect';
+import { TracingBeam } from './ui/tracing-beam';
 
 interface FeaturesProps {
   language: 'tr' | 'en';
@@ -187,42 +188,46 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
         {/* Features Grid */}
         <div className="mb-8 md:mb-20 fade-in-up features-section" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-          <div className="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              
-              return (
-                <div
-                  key={index}
-                  className="feature-card group rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 transition-all duration-300 card-depth card-slide-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="card-content">
-                    <div>
-                      <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
-                        <Icon className="w-6 h-6 text-white" />
+          <TracingBeam className="px-4 md:px-6">
+            <div className="space-y-10 md:space-y-20">
+              {features.map((feature, index) => {
+                const Icon = feature.icon;
+
+                return (
+                  <div key={index} className="relative">
+                    <div
+                      className="feature-card group rounded-xl glass bg-white/5 border border-gray-600 hover:bg-white/8 transition-all duration-300 card-depth card-slide-up relative"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
+                      <div className="card-content">
+                        <div>
+                          <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-r from-gray-700 to-gray-600">
+                            <Icon className="w-6 h-6 text-white" />
+                          </div>
+
+                          <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                          <p className="text-gray-400 mb-4 leading-relaxed">{feature.description}</p>
+                        </div>
+
+                        <div>
+                          <p className="text-gray-300 text-sm mb-3 leading-relaxed">{feature.details}</p>
+                          <ul className="space-y-1">
+                            {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
+                              <li key={benefitIndex} className="flex items-start text-sm text-gray-300">
+                                <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 mt-1.5 flex-shrink-0"></div>
+                                <span>{benefit}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                      
-                      <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                      <p className="text-gray-400 mb-4 leading-relaxed">{feature.description}</p>
-                    </div>
-                    
-                    <div>
-                      <p className="text-gray-300 text-sm mb-3 leading-relaxed">{feature.details}</p>
-                      <ul className="space-y-1">
-                        {feature.benefits.slice(0, 3).map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className="flex items-start text-sm text-gray-300">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 mt-1.5 flex-shrink-0"></div>
-                            <span>{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </TracingBeam>
         </div>
 
         {/* ROI Calculator */}
@@ -366,7 +371,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Before */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left comparison-card" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-left comparison-card relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
               <h4 className="text-xl font-bold text-white mb-6 text-center">
                 {language === 'tr' ? '❌ Manuel Süreç' : '❌ Manual Process'}
               </h4>
@@ -388,7 +394,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
             </div>
 
             {/* After */}
-            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right comparison-card" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+            <div className="glass bg-white/5 border border-gray-600 rounded-2xl p-8 fade-in-right comparison-card relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
               <h4 className="text-xl font-bold text-white mb-6 text-center">
                 {language === 'tr' ? '✅ AI Otomasyonu' : '✅ AI Automation'}
               </h4>

@@ -75,20 +75,24 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               </div>
             </CardItem>
 
-            <CardItem translateZ="50" className="w-full relative z-20 pointer-events-auto">
+            <CardItem translateZ={20} className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
-                <button
+                <CardItem
+                  translateZ={20}
+                  as="button"
                   onClick={onDetailClick}
-                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg z-50 cursor-pointer`}
+                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg`}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
-                </button>
-                <button
+                </CardItem>
+                <CardItem
+                  translateZ={20}
+                  as="button"
                   onClick={onContactClick}
-                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 z-50 cursor-pointer"
+                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg"
                 >
                   {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
-                </button>
+                </CardItem>
               </div>
             </CardItem>
           </CardBody>

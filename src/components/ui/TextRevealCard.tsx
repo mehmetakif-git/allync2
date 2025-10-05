@@ -18,17 +18,29 @@ export const TextRevealCard = ({
   const [left, setLeft] = useState(0);
   const [localWidth, setLocalWidth] = useState(0);
   const [isMouseOver, setIsMouseOver] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     if (cardRef.current) {
       const { left, width: localWidth } =
         cardRef.current.getBoundingClientRect();
       setLeft(left);
       setLocalWidth(localWidth);
     }
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   function mouseMoveHandler(event: React.MouseEvent<HTMLDivElement>) {
+    if (isMobile) return;
+
     event.preventDefault();
 
     const { clientX } = event;
@@ -39,10 +51,12 @@ export const TextRevealCard = ({
   }
 
   function mouseLeaveHandler() {
+    if (isMobile) return;
     setIsMouseOver(false);
     setWidthPercentage(0);
   }
   function mouseEnterHandler() {
+    if (isMobile) return;
     setIsMouseOver(true);
   }
 
@@ -54,13 +68,13 @@ export const TextRevealCard = ({
       onMouseMove={mouseMoveHandler}
       ref={cardRef}
       className={cn(
-        "bg-black/20 border border-white/10 backdrop-blur-lg rounded-3xl p-8 relative overflow-hidden mx-auto",
+        "bg-black/20 border border-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden mx-auto",
         className
       )}
     >
       {children}
 
-      <div className="h-60 relative flex items-center overflow-hidden">
+      <div className="h-40 sm:h-48 md:h-60 relative flex items-center overflow-hidden">
         <motion.div
           style={{
             width: "100%",
@@ -82,7 +96,7 @@ export const TextRevealCard = ({
             style={{
               textShadow: "4px 4px 15px rgba(0,0,0,0.5)",
             }}
-            className="text-xl sm:text-2xl lg:text-4xl xl:text-6xl py-10 font-bold text-white"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl py-6 sm:py-8 md:py-10 font-bold text-white"
           >
             {revealText}
           </p>
@@ -94,11 +108,11 @@ export const TextRevealCard = ({
             opacity: widthPercentage > 0 ? 1 : 0,
           }}
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-          className="h-60 w-[8px] bg-gradient-to-b from-transparent via-white to-transparent absolute z-50 will-change-transform"
+          className="h-40 sm:h-48 md:h-60 w-[8px] bg-gradient-to-b from-transparent via-white to-transparent absolute z-50 will-change-transform"
         ></motion.div>
 
         <div className="overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,white,transparent)]">
-          <p className="text-xl sm:text-2xl lg:text-4xl xl:text-6xl py-10 font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl py-6 sm:py-8 md:py-10 font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
             {text}
           </p>
           <MemoizedStars />

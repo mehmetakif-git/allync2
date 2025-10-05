@@ -14,7 +14,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
   const t = translations[language];
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center justify-center px-2 sm:px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
@@ -28,12 +28,12 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
         {language === 'tr' ? 'EN' : 'TR'}
       </button>
 
-      <div className="relative z-10 max-w-[95vw] lg:max-w-6xl w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center mb-12 sm:mb-16 w-full px-4 sm:px-6">
+      <div className="relative z-10 w-full max-w-[100vw] sm:max-w-[95vw] lg:max-w-6xl px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center mb-8 sm:mb-12 md:mb-16 w-full px-2 sm:px-4 md:px-6">
           <TextRevealCard
             text={language === 'tr' ? "Hangi Hizmeti İstersiniz?" : "Which Service Do You Need?"}
             revealText={language === 'tr' ? "Dijital Geleceğinizi İnşa Edin" : "Build Your Digital Future"}
-            className="w-full max-w-[95vw] sm:max-w-2xl lg:max-w-4xl"
+            className="w-full max-w-[98vw] sm:max-w-xl md:max-w-2xl lg:max-w-4xl"
           >
             <TextRevealCardTitle>
               {language === 'tr'
@@ -48,25 +48,25 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           </TextRevealCard>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-4">
           <CometCard className="w-full">
             <button
               onClick={() => onSelectView('ai-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-6 sm:p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full"
               style={{ animationDelay: '0.2s' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative z-10">
-                <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
-                  <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
+                  <Zap className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 group-hover:text-purple-300 transition-colors duration-300">
                   {t.aiPillarTitle}
                 </h2>
 
-                <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                <p className="text-base sm:text-lg md:text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
                   {t.aiPillarSlogan}
                 </p>
               </div>
@@ -76,21 +76,21 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           <CometCard className="w-full">
             <button
               onClick={() => onSelectView('digital-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-6 sm:p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full"
               style={{ animationDelay: '0.4s' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative z-10">
-                <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
-                  <Code className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-green-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
+                  <Code className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 group-hover:text-cyan-300 transition-colors duration-300">
                   {t.digitalPillarTitle}
                 </h2>
 
-                <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                <p className="text-base sm:text-lg md:text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
                   {t.digitalPillarSlogan}
                 </p>
               </div>

@@ -12,9 +12,9 @@ export const translations = {
     customSolutionsDesc: "İşletmenize özel tasarlanmış hizmetler",
     expertSupport: "Uzman Destek",
     expertSupportDesc: "7/24 teknik destek ve danışmanlık hizmetleri",
-    moreDetailsButton: "Daha Detay",
+    moreDetailsButton: "Daha Detaylı İncele",
     closeDetailsButton: "Kapat",
-    detailModalTitle: "Detaylı Bilgi",
+    detailModalTitle: "Detaylı Hizmet Kapsamı",
 
     // Chat Demo
     chatDemoTitle: "AI Asistanınızı Aksiyonda Görün",
@@ -302,9 +302,9 @@ export const translations = {
     getStarted: "Get Started",
     getConsultation: "Free Consultation",
     flexiblePlans: "Flexible Plans",
-    moreDetailsButton: "More Details",
+    moreDetailsButton: "View More Details",
     closeDetailsButton: "Close",
-    detailModalTitle: "Detailed Information",
+    detailModalTitle: "Detailed Service Scope",
     flexiblePlansDesc: "Scalable subscription options tailored to your needs",
     customSolutions: "Custom Solutions",
     customSolutionsDesc: "Services designed specifically for your business",

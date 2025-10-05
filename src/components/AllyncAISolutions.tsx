@@ -185,7 +185,7 @@ export const AllyncAISolutions: React.FC<AllyncAISolutionsProps> = ({ language }
                           </div>
                         </CardItem>
 
-                        <CardItem translateZ="50" className="w-full relative z-20">
+                        <CardItem translateZ="50" className="w-full relative z-20 pointer-events-auto">
                           <div className="flex flex-col sm:flex-row gap-3">
                             <button
                               onClick={() => setOpenModalIndex(index)}

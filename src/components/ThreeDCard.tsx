@@ -170,7 +170,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   return (
     <Tag
       ref={ref}
-      className={cn('transition duration-200 ease-linear pointer-events-auto', className)}
+      className={cn('transition duration-200 ease-linear', className)}
       {...rest}
     >
       {children}

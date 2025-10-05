@@ -189,13 +189,13 @@ export const AllyncAISolutions: React.FC<AllyncAISolutionsProps> = ({ language }
                           <div className="flex flex-col sm:flex-row gap-3">
                             <button
                               onClick={() => setOpenModalIndex(index)}
-                              className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer`}
+                              className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg z-50 cursor-pointer`}
                             >
                               {t.moreDetailsButton}
                             </button>
                             <button
                               onClick={scrollToContact}
-                              className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
+                              className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 z-50 cursor-pointer"
                             >
                               {t.requestCustomQuote}
                             </button>

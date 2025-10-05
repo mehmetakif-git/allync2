@@ -2,6 +2,7 @@ import React from 'react';
 import { Zap, Code } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { TextRevealCard, TextRevealCardTitle, TextRevealCardDescription } from './ui/TextRevealCard';
+import { CometCard } from './ui/CometCard';
 
 interface SelectionScreenProps {
   language: 'tr' | 'en';
@@ -48,49 +49,53 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          <button
-            onClick={() => onSelectView('ai-view')}
-            className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in"
-            style={{ animationDelay: '0.2s' }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <CometCard className="w-full">
+            <button
+              onClick={() => onSelectView('ai-view')}
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full"
+              style={{ animationDelay: '0.2s' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <div className="relative z-10">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
-                <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" />
+              <div className="relative z-10">
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
+                  <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                  {t.aiPillarTitle}
+                </h2>
+
+                <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  {t.aiPillarSlogan}
+                </p>
               </div>
+            </button>
+          </CometCard>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
-                {t.aiPillarTitle}
-              </h2>
+          <CometCard className="w-full">
+            <button
+              onClick={() => onSelectView('digital-view')}
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full"
+              style={{ animationDelay: '0.4s' }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                {t.aiPillarSlogan}
-              </p>
-            </div>
-          </button>
+              <div className="relative z-10">
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
+                  <Code className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                </div>
 
-          <button
-            onClick={() => onSelectView('digital-view')}
-            className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in"
-            style={{ animationDelay: '0.4s' }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
+                  {t.digitalPillarTitle}
+                </h2>
 
-            <div className="relative z-10">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-cyan-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-500">
-                <Code className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  {t.digitalPillarSlogan}
+                </p>
               </div>
-
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
-                {t.digitalPillarTitle}
-              </h2>
-
-              <p className="text-xl text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                {t.digitalPillarSlogan}
-              </p>
-            </div>
-          </button>
+            </button>
+          </CometCard>
         </div>
       </div>
 

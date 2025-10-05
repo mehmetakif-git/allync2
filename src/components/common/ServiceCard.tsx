@@ -1,7 +1,9 @@
-import React from 'react';
-import { Video as LucideIcon } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Video as LucideIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CardContainer, CardBody, CardItem } from '../ThreeDCard';
 import { GlowingEffect } from '../ui/GlowingEffect';
+import { useOutsideClick } from '../../hooks/use-outside-click';
 
 interface Service {
   icon: LucideIcon;
@@ -31,6 +33,35 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   onContactClick
 }) => {
   const Icon = service.icon;
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(modalRef, () => setExpandedIndex(null));
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (expandedIndex === null) return;
+      if (e.key === 'Escape') setExpandedIndex(null);
+      if (e.key === 'ArrowLeft') setCurrentIndex(prev => prev === 0 ? service.galleryImages.length - 1 : prev - 1);
+      if (e.key === 'ArrowRight') setCurrentIndex(prev => prev === service.galleryImages.length - 1 ? 0 : prev + 1);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [expandedIndex, service.galleryImages.length]);
+
+  useEffect(() => {
+    if (expandedIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [expandedIndex]);
+
+  const handleThumbnailClick = (idx: number) => {
+    setExpandedIndex(idx);
+    setCurrentIndex(idx);
+  };
 
   return (
     <div
@@ -120,17 +151,95 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               variant="default"
             />
             <CardItem translateZ="80" className="w-full">
-              <div className={`aspect-video rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white font-bold text-2xl overflow-hidden relative`}>
-                <div className="absolute inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center">
-                  <span className="text-center px-4">
-                    {language === 'tr' ? 'Görsel Önizleme' : 'Visual Preview'}
-                  </span>
-                </div>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                {service.galleryImages.map((image, idx) => (
+                  <motion.div
+                    key={idx}
+                    layoutId={`gallery-${service.title}-${idx}`}
+                    onClick={() => handleThumbnailClick(idx)}
+                    className={`aspect-video rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center cursor-pointer overflow-hidden relative group hover:scale-105 transition-transform`}
+                  >
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all">
+                      <Icon className="w-8 h-8 text-white opacity-60 group-hover:opacity-80 transition-opacity" />
+                    </div>
+                    <span className="text-white text-xs font-medium z-10 absolute bottom-2">{idx + 1}</span>
+                  </motion.div>
+                ))}
               </div>
             </CardItem>
           </CardBody>
         </CardContainer>
       </div>
+
+      <AnimatePresence>
+        {expandedIndex !== null && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/90 z-[9998]"
+            />
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+              <motion.div
+                ref={modalRef}
+                layoutId={`gallery-${service.title}-${expandedIndex}`}
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.9 }}
+                className="relative w-full max-w-6xl"
+              >
+                <button
+                  onClick={() => setExpandedIndex(null)}
+                  className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-10"
+                >
+                  <X className="w-6 h-6 text-white" />
+                </button>
+
+                <div className="aspect-video bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-20`} />
+                  <Icon className="w-32 h-32 text-gray-400 relative z-10" />
+                  <div className="absolute bottom-6 left-6 z-20">
+                    <p className="text-white text-2xl font-bold">{service.galleryImages[currentIndex]}</p>
+                    <p className="text-gray-300 text-sm mt-1">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
+                  </div>
+                </div>
+
+                {service.galleryImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setCurrentIndex(prev => prev === 0 ? service.galleryImages.length - 1 : prev - 1)}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
+                    >
+                      <ChevronLeft className="w-6 h-6 text-white" />
+                    </button>
+                    <button
+                      onClick={() => setCurrentIndex(prev => prev === service.galleryImages.length - 1 ? 0 : prev + 1)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
+                    >
+                      <ChevronRight className="w-6 h-6 text-white" />
+                    </button>
+                  </>
+                )}
+
+                <div className="flex gap-2 mt-6 justify-center overflow-x-auto pb-2">
+                  {service.galleryImages.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentIndex(idx)}
+                      className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg bg-white/5 border-2 flex items-center justify-center transition-all ${
+                        idx === currentIndex ? 'border-white scale-110' : 'border-white/20 hover:border-white/40'
+                      }`}
+                    >
+                      <span className="text-xs text-gray-400">{idx + 1}</span>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

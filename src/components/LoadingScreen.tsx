@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import logoSvg from '/logo.svg';
 import { ANIMATION_DELAYS } from '../constants/animations';
+import { MultiStepLoader } from './ui/MultiStepLoader';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
+  language?: 'tr' | 'en';
 }
 
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, language = 'tr' }) => {
   const [progress, setProgress] = useState(0);
   const [logoVisible, setLogoVisible] = useState(false);
   const [sloganText, setSloganText] = useState('');
@@ -14,6 +16,13 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
   const [isExiting, setIsExiting] = useState(false);
 
   const fullSlogan = "Beyond Human Automation";
+
+  const loadingStates = [
+    { text: language === 'tr' ? "AI Sistemleri Başlatılıyor..." : "Initializing AI Systems..." },
+    { text: language === 'tr' ? "Çözümler Yükleniyor..." : "Loading Solutions..." },
+    { text: language === 'tr' ? "Dashboard Hazırlanıyor..." : "Preparing Dashboard..." },
+    { text: language === 'tr' ? "Neredeyse Hazır..." : "Almost Ready..." }
+  ];
 
   useEffect(() => {
     // Logo animation
@@ -103,21 +112,14 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete 
           </p>
         </div>
 
-        {/* Progress Bar */}
-        <div className="w-80 max-w-sm">
-          <div className="loading-progress-container">
-            <div className="loading-progress-track">
-              <div 
-                className="loading-progress-fill"
-                style={{ width: `${progress}%` }}
-              ></div>
-              <div className="loading-progress-glow" style={{ left: `${progress}%` }}></div>
-            </div>
-          </div>
-          <div className="flex justify-between mt-3 text-sm text-gray-400">
-            <span>Loading Experience</span>
-            <span>{progress}%</span>
-          </div>
+        {/* Multi Step Loader */}
+        <div className="w-full max-w-md">
+          <MultiStepLoader
+            loadingStates={loadingStates}
+            loading={true}
+            duration={1200}
+            loop={false}
+          />
         </div>
 
         {/* Floating Shapes */}

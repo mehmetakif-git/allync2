@@ -33,7 +33,7 @@ function App() {
   };
 
   if (viewMode === 'loading') {
-    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+    return <LoadingScreen onLoadingComplete={handleLoadingComplete} language={language} />;
   }
 
   if (viewMode === 'selection') {

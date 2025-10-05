@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Monitor, Smartphone, Target, Wifi, Cloud, Palette, Wrench } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
-import { ServiceDetailModal } from './ServiceDetailModal';
 import { ServiceCard } from './common/ServiceCard';
 
 interface DigitalSolutionsProps {
@@ -13,7 +13,7 @@ interface DigitalSolutionsProps {
 export const DigitalSolutions: React.FC<DigitalSolutionsProps> = ({ language }) => {
   const t = translations[language];
 
-  const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const services = [
     {
@@ -118,31 +118,52 @@ export const DigitalSolutions: React.FC<DigitalSolutionsProps> = ({ language }) 
 
           <div className="space-y-32">
             {services.map((service, index) => (
-              <ServiceCard
-                key={index}
-                service={service}
-                language={language}
-                isOdd={index % 2 === 0}
-                index={index}
-                onDetailClick={() => setOpenModalIndex(index)}
-                onContactClick={scrollToContact}
-              />
+              <div key={index} className="relative">
+                <ServiceCard
+                  service={service}
+                  language={language}
+                  isOdd={index % 2 === 0}
+                  index={index}
+                  onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                  onContactClick={scrollToContact}
+                />
+
+                <AnimatePresence>
+                  {expandedIndex === index && (
+                    <motion.div
+                      layoutId={`expanded-${index}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl overflow-hidden mt-4"
+                    >
+                      <div className="p-8 relative">
+                        <button
+                          onClick={() => setExpandedIndex(null)}
+                          className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors"
+                        >
+                          ✕
+                        </button>
+                        <div className="text-gray-300 whitespace-pre-line leading-relaxed">
+                          {service.extendedContent}
+                        </div>
+                        <button
+                          onClick={() => {
+                            scrollToContact();
+                            setExpandedIndex(null);
+                          }}
+                          className={`mt-6 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white rounded-lg hover:scale-105 transition-all duration-300`}
+                        >
+                          {t.requestCustomQuote}
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
-
-          {services.map((service, index) => (
-            <ServiceDetailModal
-              key={`modal-${index}`}
-              isOpen={openModalIndex === index}
-              onClose={() => setOpenModalIndex(null)}
-              title={service.title}
-              extendedContent={service.extendedContent}
-              ctaText={t.requestCustomQuote}
-              closeText={t.closeDetailsButton}
-              onCtaClick={scrollToContact}
-              gradient={service.gradient}
-            />
-          ))}
 
           <div className="mt-32 text-center">
             <button

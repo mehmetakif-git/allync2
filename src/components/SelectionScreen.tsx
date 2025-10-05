@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Zap, Code } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
+import { TextRevealCard, TextRevealCardTitle, TextRevealCardDescription } from './ui/TextRevealCard';
 
 interface SelectionScreenProps {
   language: 'tr' | 'en';
@@ -9,30 +9,8 @@ interface SelectionScreenProps {
   onLanguageToggle: () => void;
 }
 
-const titleVariants = {
-  tr: [
-    "Çözümlerinizi Seçin",
-    "Hangi Hizmeti İstersiniz?",
-    "Size Nasıl Yardımcı Olabiliriz?",
-    "İhtiyacınız Olan Nedir?",
-    "Dijital Dönüşümünüz Başlasın"
-  ],
-  en: [
-    "Choose Your Solutions",
-    "Which Service Do You Need?",
-    "How Can We Help You?",
-    "What Do You Need?",
-    "Start Your Digital Transformation"
-  ]
-};
-
 export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSelectView, onLanguageToggle }) => {
   const t = translations[language];
-
-  const [currentTitle] = useState(() => {
-    const titles = titleVariants[language];
-    return titles[Math.floor(Math.random() * titles.length)];
-  });
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
@@ -50,14 +28,24 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
       </button>
 
       <div className="relative z-10 max-w-6xl w-full">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-white mb-16"
-        >
-          {currentTitle}
-        </motion.h1>
+        <div className="mb-16">
+          <TextRevealCard
+            text={language === 'tr' ? "Hangi Hizmeti İstersiniz?" : "Which Service Do You Need?"}
+            revealText={language === 'tr' ? "Dijital Geleceğinizi İnşa Edin" : "Build Your Digital Future"}
+            className="mx-auto max-w-4xl"
+          >
+            <TextRevealCardTitle>
+              {language === 'tr'
+                ? 'Mouse ile kartın üzerinden geçin'
+                : 'Hover over the card to reveal'}
+            </TextRevealCardTitle>
+            <TextRevealCardDescription>
+              {language === 'tr'
+                ? 'AI ve Dijital çözümlerimizi keşfedin'
+                : 'Discover our AI and Digital solutions'}
+            </TextRevealCardDescription>
+          </TextRevealCard>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           <button

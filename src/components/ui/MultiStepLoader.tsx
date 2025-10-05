@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckIcon } from 'lucide-react';
+import { Check as CheckIcon } from 'lucide-react';
 
 interface LoadingState {
   text: string;

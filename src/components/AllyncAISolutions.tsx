@@ -5,6 +5,7 @@ import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
 import { ServiceCard } from './common/ServiceCard';
+import { LayoutTextFlip } from './ui/LayoutTextFlip';
 
 interface AllyncAISolutionsProps {
   language: 'tr' | 'en';
@@ -120,18 +121,23 @@ export const AllyncAISolutions: React.FC<AllyncAISolutionsProps> = ({ language }
       <div className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              {t.aiSolutionTitle}
-            </h1>
+            <div className="flex flex-col items-center justify-center mb-6">
+              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+                <LayoutTextFlip
+                  text="Allync AI"
+                  words={[
+                    language === 'tr' ? "WhatsApp Otomasyonu" : "WhatsApp Automation",
+                    language === 'tr' ? "Yapay Zeka Çözümleri" : "AI Solutions",
+                    language === 'tr' ? "Ses Klonlama" : "Voice Cloning",
+                    language === 'tr' ? "Görsel AI" : "Vision AI"
+                  ]}
+                  duration={2500}
+                />
+              </motion.div>
+            </div>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
               {t.aiSolutionSubtitle}
             </p>
-            <button
-              onClick={scrollToContact}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50"
-            >
-              {t.getConsultation}
-            </button>
           </div>
 
           <div className="space-y-32">

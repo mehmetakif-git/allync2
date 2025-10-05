@@ -1,6 +1,7 @@
 import React from 'react';
 import { Video as LucideIcon } from 'lucide-react';
 import { CardContainer, CardBody, CardItem } from '../ThreeDCard';
+import { GlowingEffect } from '../ui/GlowingEffect';
 
 interface Service {
   icon: LucideIcon;
@@ -42,7 +43,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       <div className="flex-1 w-full">
         <CardContainer className="w-full">
-          <CardBody className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full">
+          <CardBody className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative">
+            <GlowingEffect
+              spread={40}
+              glow={true}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+              variant="default"
+            />
             <CardItem translateZ="50" className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
@@ -101,7 +110,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
       <div className="flex-1 w-full">
         <CardContainer className="w-full">
-          <CardBody className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full">
+          <CardBody className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative">
+            <GlowingEffect
+              spread={40}
+              glow={true}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+              variant="default"
+            />
             <CardItem translateZ="80" className="w-full">
               <div className={`aspect-video rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white font-bold text-2xl overflow-hidden relative`}>
                 <div className="absolute inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center">

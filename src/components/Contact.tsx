@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
+import { GlowingEffect } from './ui/GlowingEffect';
 
 interface ContactProps {
   language: 'tr' | 'en';
@@ -77,7 +78,15 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+            <GlowingEffect
+              spread={40}
+              glow={true}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+              variant="default"
+            />
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6 form-grid">
@@ -194,7 +203,15 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
           {/* Contact Info */}
           <div className="space-y-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-2xl p-6 lg:p-8">
+            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                variant="default"
+              />
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
 
               <div className="space-y-6">

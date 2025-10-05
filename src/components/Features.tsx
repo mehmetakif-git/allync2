@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Database, FileText, Settings, Clock, Shield, Calculator, TrendingUp, Users, Zap, ChevronDown, BarChart3, Activity, CheckCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
+import { GlowingEffect } from './ui/GlowingEffect';
 
 interface FeaturesProps {
   language: 'tr' | 'en';
@@ -150,7 +151,8 @@ export const Features: React.FC<FeaturesProps> = ({ language }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-4 md:mb-8">
-            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate">
+            <div className="glass bg-white/5 border border-gray-600 rounded-xl p-6 text-center card-depth counter-animate relative">
+              <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} variant="default" />
               <Activity className="w-8 h-8 text-white mx-auto mb-3" />
               <p className="text-2xl font-bold text-white">{animatedStats.conversations.toLocaleString()}</p>
               <p className="text-gray-400 text-sm">{language === 'tr' ? 'Günlük Mesaj' : 'Daily Messages'}</p>

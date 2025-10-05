@@ -3,6 +3,7 @@ import { MessageCircle, Instagram, Video, Image as ImageIcon, Mic, FileText, Pla
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
+import { CardContainer, CardBody, CardItem } from './ThreeDCard';
 
 interface AllyncAISolutionsProps {
   language: 'tr' | 'en';
@@ -126,38 +127,50 @@ export const AllyncAISolutions: React.FC<AllyncAISolutionsProps> = ({ language }
                   }}
                 >
                   <div className="flex-1 w-full">
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:bg-white/10 hover:border-white/20 transition-all duration-500">
-                      <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
-                        <Icon className="w-10 h-10 text-white" />
-                      </div>
-
-                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        {service.title}
-                      </h2>
-
-                      <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                        {service.description}
-                      </p>
-
-                      <div className="space-y-4 mb-8">
-                        <h3 className="text-xl font-semibold text-white mb-4">
-                          {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
-                        </h3>
-                        {service.benefits.map((benefit, idx) => (
-                          <div key={idx} className="flex items-start">
-                            <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0`}></div>
-                            <p className="text-gray-300">{benefit}</p>
+                    <CardContainer className="w-full">
+                      <CardBody className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full">
+                        <CardItem translateZ="50" className="w-full">
+                          <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
+                            <Icon className="w-10 h-10 text-white" />
                           </div>
-                        ))}
-                      </div>
+                        </CardItem>
 
-                      <button
-                        onClick={scrollToContact}
-                        className="px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
-                      >
-                        {t.requestCustomQuote}
-                      </button>
-                    </div>
+                        <CardItem translateZ="60" className="w-full">
+                          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            {service.title}
+                          </h2>
+                        </CardItem>
+
+                        <CardItem translateZ="40" className="w-full">
+                          <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+                            {service.description}
+                          </p>
+                        </CardItem>
+
+                        <CardItem translateZ="30" className="w-full">
+                          <div className="space-y-4 mb-8">
+                            <h3 className="text-xl font-semibold text-white mb-4">
+                              {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
+                            </h3>
+                            {service.benefits.map((benefit, idx) => (
+                              <div key={idx} className="flex items-start">
+                                <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0`}></div>
+                                <p className="text-gray-300">{benefit}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </CardItem>
+
+                        <CardItem translateZ="50" className="w-full">
+                          <button
+                            onClick={scrollToContact}
+                            className="px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
+                          >
+                            {t.requestCustomQuote}
+                          </button>
+                        </CardItem>
+                      </CardBody>
+                    </CardContainer>
                   </div>
 
                   <div className="flex-1 w-full">

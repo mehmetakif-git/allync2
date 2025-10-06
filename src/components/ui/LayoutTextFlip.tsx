@@ -68,7 +68,7 @@ export function LayoutTextFlip({
             rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-4 py-2 font-sans text-4xl md:text-6xl font-bold tracking-tight text-black shadow-sm"
+          className="relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-3 py-1 md:px-4 md:py-2 font-sans text-4xl md:text-6xl font-bold tracking-tight text-black shadow-sm"
         >
           <AnimatePresence mode="popLayout">
             <motion.span

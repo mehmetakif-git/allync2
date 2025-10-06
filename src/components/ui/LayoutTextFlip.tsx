@@ -49,7 +49,13 @@ export function LayoutTextFlip({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % words.length);
+      setIndex((prevIndex) => {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * words.length);
+        } while (newIndex === prevIndex);
+        return newIndex;
+      });
     }, duration);
 
     return () => clearInterval(interval);

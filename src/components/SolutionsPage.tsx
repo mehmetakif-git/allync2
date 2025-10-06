@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import { Video as LucideIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';

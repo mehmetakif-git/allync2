@@ -76,7 +76,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative overflow-hidden">
             <GlowingEffect
               blur={20}
-              borderWidth={0.75}
+              borderWidth={1.2}
               spread={100}
               glow={false}
               disabled={false}

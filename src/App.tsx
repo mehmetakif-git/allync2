@@ -17,7 +17,8 @@ function App() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [showLanyard, setShowLanyard] = useState(false);
-  const lanyardTimer = useRef<NodeJS.Timeout | null>(null);
+  const showLanyardTimer = useRef<NodeJS.Timeout | null>(null);
+  const hideLanyardTimer = useRef<NodeJS.Timeout | null>(null);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -61,30 +62,38 @@ function App() {
   }, [viewMode]);
 
   useEffect(() => {
-    if (viewMode === 'loading') return;
-
-    const resetTimer = () => {
-      if (lanyardTimer.current) {
-        clearTimeout(lanyardTimer.current);
+    const handleUserActivity = () => {
+      if (showLanyard) {
+        setShowLanyard(false);
       }
-      setShowLanyard(false);
-      lanyardTimer.current = setTimeout(() => {
+
+      if (showLanyardTimer.current) clearTimeout(showLanyardTimer.current);
+      if (hideLanyardTimer.current) clearTimeout(hideLanyardTimer.current);
+
+      showLanyardTimer.current = setTimeout(() => {
         setShowLanyard(true);
-      }, 60000);
+      }, 90000);
     };
 
-    const activityEvents = ['mousemove', 'mousedown', 'keydown'];
-    activityEvents.forEach(event => window.addEventListener(event, resetTimer));
+    handleUserActivity();
 
-    resetTimer();
+    const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll'];
+    activityEvents.forEach(event => window.addEventListener(event, handleUserActivity));
 
     return () => {
-      if (lanyardTimer.current) {
-        clearTimeout(lanyardTimer.current);
-      }
-      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
+      activityEvents.forEach(event => window.removeEventListener(event, handleUserActivity));
+      if (showLanyardTimer.current) clearTimeout(showLanyardTimer.current);
+      if (hideLanyardTimer.current) clearTimeout(hideLanyardTimer.current);
     };
-  }, [viewMode]);
+  }, [showLanyard]);
+
+  useEffect(() => {
+    if (showLanyard) {
+      hideLanyardTimer.current = setTimeout(() => {
+        setShowLanyard(false);
+      }, 60000);
+    }
+  }, [showLanyard]);
 
   const showBackground = viewMode !== 'loading';
 

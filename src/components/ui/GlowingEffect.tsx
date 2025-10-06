@@ -11,10 +11,10 @@ export interface GlowingEffectProps {
 }
 
 export const GlowingEffect: React.FC<GlowingEffectProps> = ({
-  spread = 40,
+  spread = 60,
   glow = true,
   disabled = false,
-  proximity = 64,
+  proximity = 100,
   inactiveZone = 0.01,
   variant = "default",
 }) => {
@@ -88,12 +88,11 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
           height: `${spread}px`,
           transform: "translate(-50%, -50%)",
           background: glow
-            ? `radial-gradient(circle, #6b7280 10%, #6b728000 20%),
-               radial-gradient(circle at 40% 40%, #9ca3af 5%, #9ca3af00 15%),
-               radial-gradient(circle at 60% 60%, #4b5563 10%, #4b556300 20%),
-               radial-gradient(circle at 40% 60%, #374151 10%, #37415100 20%)`
+            ? `radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 30%),
+               radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 5%, transparent 20%),
+               radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 10%, transparent 25%)`
             : "transparent",
-          filter: glow ? "blur(10px)" : "none",
+          filter: glow ? "blur(20px)" : "none",
           pointerEvents: "none",
         }}
       />

@@ -27,7 +27,6 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
   const [rotation, setRotation] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (disabled) return;
@@ -39,49 +38,39 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      const distanceFromCenter = Math.sqrt(
-        Math.pow(x - rect.width / 2, 2) + Math.pow(y - rect.height / 2, 2)
-      );
+      setPosition({ x, y });
 
-      const maxDistance = Math.max(rect.width, rect.height) / 2;
-      const normalizedDistance = distanceFromCenter / maxDistance;
+      const isInside =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom;
 
-      if (normalizedDistance > inactiveZone) {
-        setPosition({ x, y });
-        setOpacity(1 - normalizedDistance);
+      if (isInside) {
+        setOpacity(1);
       } else {
-        setOpacity(0);
+        const distanceX = Math.max(0, e.clientX < rect.left ? rect.left - e.clientX : e.clientX - rect.right);
+        const distanceY = Math.max(0, e.clientY < rect.top ? rect.top - e.clientY : e.clientY - rect.bottom);
+        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        if (distance < proximity) {
+          setOpacity(1 - distance / proximity);
+        } else {
+          setOpacity(0);
+        }
       }
     };
 
-    const handleMouseEnter = () => {
-      setIsHovered(true);
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
     };
-
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-      setOpacity(0);
-    };
-
-    const parent = containerRef.current?.parentElement;
-    if (parent) {
-      parent.addEventListener("mouseenter", handleMouseEnter);
-      parent.addEventListener("mousemove", handleMouseMove);
-      parent.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        parent.removeEventListener("mouseenter", handleMouseEnter);
-        parent.removeEventListener("mousemove", handleMouseMove);
-        parent.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }
-  }, [disabled, proximity, inactiveZone]);
+  }, [disabled, proximity]);
 
   useEffect(() => {
-    if (!isHovered) {
-      setRotation(0);
-      return;
-    }
+    if (disabled) return;
+
     const controls = animate(0, 360, {
       duration: movementDuration,
       repeat: Infinity,
@@ -90,7 +79,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
     });
 
     return () => controls.stop();
-  }, [movementDuration, isHovered]);
+  }, [movementDuration, disabled]);
 
   if (disabled) return null;
 
@@ -115,7 +104,8 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
           WebkitMaskComposite: "xor",
           mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
           maskComposite: "exclude",
-          opacity: isHovered ? 1 : 0,
+          clipPath: `circle(${spread}px at ${position.x}px ${position.y}px)`,
+          opacity: opacity,
           transition: 'opacity 0.3s ease',
         }}
       />

@@ -77,10 +77,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <GlowingEffect
               blur={0}
               borderWidth={3}
-              spread={80}
+              spread={150}
               glow={false}
               disabled={false}
-              proximity={0}
+              proximity={200}
               inactiveZone={0.7}
               movementDuration={2}
             />
@@ -141,10 +141,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           <GlowingEffect
             blur={0}
             borderWidth={3}
-            spread={80}
+            spread={150}
             glow={false}
             disabled={false}
-            proximity={0}
+            proximity={200}
             inactiveZone={0.7}
             movementDuration={2}
           />

@@ -64,6 +64,7 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
           y: targetY,
           duration: returnDuration,
           ease: "power2.out",
+          delay: distance * 0.004,
           onComplete: () => {
             gsap.to(dot, {
               x: dot.baseX,

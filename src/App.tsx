@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { SelectionScreen } from './components/SelectionScreen';
+import { MetaManager } from './components/MetaManager';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -39,6 +40,7 @@ function App() {
   if (viewMode === 'selection') {
     return (
       <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <MetaManager language={language} />
         <Navigation
           language={language}
           onLanguageToggle={toggleLanguage}
@@ -56,6 +58,7 @@ function App() {
   if (viewMode === 'ai-view') {
     return (
       <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <MetaManager language={language} />
         <Navigation
           language={language}
           onLanguageToggle={toggleLanguage}
@@ -79,6 +82,7 @@ function App() {
   if (viewMode === 'digital-view') {
     return (
       <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        <MetaManager language={language} />
         <Navigation
           language={language}
           onLanguageToggle={toggleLanguage}

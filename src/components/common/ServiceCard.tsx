@@ -80,7 +80,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               spread={120}
               glow={false}
               disabled={false}
-              proximity={0}
+              proximity={64}
               inactiveZone={0.7}
               movementDuration={2}
             />

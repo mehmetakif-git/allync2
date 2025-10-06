@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Zap, Star, MessageCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
+import { GlowingEffect } from './ui/GlowingEffect';
 
 interface PricingProps {
   language: 'tr' | 'en';
@@ -37,7 +38,15 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-12 shadow-2xl holographic-shimmer">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-12 shadow-2xl holographic-shimmer relative">
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                variant="default"
+              />
               <div className="text-center mb-8">
                 <h3 className="text-3xl font-bold text-white mb-4">
                   {language === 'tr' ? 'WhatsApp AI Asistanı' : 'WhatsApp AI Assistant'}
@@ -130,7 +139,15 @@ export const Pricing: React.FC<PricingProps> = ({ language }) => {
 
           {/* Value Proposition */}
          <div className="mt-8 md:mt-16 text-center fade-in-up" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-8">
+            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-8 relative">
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                variant="default"
+              />
               <h3 className="text-2xl font-bold text-white mb-4">{t.calculateROI}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 stats-grid">
                 <div>

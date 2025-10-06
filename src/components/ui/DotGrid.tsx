@@ -25,6 +25,7 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   const animationFrameId = useRef<number>();
   const dotsRef = useRef<Dot[]>([]);
   const clickTracker = useRef({ count: 0, time: 0 });
+  const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
 
   const shockRadius = 200;
   const shockStrength = 50;
@@ -39,6 +40,42 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const triggerIdleAnimation = useCallback(() => {
+    if (isMobile || !canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    dotsRef.current.forEach((dot) => {
+      const dx = centerX - dot.baseX;
+      const dy = centerY - dot.baseY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < shockRadius * 1.5) {
+        const angle = Math.atan2(dy, dx);
+        const falloff = Math.max(0, 1 - distance / (shockRadius * 1.5));
+        const force = falloff * shockStrength * 0.5;
+        const targetX = dot.baseX - Math.cos(angle) * force;
+        const targetY = dot.baseY - Math.sin(angle) * force;
+
+        gsap.to(dot, {
+          x: targetX,
+          y: targetY,
+          duration: returnDuration,
+          ease: "power2.out",
+          onComplete: () => {
+            gsap.to(dot, {
+              x: dot.baseX,
+              y: dot.baseY,
+              duration: returnDuration * 1.5,
+              ease: "elastic.out(1, 0.75)"
+            });
+          }
+        });
+      }
+    });
+  }, [isMobile, shockRadius, shockStrength, returnDuration]);
 
   const onClick = useCallback((e: MouseEvent) => {
     const now = Date.now();
@@ -176,6 +213,29 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
       }
     };
   }, [onClick]);
+
+  useEffect(() => {
+    if (isMobile) return;
+
+    const resetTimer = () => {
+      if (inactivityTimer.current) {
+        clearTimeout(inactivityTimer.current);
+      }
+      inactivityTimer.current = setTimeout(triggerIdleAnimation, 90000);
+    };
+
+    const activityEvents = ['mousemove', 'mousedown', 'scroll', 'keydown'];
+    activityEvents.forEach(event => window.addEventListener(event, resetTimer));
+
+    resetTimer();
+
+    return () => {
+      if (inactivityTimer.current) {
+        clearTimeout(inactivityTimer.current);
+      }
+      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, [isMobile, triggerIdleAnimation]);
 
   if (isMobile) {
     return null;

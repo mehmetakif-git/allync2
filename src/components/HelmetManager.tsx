@@ -78,7 +78,7 @@ export const HelmetManager: React.FC<HelmetManagerProps> = ({ language, activeSe
           "@type": "ContactPoint",
           "telephone": "+974-5107-9565",
           "contactType": "customer service",
-          "email": "info@allync.com.tr",
+          "email": "info@allyncai.com",
           "availableLanguage": ["Turkish", "English", "Arabic"]
         },
         "address": {

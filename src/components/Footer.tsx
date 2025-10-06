@@ -66,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <div className="space-y-4">
               <div className="flex items-center text-gray-400">
                 <Mail className="w-5 h-5 mr-3 text-gray-300" />
-                <span>info@allync.com.tr</span>
+                <span>info@allyncai.com</span>
               </div>
               <div className="flex items-start text-gray-400">
                 <Phone className="w-5 h-5 mr-3 text-gray-300" />

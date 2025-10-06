@@ -239,7 +239,7 @@ export const PackagesBrochure: React.FC<PackagesBrochureProps> = ({ language }) 
           </div>
           <div className="flex items-center text-gray-400">
             <Mail className="w-4 h-4 mr-2" />
-            <span className="text-sm">info@allync.com.tr</span>
+            <span className="text-sm">info@allyncai.com</span>
           </div>
         </div>
       </div>

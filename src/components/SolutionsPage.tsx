@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video as LucideIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
@@ -6,6 +6,7 @@ import { Contact } from './Contact';
 import { Footer } from './Footer';
 import { ServiceCard } from './common/ServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
+import { useMagnetic } from '../hooks/useMagnetic';
 
 export interface Service {
   icon: LucideIcon;
@@ -36,6 +37,8 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 }) => {
   const t = translations[language];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const magnetic = useMagnetic(ctaRef);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
@@ -113,12 +116,18 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
           </div>
 
           <div className="mt-32 text-center">
-            <button
-              onClick={scrollToContact}
-              className={`px-12 py-5 bg-gradient-to-r ${ctaButtonGradient} text-white text-lg font-bold rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-2xl`}
+            <motion.div
+              ref={ctaRef}
+              style={{ x: magnetic.x, y: magnetic.y }}
+              className="inline-block"
             >
-              {t.getStarted}
-            </button>
+              <button
+                onClick={scrollToContact}
+                className={`px-12 py-5 bg-gradient-to-r ${ctaButtonGradient} text-white text-lg font-bold rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-2xl`}
+              >
+                {t.getStarted}
+              </button>
+            </motion.div>
           </div>
         </div>
       </div>

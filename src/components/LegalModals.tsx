@@ -76,11 +76,11 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '8. Kullanıcı Hakları',
-        text: 'KVKK kapsamında verilerinize erişim, düzeltme, silme, işlemeyi durdurma ve veri taşınabilirliği haklarınız bulunmaktadır. Bu haklarınızı kullanmak için info@allync.com.tr adresine başvurabilirsiniz.'
+        text: 'KVKK kapsamında verilerinize erişim, düzeltme, silme, işlemeyi durdurma ve veri taşınabilirliği haklarınız bulunmaktadır. Bu haklarınızı kullanmak için info@allyncai.com adresine başvurabilirsiniz.'
       },
       {
         heading: '9. İletişim',
-        text: 'Gizlilik politikası ile ilgili sorularınız için: E-posta: info@allync.com.tr | Telefon: +974 5107 9565 / +90 536 247 7824'
+        text: 'Gizlilik politikası ile ilgili sorularınız için: E-posta: info@allyncai.com | Telefon: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   } : {
@@ -117,11 +117,11 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '8. User Rights',
-        text: 'Under GDPR, you have rights to access, correct, delete, stop processing and data portability of your data. You can contact info@allync.com.tr to exercise these rights.'
+        text: 'Under GDPR, you have rights to access, correct, delete, stop processing and data portability of your data. You can contact info@allyncai.com to exercise these rights.'
       },
       {
         heading: '9. Contact',
-        text: 'For questions about privacy policy: Email: info@allync.com.tr | Phone: +974 5107 9565 / +90 536 247 7824'
+        text: 'For questions about privacy policy: Email: info@allyncai.com | Phone: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   };
@@ -248,7 +248,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. İletişim',
-        text: 'Çerez politikası hakkında sorularınız için: info@allync.com.tr | Telefon: +974 5107 9565 / +90 536 247 7824'
+        text: 'Çerez politikası hakkında sorularınız için: info@allyncai.com | Telefon: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   } : {
@@ -289,7 +289,7 @@ export const LegalModals: React.FC<LegalModalsProps> = ({ language }) => {
       },
       {
         heading: '9. Contact',
-        text: 'For questions about cookie policy: info@allync.com.tr | Phone: +974 5107 9565 / +90 536 247 7824'
+        text: 'For questions about cookie policy: info@allyncai.com | Phone: +974 5107 9565 / +90 536 247 7824'
       }
     ]
   };

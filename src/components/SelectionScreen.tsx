@@ -28,7 +28,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
         {language === 'tr' ? 'EN' : 'TR'}
       </button>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
         {/* Mobile Header - Simple Text */}
         <div className="block md:hidden text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-3">
@@ -59,11 +59,11 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           </TextRevealCard>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
-          <CometCard className="w-full">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8 items-center justify-center w-full max-w-sm md:max-w-none mx-auto">
+          <CometCard className="w-full max-w-sm mx-auto md:max-w-none">
             <button
               onClick={() => onSelectView('ai-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl md:rounded-3xl p-8 md:p-10 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full min-h-[220px] md:min-h-0"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl md:rounded-3xl p-6 md:p-10 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 animate-scale-in w-full min-h-[220px] md:min-h-0"
               style={{ animationDelay: '0.2s' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-transparent rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -84,10 +84,10 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
             </button>
           </CometCard>
 
-          <CometCard className="w-full">
+          <CometCard className="w-full max-w-sm mx-auto md:max-w-none">
             <button
               onClick={() => onSelectView('digital-view')}
-              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl md:rounded-3xl p-8 md:p-10 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full min-h-[220px] md:min-h-0"
+              className="group relative bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl md:rounded-3xl p-6 md:p-10 lg:p-12 hover:bg-white/10 hover:border-white/30 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 animate-scale-in w-full min-h-[220px] md:min-h-0"
               style={{ animationDelay: '0.4s' }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/20 via-green-600/20 to-transparent rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

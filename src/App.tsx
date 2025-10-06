@@ -70,7 +70,7 @@ function App() {
       setShowLanyard(false);
       lanyardTimer.current = setTimeout(() => {
         setShowLanyard(true);
-      }, 90000);
+      }, 60000);
     };
 
     const activityEvents = ['mousemove', 'mousedown', 'keydown'];
@@ -111,9 +111,11 @@ function App() {
           <AnimatePresence>
             {showLanyard && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50"
+                initial={{ y: '-100vh', opacity: 0 }}
+                animate={{ y: '0vh', opacity: 1 }}
+                exit={{ y: '-100vh', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
               >
                 <Lanyard />
               </motion.div>
@@ -149,9 +151,11 @@ function App() {
           <AnimatePresence>
             {showLanyard && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50"
+                initial={{ y: '-100vh', opacity: 0 }}
+                animate={{ y: '0vh', opacity: 1 }}
+                exit={{ y: '-100vh', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
               >
                 <Lanyard />
               </motion.div>
@@ -187,9 +191,11 @@ function App() {
           <AnimatePresence>
             {showLanyard && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50"
+                initial={{ y: '-100vh', opacity: 0 }}
+                animate={{ y: '0vh', opacity: 1 }}
+                exit={{ y: '-100vh', opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
               >
                 <Lanyard />
               </motion.div>

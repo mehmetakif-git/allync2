@@ -182,8 +182,8 @@ function Scene() {
 
 export default function Lanyard() {
   return (
-    <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm">
-      <Canvas shadows>
+    <div className="relative w-full h-full pointer-events-none bg-black/95 backdrop-blur-sm">
+      <Canvas shadows className="pointer-events-auto">
         <Scene />
       </Canvas>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, animate } from "framer-motion";
 
 export interface GlowingEffectProps {
   spread?: number;
@@ -7,20 +7,25 @@ export interface GlowingEffectProps {
   disabled?: boolean;
   proximity?: number;
   inactiveZone?: number;
-  variant?: "default" | "card" | "nav";
+  blur?: number;
+  borderWidth?: number;
+  movementDuration?: number;
 }
 
 export const GlowingEffect: React.FC<GlowingEffectProps> = ({
-  spread = 60,
+  spread = 100,
   glow = true,
   disabled = false,
   proximity = 100,
   inactiveZone = 0.01,
-  variant = "default",
+  blur = 0,
+  borderWidth = 2,
+  movementDuration = 4,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     if (disabled) return;
@@ -63,6 +68,17 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
     }
   }, [disabled, proximity, inactiveZone]);
 
+  useEffect(() => {
+    const controls = animate(0, 360, {
+      duration: movementDuration,
+      repeat: Infinity,
+      ease: "linear",
+      onUpdate: (value) => setRotation(value),
+    });
+
+    return () => controls.stop();
+  }, [movementDuration]);
+
   if (disabled) return null;
 
   return (
@@ -80,20 +96,18 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       }}
     >
       <div
-        className="absolute"
+        className="absolute inset-0"
         style={{
-          left: position.x,
-          top: position.y,
-          width: `${spread}px`,
-          height: `${spread}px`,
-          transform: "translate(-50%, -50%)",
-          background: glow
-            ? `radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 30%),
-               radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 5%, transparent 20%),
-               radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 10%, transparent 25%)`
-            : "transparent",
-          filter: glow ? "blur(20px)" : "none",
-          pointerEvents: "none",
+          background: `conic-gradient(from ${rotation}deg at 50% 50%, #dd7bbb 0deg, #d79f1e 90deg, #5a922c 180deg, #4c7894 270deg, #dd7bbb 360deg)`,
+          maskImage: `radial-gradient(${spread}px circle at ${position.x}px ${position.y}px, black, transparent)`,
+          WebkitMaskImage: `radial-gradient(${spread}px circle at ${position.x}px ${position.y}px, black, transparent)`,
+        }}
+      />
+      <div
+        className="absolute inset-[1px] rounded-[inherit]"
+        style={{
+          background: "inherit",
+          filter: blur > 0 ? `blur(${blur}px)` : "none",
         }}
       />
     </motion.div>

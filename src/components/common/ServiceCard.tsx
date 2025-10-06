@@ -76,12 +76,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative hover:scale-105 overflow-hidden">
             <GlowingEffect
               blur={0}
-              borderWidth={2}
-              spread={100}
-              glow={true}
+              borderWidth={3}
+              spread={80}
+              glow={false}
               disabled={false}
-              proximity={100}
-              inactiveZone={0.01}
+              proximity={0}
+              inactiveZone={0.7}
+              movementDuration={2}
             />
             <div className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
@@ -139,12 +140,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
           <GlowingEffect
             blur={0}
-            borderWidth={2}
-            spread={100}
-            glow={true}
+            borderWidth={3}
+            spread={80}
+            glow={false}
             disabled={false}
-            proximity={100}
-            inactiveZone={0.01}
+            proximity={0}
+            inactiveZone={0.7}
+            movementDuration={2}
           />
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
             {service.galleryImages.map((image, idx) => (

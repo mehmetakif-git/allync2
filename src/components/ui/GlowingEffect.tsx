@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, animate } from "framer-motion";
+import { cn } from "../../utils/cn";
 
 export interface GlowingEffectProps {
   spread?: number;
@@ -13,14 +14,14 @@ export interface GlowingEffectProps {
 }
 
 export const GlowingEffect: React.FC<GlowingEffectProps> = ({
-  spread = 100,
-  glow = true,
-  disabled = false,
-  proximity = 100,
-  inactiveZone = 0.01,
+  spread = 80,
+  glow = false,
+  disabled = true,
+  proximity = 0,
+  inactiveZone = 0.7,
   blur = 0,
-  borderWidth = 2,
-  movementDuration = 4,
+  borderWidth = 3,
+  movementDuration = 2,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -44,7 +45,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       const maxDistance = Math.max(rect.width, rect.height) / 2;
       const normalizedDistance = distanceFromCenter / maxDistance;
 
-      if (normalizedDistance > inactiveZone && distanceFromCenter < proximity) {
+      if (normalizedDistance > inactiveZone) {
         setPosition({ x, y });
         setOpacity(1 - normalizedDistance);
       } else {
@@ -84,32 +85,44 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
   return (
     <motion.div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-[inherit]"
+      className={cn(
+        "pointer-events-none absolute inset-0 z-10 rounded-[inherit]",
+        "overflow-visible"
+      )}
       style={{
-        opacity: opacity,
-      }}
-      animate={{
-        opacity: opacity,
-      }}
-      transition={{
-        opacity: { duration: 0.3 },
+        padding: `${borderWidth}px`,
       }}
     >
       <div
         className="absolute inset-0"
         style={{
           background: `conic-gradient(from ${rotation}deg at 50% 50%, #dd7bbb 0deg, #d79f1e 90deg, #5a922c 180deg, #4c7894 270deg, #dd7bbb 360deg)`,
-          maskImage: `radial-gradient(${spread}px circle at ${position.x}px ${position.y}px, black, transparent)`,
-          WebkitMaskImage: `radial-gradient(${spread}px circle at ${position.x}px ${position.y}px, black, transparent)`,
+          borderRadius: "inherit",
+          padding: `${borderWidth}px`,
+          WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
+          WebkitMaskComposite: "xor",
+          mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
+          maskComposite: "exclude",
         }}
       />
-      <div
-        className="absolute inset-[1px] rounded-[inherit]"
-        style={{
-          background: "inherit",
-          filter: blur > 0 ? `blur(${blur}px)` : "none",
-        }}
-      />
+      {glow && (
+        <div
+          className="absolute"
+          style={{
+            left: position.x,
+            top: position.y,
+            width: `${spread}px`,
+            height: `${spread}px`,
+            transform: "translate(-50%, -50%)",
+            background: `radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 30%),
+               radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 5%, transparent 20%),
+               radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 10%, transparent 25%)`,
+            filter: blur > 0 ? `blur(${blur}px)` : "blur(20px)",
+            pointerEvents: "none",
+            opacity: opacity,
+          }}
+        />
+      )}
     </motion.div>
   );
 };

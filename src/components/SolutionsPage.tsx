@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video as LucideIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
@@ -39,6 +39,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const magnetic = useMagnetic(ctaRef);
+  const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
@@ -46,6 +47,14 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    if (expandedIndex !== null && window.innerWidth < 768) {
+      setTimeout(() => {
+        detailRefs.current[expandedIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  }, [expandedIndex]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -81,6 +90,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                 <AnimatePresence>
                   {expandedIndex === index && (
                     <motion.div
+                      ref={(el) => (detailRefs.current[index] = el)}
                       layoutId={`expanded-${index}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}

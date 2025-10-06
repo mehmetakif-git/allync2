@@ -27,6 +27,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
   const [rotation, setRotation] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (disabled) return;
@@ -53,16 +54,23 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       }
     };
 
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+    };
+
     const handleMouseLeave = () => {
+      setIsHovered(false);
       setOpacity(0);
     };
 
     const parent = containerRef.current?.parentElement;
     if (parent) {
+      parent.addEventListener("mouseenter", handleMouseEnter);
       parent.addEventListener("mousemove", handleMouseMove);
       parent.addEventListener("mouseleave", handleMouseLeave);
 
       return () => {
+        parent.removeEventListener("mouseenter", handleMouseEnter);
         parent.removeEventListener("mousemove", handleMouseMove);
         parent.removeEventListener("mouseleave", handleMouseLeave);
       };
@@ -70,6 +78,10 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
   }, [disabled, proximity, inactiveZone]);
 
   useEffect(() => {
+    if (!isHovered) {
+      setRotation(0);
+      return;
+    }
     const controls = animate(0, 360, {
       duration: movementDuration,
       repeat: Infinity,
@@ -78,7 +90,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
     });
 
     return () => controls.stop();
-  }, [movementDuration]);
+  }, [movementDuration, isHovered]);
 
   if (disabled) return null;
 
@@ -103,6 +115,8 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
           WebkitMaskComposite: "xor",
           mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
           maskComposite: "exclude",
+          opacity: isHovered ? 1 : 0,
+          transition: 'opacity 0.3s ease',
         }}
       />
       {glow && (

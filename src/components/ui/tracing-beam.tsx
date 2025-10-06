@@ -1,5 +1,13 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useTransform, useScroll, useSpring } from "framer-motion";
+import {
+  motion,
+  useTransform,
+  useScroll,
+  useVelocity,
+  useSpring,
+  useAnimationFrame,
+} from "framer-motion";
 import { cn } from "../../utils/cn";
 
 export const TracingBeam = ({
@@ -38,6 +46,25 @@ export const TracingBeam = ({
       damping: 90,
     }
   );
+
+  const scrollVelocity = useVelocity(scrollYProgress);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400,
+  });
+
+  const velocityFactor = useTransform(
+    smoothVelocity,
+    [0, 1000],
+    [0, 5],
+    { clamp: false }
+  );
+
+  const [velocityFactorValue, setVelocityFactorValue] = useState(0);
+
+  useAnimationFrame(() => {
+    setVelocityFactorValue(velocityFactor.get());
+  });
 
   return (
     <motion.div
@@ -96,6 +123,9 @@ export const TracingBeam = ({
             transition={{
               duration: 10,
             }}
+            style={{
+              pathLength: scrollYProgress,
+            }}
           ></motion.path>
           <defs>
             <motion.linearGradient
@@ -109,7 +139,11 @@ export const TracingBeam = ({
               <stop stopColor="#9ca3af" stopOpacity="0"></stop>
               <stop stopColor="#9ca3af"></stop>
               <stop offset="0.325" stopColor="#6b7280"></stop>
-              <stop offset="1" stopColor="#4b5563" stopOpacity="0"></stop>
+              <stop
+                offset="1"
+                stopColor="#4b5563"
+                stopOpacity="0"
+              ></stop>
             </motion.linearGradient>
           </defs>
         </svg>

@@ -97,18 +97,16 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 70%)`,
+          background: `rgba(255, 255, 255, 0.8)`,
           borderRadius: "inherit",
           padding: `${borderWidth}px`,
           WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
           WebkitMaskComposite: "xor",
           mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
           maskComposite: "exclude",
-          WebkitMaskImage: `radial-gradient(circle ${spread}px at ${position.x}px ${position.y}px, black 30%, transparent 70%)`,
-          maskImage: `radial-gradient(circle ${spread}px at ${position.x}px ${position.y}px, black 30%, transparent 70%)`,
-          opacity: opacity * 0.7,
-          filter: 'blur(0.5px)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          clipPath: `circle(${spread}px at ${position.x}px ${position.y}px)`,
+          opacity: opacity,
+          transition: 'opacity 0.3s ease',
         }}
       />
       {glow && (

@@ -75,13 +75,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         <div className="w-full">
           <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative overflow-hidden">
             <GlowingEffect
-              blur={2}
-              borderWidth={1.5}
-              spread={120}
-              glow={true}
+              blur={0}
+              borderWidth={1}
+              spread={80}
+              glow={false}
               disabled={false}
               proximity={0}
-              inactiveZone={0.5}
+              inactiveZone={0.7}
               movementDuration={2}
             />
             <div className="w-full">
@@ -139,13 +139,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       <div className="flex-1 w-full">
         <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
           <GlowingEffect
-            blur={2}
-            borderWidth={1.5}
-            spread={120}
-            glow={true}
+            blur={0}
+            borderWidth={1}
+            spread={80}
+            glow={false}
             disabled={false}
             proximity={0}
-            inactiveZone={0.5}
+            inactiveZone={0.7}
             movementDuration={2}
           />
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">

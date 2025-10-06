@@ -1,10 +1,12 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { AnimatePresence, motion } from 'framer-motion';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { SelectionScreen } from './components/SelectionScreen';
 import { HelmetManager } from './components/HelmetManager';
 import DotGrid from './components/ui/DotGrid';
+import Lanyard from './components/Lanyard';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -14,6 +16,8 @@ function App() {
   const [viewMode, setViewMode] = useState<'loading' | 'selection' | 'ai-view' | 'digital-view'>('loading');
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [showLanyard, setShowLanyard] = useState(false);
+  const lanyardTimer = useRef<NodeJS.Timeout | null>(null);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -56,6 +60,32 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [viewMode]);
 
+  useEffect(() => {
+    if (viewMode === 'loading') return;
+
+    const resetTimer = () => {
+      if (lanyardTimer.current) {
+        clearTimeout(lanyardTimer.current);
+      }
+      setShowLanyard(false);
+      lanyardTimer.current = setTimeout(() => {
+        setShowLanyard(true);
+      }, 90000);
+    };
+
+    const activityEvents = ['mousemove', 'mousedown', 'keydown'];
+    activityEvents.forEach(event => window.addEventListener(event, resetTimer));
+
+    resetTimer();
+
+    return () => {
+      if (lanyardTimer.current) {
+        clearTimeout(lanyardTimer.current);
+      }
+      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, [viewMode]);
+
   const showBackground = viewMode !== 'loading';
 
   if (viewMode === 'loading') {
@@ -78,6 +108,17 @@ function App() {
             onSelectView={handleSelectView}
             onLanguageToggle={toggleLanguage}
           />
+          <AnimatePresence>
+            {showLanyard && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Lanyard />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </HelmetProvider>
     );
@@ -105,6 +146,17 @@ function App() {
           }>
             <AllyncAISolutions language={language} />
           </Suspense>
+          <AnimatePresence>
+            {showLanyard && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Lanyard />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </HelmetProvider>
     );
@@ -132,6 +184,17 @@ function App() {
           }>
             <DigitalSolutions language={language} />
           </Suspense>
+          <AnimatePresence>
+            {showLanyard && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Lanyard />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </HelmetProvider>
     );

@@ -66,7 +66,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                 <LayoutTextFlip
                   text={pageTitle}
                   words={flipWords}
-                  duration={2500}
+                  duration={3000}
                 />
               </motion.div>
             </div>

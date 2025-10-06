@@ -3,6 +3,7 @@ import { Video as LucideIcon, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
+import { ServiceDetailModal } from '../ServiceDetailModal';
 
 interface Service {
   icon: LucideIcon;
@@ -35,6 +36,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const Icon = service.icon;
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
@@ -49,6 +52,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [expandedIndex, service.galleryImages.length]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (expandedIndex !== null) {
@@ -121,7 +133,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <div className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
-                  onClick={onDetailClick}
+                  onClick={() => {
+                    if (isDesktop) {
+                      setIsModalOpen(true);
+                    } else {
+                      onDetailClick();
+                    }
+                  }}
                   className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
@@ -242,6 +260,16 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           </>
         )}
       </AnimatePresence>
+
+      <ServiceDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={service.title}
+        extendedContent={service.extendedContent}
+        gradient={service.gradient}
+        ctaText={language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
+        onCtaClick={onContactClick}
+      />
     </div>
   );
 };

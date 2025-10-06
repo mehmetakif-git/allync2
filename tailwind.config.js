@@ -10,7 +10,7 @@ export default {
         },
       },
       animation: {
-        shine: 'shine 8s linear infinite',
+        shine: 'shine 4s linear infinite',
       },
     },
   },

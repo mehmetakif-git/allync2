@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Video as LucideIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CardContainer, CardBody, CardItem } from '../ThreeDCard';
 import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 
@@ -73,8 +72,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       }}
     >
       <div className="flex-1 w-full">
-        <CardContainer className="w-full">
-          <CardBody className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative">
+        <div className="w-full">
+          <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 hover:border-white/20 transition-all duration-500 w-full h-full relative hover:scale-105">
             <GlowingEffect
               spread={40}
               glow={true}
@@ -83,25 +82,25 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               inactiveZone={0.01}
               variant="default"
             />
-            <CardItem translateZ="50" className="w-full">
+            <div className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
               </div>
-            </CardItem>
+            </div>
 
-            <CardItem translateZ="60" className="w-full">
+            <div className="w-full">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 {service.title}
               </h2>
-            </CardItem>
+            </div>
 
-            <CardItem translateZ="40" className="w-full">
+            <div className="w-full">
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
                 {service.description}
               </p>
-            </CardItem>
+            </div>
 
-            <CardItem translateZ="30" className="w-full">
+            <div className="w-full">
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-white mb-4">
                   {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
@@ -113,30 +112,26 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   </div>
                 ))}
               </div>
-            </CardItem>
+            </div>
 
-            <CardItem translateZ={20} className="w-full">
+            <div className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
-                <CardItem
-                  translateZ={20}
-                  as="button"
+                <button
                   onClick={onDetailClick}
-                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg`}
+                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
-                </CardItem>
-                <CardItem
-                  translateZ={20}
-                  as="button"
+                </button>
+                <button
                   onClick={onContactClick}
-                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg"
+                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
                 >
                   {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
-                </CardItem>
+                </button>
               </div>
-            </CardItem>
-          </CardBody>
-        </CardContainer>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 w-full">

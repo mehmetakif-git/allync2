@@ -2,7 +2,7 @@ import React from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { LegalModals } from './LegalModals';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 
 interface FooterProps {
   language: 'tr' | 'en';

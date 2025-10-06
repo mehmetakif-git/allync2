@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronUp, Phone, ArrowLeft } from 'lucide-react';
 import { translations } from '../utils/translations';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 
 interface NavigationProps {
   language: 'tr' | 'en';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 import { ANIMATION_DELAYS } from '../constants/animations';
 import { MultiStepLoader } from './ui/MultiStepLoader';
 

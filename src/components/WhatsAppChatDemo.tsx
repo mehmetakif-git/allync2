@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { translations } from '../utils/translations';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 
 interface WhatsAppChatDemoProps {
   language: 'tr' | 'en';

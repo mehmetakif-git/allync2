@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { User, Bot, Clock, Settings, Play, Pause, BarChart3, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 
 interface ChatDemoProps {
   language: 'tr' | 'en';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Check, Star, Zap, Eye, Mic, FileText, Heart, Sparkles, Phone, Mail, MessageCircle } from 'lucide-react';
 import { translations } from '../utils/translations';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 import { TracingBeam } from './ui/tracing-beam';
 import { GlowingEffect } from './ui/GlowingEffect';
 

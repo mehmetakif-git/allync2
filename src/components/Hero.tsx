@@ -1,7 +1,7 @@
 import React from 'react';
 import { Zap, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { translations } from '../utils/translations';
-import logoSvg from '/logo.svg';
+import logoSvg from '../assets/logo.svg';
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   language: 'tr' | 'en';

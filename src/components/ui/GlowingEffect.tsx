@@ -11,6 +11,7 @@ export interface GlowingEffectProps {
   blur?: number;
   borderWidth?: number;
   movementDuration?: number;
+  color?: string;
 }
 
 export const GlowingEffect: React.FC<GlowingEffectProps> = ({
@@ -22,6 +23,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
   blur = 0,
   borderWidth = 0,
   movementDuration = 2,
+  color,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -97,7 +99,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 70%)`,
+          background: `radial-gradient(circle at ${position.x}px ${position.y}px, ${color || 'rgba(255, 255, 255, 0.6)'} 0%, transparent 70%)`,
           borderRadius: "inherit",
           padding: `${borderWidth}px`,
           WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,

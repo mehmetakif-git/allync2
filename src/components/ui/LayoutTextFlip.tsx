@@ -53,51 +53,56 @@ export function LayoutTextFlip({
     <div
       className={cn("flex flex-wrap items-center justify-center", className)}
     >
-      <motion.span
-        layoutId="subtext"
-        className="text-4xl md:text-6xl font-bold text-white"
-      >
-        {text}
-      </motion.span>
-      <motion.span
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-        className="relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-4 py-2 font-sans text-4xl md:text-6xl font-bold tracking-tight text-black shadow-sm"
-      >
-        <AnimatePresence mode="popLayout">
-          <motion.span
-            initial={{
-              y: 40,
-              opacity: 0,
-            }}
-            animate={{
-              y: 0,
-              opacity: 1,
-            }}
-            exit={{
-              y: -40,
-              opacity: 0,
-            }}
-            transition={{
-              ease: "easeInOut",
-              duration: 0.3,
-            }}
-            key={index}
-            className="inline-block whitespace-nowrap text-black"
-            style={{
-              transformStyle: "preserve-3d",
-              backfaceVisibility: "hidden",
-            }}
-          >
-            {words[index]}
-          </motion.span>
-        </AnimatePresence>
-      </motion.span>
+      <div className="flex items-center justify-center gap-3">
+        <motion.span
+          layoutId="subtext"
+          className="text-4xl md:text-6xl font-bold text-white"
+        >
+          {text}
+        </motion.span>
+        <motion.span
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            rotateX,
+            rotateY,
+            transformStyle: "preserve-3d",
+          }}
+          className="relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-4 py-2 font-sans text-4xl md:text-6xl font-bold tracking-tight text-black shadow-sm"
+        >
+          <AnimatePresence mode="popLayout">
+            <motion.span
+              initial={{
+                y: -25,
+                opacity: 0,
+                filter: "blur(8px)",
+              }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                filter: "blur(0px)",
+              }}
+              exit={{
+                y: 25,
+                opacity: 0,
+                filter: "blur(8px)",
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "easeInOut",
+              }}
+              key={index}
+              className="inline-block whitespace-nowrap text-black"
+              style={{
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
+              }}
+            >
+              {words[index]}
+            </motion.span>
+          </AnimatePresence>
+        </motion.span>
+      </div>
     </div>
   );
 }

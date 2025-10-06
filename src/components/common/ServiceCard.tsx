@@ -77,7 +77,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <GlowingEffect
               blur={20}
               borderWidth={2}
-              spread={120}
+              spread={40}
               glow={false}
               disabled={false}
               proximity={64}

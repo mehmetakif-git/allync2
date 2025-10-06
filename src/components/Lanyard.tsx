@@ -1,206 +1,172 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
-import { Physics, RigidBody, BallCollider } from '@react-three/rapier';
+/* eslint-disable react/no-unknown-property */
+import React, { useEffect, useRef, useState } from 'react';
+import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import {
+  BallCollider,
+  CuboidCollider,
+  Physics,
+  RigidBody,
+  useRopeJoint,
+  useSphericalJoint,
+  RigidBodyProps
+} from '@react-three/rapier';
+import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 import cardGLB from '../assets/card.glb';
 import lanyard from '../assets/lanyard.png';
 
-function Card({ scale = 1 }) {
-  const group = useRef<THREE.Group>(null);
-  const rigidBodyRef = useRef<any>(null);
-  const { scene } = useGLTF(cardGLB);
-  const cardModel = scene.clone();
+extend({ MeshLineGeometry, MeshLineMaterial });
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [hasSettled, setHasSettled] = useState(false);
-  const [initialRotation] = useState(new THREE.Euler(0.1, 0.2, 0));
-  const mousePos = useRef(new THREE.Vector2(0, 0));
-  const targetPos = useRef(new THREE.Vector3(0, 0, 0));
-  const { camera, size } = useThree();
+function Band({ maxSpeed = 50, minSpeed = 10 }) {
+  const band = useRef<any>(null);
+  const fixed = useRef<any>(null);
+  const j1 = useRef<any>(null);
+  const j2 = useRef<any>(null);
+  const j3 = useRef<any>(null);
+  const card = useRef<any>(null);
+
+  const vec = new THREE.Vector3();
+  const ang = new THREE.Vector3();
+  const rot = new THREE.Vector3();
+  const dir = new THREE.Vector3();
+
+  const segmentProps: RigidBodyProps = {
+    type: 'dynamic',
+    canSleep: true,
+    colliders: false,
+    angularDamping: 2,
+    linearDamping: 2
+  };
+
+  const { nodes, materials } = useGLTF(cardGLB) as any;
+  const texture = useTexture(lanyard);
+  const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
+  const [dragged, drag] = useState<THREE.Vector3 | false>(false);
+  const [hovered, hover] = useState(false);
+
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
+  useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.45, 0]]);
 
   useEffect(() => {
-    cardModel.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
+    if (hovered) {
+      document.body.style.cursor = dragged ? 'grabbing' : 'grab';
+      return () => {
+        document.body.style.cursor = 'auto';
+      };
+    }
+  }, [hovered, dragged]);
 
-        if (mesh.material) {
-          const material = mesh.material as THREE.MeshStandardMaterial;
-          material.metalness = 0.6;
-          material.roughness = 0.4;
-          material.envMapIntensity = 1.5;
-        }
-      }
-    });
-  }, [cardModel]);
-
-  useFrame((state) => {
-    if (!rigidBodyRef.current || !group.current) return;
-
-    const currentPos = rigidBodyRef.current.translation();
-
-    // Check if the card has fallen to its resting position
-    if (!hasSettled && currentPos.y <= 0.1) {
-        setHasSettled(true);
-        rigidBodyRef.current.setGravityScale(0, true);
-        rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-        rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-        rigidBodyRef.current.setTranslation({ x: 0, y: 0, z: 0}, true);
+  useFrame((state, delta) => {
+    if (dragged) {
+      vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
+      dir.copy(vec).sub(state.camera.position).normalize();
+      vec.add(dir.multiplyScalar(state.camera.position.length()));
+      [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
+      card.current?.setNextKinematicTranslation({ x: vec.x - dragged.x, y: vec.y - dragged.y, z: vec.z - dragged.z });
     }
 
+    if (fixed.current) {
+      curve.points[0].copy(j3.current.translation());
+      curve.points[1].copy(j2.current.translation());
+      curve.points[2].copy(j1.current.translation());
+      curve.points[3].copy(fixed.current.translation());
+      band.current.geometry.setPoints(curve.getPoints(32));
 
-    if (hasSettled && !isDragging) {
-      const time = state.clock.getElapsedTime();
-      const hoverY = Math.sin(time * 0.5) * 0.1;
-      const hoverRotation = Math.sin(time * 0.3) * 0.05;
-
-      rigidBodyRef.current.setTranslation(
-        { x: 0, y: hoverY, z: 0 },
-        true
-      );
-
-      group.current.rotation.x = initialRotation.x + hoverRotation;
-      group.current.rotation.y = initialRotation.y + Math.sin(time * 0.4) * 0.1;
-    } else if (isDragging) {
-      const mouse3D = new THREE.Vector3(
-        (mousePos.current.x / size.width) * 2 - 1,
-        -(mousePos.current.y / size.height) * 2 + 1,
-        0.5
-      );
-
-      mouse3D.unproject(camera);
-      mouse3D.sub(camera.position).normalize();
-      const distance = -camera.position.z / mouse3D.z;
-      targetPos.current.copy(camera.position).add(mouse3D.multiplyScalar(distance));
-
-      targetPos.current.y = Math.max(-2, Math.min(2, targetPos.current.y));
-      targetPos.current.x = Math.max(-3, Math.min(3, targetPos.current.x));
-
-      const currentPos = rigidBodyRef.current.translation();
-      const lerpFactor = 0.15;
-      const newX = THREE.MathUtils.lerp(currentPos.x, targetPos.current.x, lerpFactor);
-      const newY = THREE.MathUtils.lerp(currentPos.y, targetPos.current.y, lerpFactor);
-
-      rigidBodyRef.current.setTranslation({ x: newX, y: newY, z: 0 }, true);
-
-      const velocity = rigidBodyRef.current.linvel();
-      group.current.rotation.x = initialRotation.x - velocity.y * 0.3;
-      group.current.rotation.y = initialRotation.y + velocity.x * 0.3;
-      group.current.rotation.z = -velocity.x * 0.2;
+      ang.copy(card.current.angvel());
+      rot.copy(card.current.rotation());
+      card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
   });
 
-  const handlePointerDown = () => {
-    if (!hasSettled) return;
-    setIsDragging(true);
-    if (rigidBodyRef.current) {
-      rigidBodyRef.current.setGravityScale(0, true);
-    }
-  };
+  curve.curveType = 'chordal';
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
-  const handlePointerUp = () => {
-    if (!hasSettled) return;
-    setIsDragging(false);
-    if (rigidBodyRef.current) {
-      rigidBodyRef.current.setGravityScale(0, true);
-      rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-    }
-  };
-
-  const handlePointerMove = (e: any) => {
-    if (!isDragging) return;
-    mousePos.current.set(e.clientX, e.clientY);
-  };
-
-  return (
-    <RigidBody
-      ref={rigidBodyRef}
-      colliders={false}
-      position={[0, 4, 0]}
-      gravityScale={1}
-      linearDamping={0.5}
-      angularDamping={1}
-    >
-      <BallCollider args={[0.5]} />
-      <group
-        ref={group}
-        scale={scale}
-        rotation={initialRotation}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerOut={handlePointerUp}
-        onPointerMove={handlePointerMove}
-      >
-        <primitive object={cardModel} />
-      </group>
-    </RigidBody>
-  );
-}
-
-function Rope() {
-  const points = [];
-  const numPoints = 30;
-
-  for (let i = 0; i < numPoints; i++) {
-    const y = (i / (numPoints - 1)) * 4 - 0.2; // Made the rope longer
-    points.push(new THREE.Vector3(0, y, 0));
-  }
-
-  const curve = new THREE.CatmullRomCurve3(points);
-  const tubeGeometry = new THREE.TubeGeometry(curve, 64, 0.015, 8, false);
-
-  const texture = new THREE.TextureLoader().load(lanyard);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(1, 4);
-
-  return (
-    <mesh geometry={tubeGeometry} position={[0, 1.3, 0]}>
-      <meshStandardMaterial
-        map={texture}
-        roughness={0.7}
-        metalness={0.1}
-      />
-    </mesh>
-  );
-}
-
-function Scene() {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={50} />
-      <ambientLight intensity={0.5} />
-      <directionalLight
-        position={[5, 5, 5]}
-        intensity={1}
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-      />
-      <spotLight
-        position={[-5, 5, 2]}
-        angle={0.3}
-        penumbra={1}
-        intensity={0.5}
-        castShadow
-      />
-      <Environment preset="studio" />
-      <Rope />
-      <Physics gravity={[0, -9.8, 0]}>
-        <Card scale={1.8} />
-      </Physics>
+      <group position={[0, 4, 0]}>
+        <RigidBody ref={fixed} type="fixed" {...segmentProps} />
+        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
+          <BallCollider args={[0.1]} />
+        </RigidBody>
+        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
+          <BallCollider args={[0.1]} />
+        </RigidBody>
+        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
+          <BallCollider args={[0.1]} />
+        </RigidBody>
+        <RigidBody
+          position={[2, 0, 0]}
+          ref={card}
+          {...segmentProps}
+          type={dragged ? 'kinematicPosition' : 'dynamic'}
+        >
+          <CuboidCollider args={[0.8, 1.125, 0.08]} />
+          <group
+            scale={2.25}
+            position={[0, -1.2, -0.05]}
+            onPointerOver={() => hover(true)}
+            onPointerOut={() => hover(false)}
+            onPointerUp={(e) => {
+              e.target.releasePointerCapture(e.pointerId);
+              drag(false);
+            }}
+            onPointerDown={(e) => {
+              e.target.setPointerCapture(e.pointerId);
+              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+            }}
+          >
+            <mesh geometry={nodes.card.geometry}>
+              <meshPhysicalMaterial
+                map={materials.base.map}
+                map-anisotropy={16}
+                clearcoat={1}
+                clearcoatRoughness={0.15}
+                roughness={0.3}
+                metalness={0.5}
+              />
+            </mesh>
+            <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
+            <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+          </group>
+        </RigidBody>
+      </group>
+      <mesh ref={band}>
+        <meshLineGeometry />
+        <meshLineMaterial
+          color="white"
+          depthTest={false}
+          resolution={[1024, 1024]}
+          useMap
+          map={texture}
+          repeat={[-3, 1]}
+          lineWidth={1}
+        />
+      </mesh>
     </>
   );
 }
 
 export default function Lanyard() {
   return (
-    <div className="relative w-full h-full pointer-events-none bg-black/95 backdrop-blur-sm">
-      <Canvas shadows className="pointer-events-auto">
-        <Scene />
+    <div className="w-full h-full pointer-events-auto">
+       <Canvas
+        camera={{ position: [0, 0, 12], fov: 25 }}
+        gl={{ alpha: true }}
+        onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
+      >
+        <ambientLight intensity={Math.PI} />
+        <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
+          <Band />
+        </Physics>
+        <Environment resolution={256}>
+            <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+        </Environment>
       </Canvas>
     </div>
   );

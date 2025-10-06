@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import gsap from 'gsap';
 import { cn } from '../../utils/cn';
 
@@ -16,6 +16,7 @@ interface Dot {
 }
 
 const DotGrid: React.FC<DotGridProps> = ({ className }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef<number>();
@@ -25,6 +26,15 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   const shockStrength = 50;
   const resistance = 0.15;
   const returnDuration = 0.8;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const onClick = useCallback((e: MouseEvent) => {
     const clickX = e.clientX;
@@ -143,6 +153,10 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
       }
     };
   }, [onClick]);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <div className={cn("fixed inset-0 -z-50", className)}>

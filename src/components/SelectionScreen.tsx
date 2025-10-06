@@ -15,11 +15,6 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-x-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
-      <div className="absolute inset-0 opacity-20 hidden md:block">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-      </div>
 
       <button
         onClick={onLanguageToggle}

@@ -84,7 +84,7 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   }, []);
 
   return (
-    <div className={cn("fixed inset-0 -z-10", className)}>
+    <div className={cn("fixed inset-0 -z-50", className)}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );

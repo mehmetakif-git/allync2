@@ -1848,3 +1848,26 @@ select option {
   max-width: 100%;
   box-sizing: border-box;
 }
+
+/* Accessibility - Focus Styles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-black ring-blue-500;
+}
+
+button:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-black ring-blue-500;
+}
+
+a:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-black ring-blue-500;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-black ring-blue-500;
+}

@@ -215,8 +215,9 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
       {showBackToTop && (
         <button
           onClick={scrollToTop}
+          aria-label="Back to top"
           className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white/10 backdrop-blur-lg border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300"
-          style={{ 
+          style={{
             marginBottom: 'env(safe-area-inset-bottom)',
             boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
           }}

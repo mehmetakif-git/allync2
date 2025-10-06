@@ -82,7 +82,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               disabled={false}
               proximity={0}
               inactiveZone={0.7}
-              movementDuration={2}
+              movementDuration={5}
             />
             <div className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
@@ -10,6 +11,7 @@ interface ContactProps {
 
 export const Contact: React.FC<ContactProps> = ({ language }) => {
   const t = translations[language];
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,21 +24,36 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     phone: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-\+\(\)]+$/;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.current) return;
+
     setIsSubmitting(true);
+    setStatusMessage('');
 
-    setTimeout(() => {
+    emailjs.sendForm(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      form.current,
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    ).then(
+      (result) => {
+        console.log('SUCCESS!', result.text);
+        setStatusMessage(language === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!');
+        setFormData({ name: '', email: '', phone: '', business: '', message: '' });
+      },
+      (error) => {
+        console.log('FAILED...', error.text);
+        setStatusMessage(language === 'tr' ? 'Bir hata oluştu, lütfen tekrar deneyin.' : 'An error occurred, please try again.');
+      }
+    ).finally(() => {
       setIsSubmitting(false);
-      console.log('Form submitted:', formData);
-      window.alert(language === 'tr' ? 'Mesajınız gönderildi! En kısa sürede size dönüş yapacağız.' : 'Message sent! We will get back to you soon.');
-
-      setFormData({ name: '', email: '', phone: '', business: '', message: '' });
-    }, 2000);
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -89,7 +106,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
             />
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6 form-grid">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6 form-grid">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <LabelInputContainer>
                   <LabelGlow htmlFor="name">{t.fullName} *</LabelGlow>
@@ -198,6 +215,11 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                 )}
                 <BottomGradient />
               </button>
+              {statusMessage && (
+                <p className={`mt-4 text-center ${statusMessage.includes('hata') || statusMessage.includes('error') ? 'text-red-500' : 'text-green-500'}`}>
+                  {statusMessage}
+                </p>
+              )}
             </form>
           </div>
 

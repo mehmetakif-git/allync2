@@ -97,7 +97,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       <div
         className="absolute inset-0"
         style={{
-          background: `conic-gradient(from ${rotation}deg at 50% 50%, #dd7bbb 0deg, #d79f1e 90deg, #5a922c 180deg, #4c7894 270deg, #dd7bbb 360deg)`,
+          background: `rgba(255, 255, 255, 0.8)`,
           borderRadius: "inherit",
           padding: `${borderWidth}px`,
           WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,

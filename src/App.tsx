@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -17,8 +17,6 @@ function App() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [showLanyard, setShowLanyard] = useState(false);
-  const showLanyardTimer = useRef<NodeJS.Timeout | null>(null);
-  const hideLanyardTimer = useRef<NodeJS.Timeout | null>(null);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -61,39 +59,55 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [viewMode]);
 
+  // Effect to show Lanyard after 90 seconds of inactivity
   useEffect(() => {
-    const handleUserActivity = () => {
-      if (showLanyard) {
-        setShowLanyard(false);
+    let inactivityTimer: NodeJS.Timeout;
+
+    const resetTimer = () => {
+      clearTimeout(inactivityTimer);
+      if (!showLanyard) { // Don't set a new timer if lanyard is already trying to show or is shown
+          inactivityTimer = setTimeout(() => {
+              setShowLanyard(true);
+          }, 90000);
       }
-
-      if (showLanyardTimer.current) clearTimeout(showLanyardTimer.current);
-      if (hideLanyardTimer.current) clearTimeout(hideLanyardTimer.current);
-
-      showLanyardTimer.current = setTimeout(() => {
-        setShowLanyard(true);
-      }, 90000);
     };
 
-    handleUserActivity();
-
-    const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll'];
-    activityEvents.forEach(event => window.addEventListener(event, handleUserActivity));
+    const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
+    activityEvents.forEach(event => window.addEventListener(event, resetTimer, { passive: true }));
+    resetTimer(); // Start the timer initially
 
     return () => {
-      activityEvents.forEach(event => window.removeEventListener(event, handleUserActivity));
-      if (showLanyardTimer.current) clearTimeout(showLanyardTimer.current);
-      if (hideLanyardTimer.current) clearTimeout(hideLanyardTimer.current);
+      clearTimeout(inactivityTimer);
+      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
     };
-  }, [showLanyard]);
+  }, [showLanyard]); // Dependency on showLanyard to help manage timer state correctly
 
+  // Effect to hide Lanyard after 60 seconds of visibility or on new user activity
   useEffect(() => {
-    if (showLanyard) {
-      hideLanyardTimer.current = setTimeout(() => {
-        setShowLanyard(false);
-      }, 60000);
+    if (!showLanyard) {
+      return;
     }
-  }, [showLanyard]);
+
+    // Auto-hide after 60 seconds
+    const hideTimer = setTimeout(() => {
+      setShowLanyard(false);
+    }, 60000);
+
+    // Hide on any user activity
+    const hideOnActivity = () => {
+      setShowLanyard(false);
+    };
+
+    const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
+    activityEvents.forEach(event => window.addEventListener(event, hideOnActivity, { passive: true }));
+
+    // Cleanup function for this effect
+    return () => {
+      clearTimeout(hideTimer);
+      activityEvents.forEach(event => window.removeEventListener(event, hideOnActivity));
+    };
+  }, [showLanyard]); // This effect runs only when showLanyard becomes true
+
 
   const showBackground = viewMode !== 'loading';
 
@@ -101,121 +115,54 @@ function App() {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} language={language} />;
   }
 
-  if (viewMode === 'selection') {
-    return (
-      <HelmetProvider>
-        <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-          {showBackground && <DotGrid />}
-          <HelmetManager language={language} activeSection="hero" />
-          <Navigation
-            language={language}
-            onLanguageToggle={toggleLanguage}
-            viewMode={viewMode}
-          />
+  const renderLanyard = () => (
+    <AnimatePresence>
+      {showLanyard && (
+        <motion.div
+          className="fixed inset-0 z-50"
+          initial={{ y: '-100vh', opacity: 0 }}
+          animate={{ y: '0vh', opacity: 1 }}
+          exit={{ y: '-100vh', opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 50, damping: 15 }}
+        >
+          <Lanyard />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  return (
+    <HelmetProvider>
+      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        {showBackground && <DotGrid />}
+        <HelmetManager language={language} activeSection={activeSection} />
+        <Navigation
+          language={language}
+          onLanguageToggle={toggleLanguage}
+          viewMode={viewMode}
+          onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
+        />
+        {viewMode === 'selection' && (
           <SelectionScreen
             language={language}
             onSelectView={handleSelectView}
             onLanguageToggle={toggleLanguage}
           />
-          <AnimatePresence>
-            {showLanyard && (
-              <motion.div
-                className="fixed inset-0 z-50"
-                initial={{ y: '-100vh', opacity: 0 }}
-                animate={{ y: '0vh', opacity: 1 }}
-                exit={{ y: '-100vh', opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
-              >
-                <Lanyard />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </HelmetProvider>
-    );
-  }
-
-  if (viewMode === 'ai-view') {
-    return (
-      <HelmetProvider>
-        <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-          {showBackground && <DotGrid />}
-          <HelmetManager language={language} activeSection={activeSection} />
-          <Navigation
-            language={language}
-            onLanguageToggle={toggleLanguage}
-            viewMode={viewMode}
-            onBackToSelection={handleBackToSelection}
-          />
-          <Suspense fallback={
-            <div className="flex items-center justify-center min-h-screen">
-              <svg className="animate-spin h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </div>
-          }>
+        )}
+        {viewMode === 'ai-view' && (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
             <AllyncAISolutions language={language} />
           </Suspense>
-          <AnimatePresence>
-            {showLanyard && (
-              <motion.div
-                className="fixed inset-0 z-50"
-                initial={{ y: '-100vh', opacity: 0 }}
-                animate={{ y: '0vh', opacity: 1 }}
-                exit={{ y: '-100vh', opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
-              >
-                <Lanyard />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </HelmetProvider>
-    );
-  }
-
-  if (viewMode === 'digital-view') {
-    return (
-      <HelmetProvider>
-        <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-          {showBackground && <DotGrid />}
-          <HelmetManager language={language} activeSection={activeSection} />
-          <Navigation
-            language={language}
-            onLanguageToggle={toggleLanguage}
-            viewMode={viewMode}
-            onBackToSelection={handleBackToSelection}
-          />
-          <Suspense fallback={
-            <div className="flex items-center justify-center min-h-screen">
-              <svg className="animate-spin h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </div>
-          }>
+        )}
+        {viewMode === 'digital-view' && (
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
             <DigitalSolutions language={language} />
           </Suspense>
-          <AnimatePresence>
-            {showLanyard && (
-              <motion.div
-                className="fixed inset-0 z-50"
-                initial={{ y: '-100vh', opacity: 0 }}
-                animate={{ y: '0vh', opacity: 1 }}
-                exit={{ y: '-100vh', opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 50, damping: 15 }}
-              >
-                <Lanyard />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </HelmetProvider>
-    );
-  }
-
-  return null;
+        )}
+        {renderLanyard()}
+      </div>
+    </HelmetProvider>
+  );
 }
 
 export default App;

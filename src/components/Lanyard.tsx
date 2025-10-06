@@ -13,6 +13,7 @@ function Card({ scale = 1 }) {
   const cardModel = scene.clone();
 
   const [isDragging, setIsDragging] = useState(false);
+  const [hasSettled, setHasSettled] = useState(false);
   const [initialRotation] = useState(new THREE.Euler(0.1, 0.2, 0));
   const mousePos = useRef(new THREE.Vector2(0, 0));
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
@@ -38,7 +39,19 @@ function Card({ scale = 1 }) {
   useFrame((state) => {
     if (!rigidBodyRef.current || !group.current) return;
 
-    if (!isDragging) {
+    const currentPos = rigidBodyRef.current.translation();
+
+    // Check if the card has fallen to its resting position
+    if (!hasSettled && currentPos.y <= 0.1) {
+        setHasSettled(true);
+        rigidBodyRef.current.setGravityScale(0, true);
+        rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+        rigidBodyRef.current.setTranslation({ x: 0, y: 0, z: 0}, true);
+    }
+
+
+    if (hasSettled && !isDragging) {
       const time = state.clock.getElapsedTime();
       const hoverY = Math.sin(time * 0.5) * 0.1;
       const hoverRotation = Math.sin(time * 0.3) * 0.05;
@@ -50,7 +63,7 @@ function Card({ scale = 1 }) {
 
       group.current.rotation.x = initialRotation.x + hoverRotation;
       group.current.rotation.y = initialRotation.y + Math.sin(time * 0.4) * 0.1;
-    } else {
+    } else if (isDragging) {
       const mouse3D = new THREE.Vector3(
         (mousePos.current.x / size.width) * 2 - 1,
         -(mousePos.current.y / size.height) * 2 + 1,
@@ -80,6 +93,7 @@ function Card({ scale = 1 }) {
   });
 
   const handlePointerDown = () => {
+    if (!hasSettled) return;
     setIsDragging(true);
     if (rigidBodyRef.current) {
       rigidBodyRef.current.setGravityScale(0, true);
@@ -87,6 +101,7 @@ function Card({ scale = 1 }) {
   };
 
   const handlePointerUp = () => {
+    if (!hasSettled) return;
     setIsDragging(false);
     if (rigidBodyRef.current) {
       rigidBodyRef.current.setGravityScale(0, true);
@@ -96,6 +111,7 @@ function Card({ scale = 1 }) {
   };
 
   const handlePointerMove = (e: any) => {
+    if (!isDragging) return;
     mousePos.current.set(e.clientX, e.clientY);
   };
 
@@ -103,9 +119,10 @@ function Card({ scale = 1 }) {
     <RigidBody
       ref={rigidBodyRef}
       colliders={false}
-      gravityScale={0}
-      linearDamping={2}
-      angularDamping={2}
+      position={[0, 4, 0]}
+      gravityScale={1}
+      linearDamping={0.5}
+      angularDamping={1}
     >
       <BallCollider args={[0.5]} />
       <group
@@ -114,6 +131,7 @@ function Card({ scale = 1 }) {
         rotation={initialRotation}
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
+        onPointerOut={handlePointerUp}
         onPointerMove={handlePointerMove}
       >
         <primitive object={cardModel} />
@@ -127,7 +145,7 @@ function Rope() {
   const numPoints = 30;
 
   for (let i = 0; i < numPoints; i++) {
-    const y = (i / (numPoints - 1)) * 3 - 0.2;
+    const y = (i / (numPoints - 1)) * 4 - 0.2; // Made the rope longer
     points.push(new THREE.Vector3(0, y, 0));
   }
 
@@ -170,10 +188,8 @@ function Scene() {
         castShadow
       />
       <Environment preset="studio" />
-
       <Rope />
-
-      <Physics gravity={[0, 0, 0]}>
+      <Physics gravity={[0, -9.8, 0]}>
         <Card scale={1.8} />
       </Physics>
     </>

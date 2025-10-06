@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://allync.com.tr/sitemap.xml

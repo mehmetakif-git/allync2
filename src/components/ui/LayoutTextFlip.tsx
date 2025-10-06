@@ -14,13 +14,19 @@ export function LayoutTextFlip({
   text,
   duration = 3000,
   className,
+  containerClassName,
 }: {
   words: string[];
   text: string;
   duration?: number;
   className?: string;
+  containerClassName?: string | string[];
 }) {
   const [index, setIndex] = useState(0);
+
+  const currentContainerClass = Array.isArray(containerClassName)
+    ? containerClassName[index % containerClassName.length]
+    : containerClassName || "bg-white";
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -68,7 +74,10 @@ export function LayoutTextFlip({
             rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="relative w-fit overflow-hidden rounded-md border border-transparent bg-white px-2 py-1 text-3xl md:text-6xl font-bold tracking-tight text-black shadow-sm"
+          className={cn(
+            "relative w-fit overflow-hidden rounded-md border border-transparent px-2 py-1 text-3xl md:text-6xl font-bold tracking-tight text-white shadow-sm transition-colors duration-300",
+            currentContainerClass
+          )}
         >
           <AnimatePresence mode="popLayout">
             <motion.span
@@ -92,7 +101,7 @@ export function LayoutTextFlip({
                 ease: "easeInOut",
               }}
               key={index}
-              className="inline-block whitespace-nowrap text-black"
+              className="inline-block whitespace-nowrap text-white"
               style={{
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",

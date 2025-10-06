@@ -67,6 +67,10 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                   text={pageTitle}
                   words={flipWords}
                   duration={3000}
+                  containerClassName={pageTitle === "Allync AI"
+                    ? ["bg-purple-600", "bg-pink-600", "bg-indigo-600", "bg-fuchsia-600"]
+                    : ["bg-cyan-600", "bg-green-600", "bg-teal-600", "bg-emerald-600"]
+                  }
                 />
               </motion.div>
             </div>

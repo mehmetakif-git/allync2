@@ -97,7 +97,7 @@ export const GlowingEffect: React.FC<GlowingEffectProps> = ({
       <div
         className="absolute inset-0"
         style={{
-          background: `rgba(255, 255, 255, 0.8)`,
+          background: `radial-gradient(circle at ${position.x}px ${position.y}px, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 70%)`,
           borderRadius: "inherit",
           padding: `${borderWidth}px`,
           WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,

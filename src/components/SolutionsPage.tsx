@@ -6,6 +6,7 @@ import { Contact } from './Contact';
 import { Footer } from './Footer';
 import { ServiceCard } from './common/ServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
+import { ShinyText } from './ui/ShinyText';
 import { useMagnetic } from '../hooks/useMagnetic';
 
 export interface Service {
@@ -74,9 +75,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                 />
               </motion.div>
             </div>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-              {pageSubtitle}
-            </p>
+            <ShinyText text={pageSubtitle} className="text-xl text-gray-400 max-w-3xl mx-auto mb-8" />
           </div>
 
           <div className="space-y-32">

@@ -90,7 +90,7 @@ export const TextRevealCard = ({
                 }
           }
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-          className="absolute bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 z-20 will-change-transform"
+          className="absolute bg-white/20 z-20 will-change-transform"
         >
           <p
             style={{

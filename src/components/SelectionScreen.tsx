@@ -14,7 +14,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
   const t = translations[language];
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 sm:px-6 relative overflow-x-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-x-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
       <div className="absolute inset-0 opacity-20 hidden md:block">
         <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>

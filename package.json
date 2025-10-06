@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.57.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
+    "gsap": "^3.12.5",
     "lucide-react": "^0.344.0",
     "motion": "^12.23.22",
     "react": "^18.3.1",

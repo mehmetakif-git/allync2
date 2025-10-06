@@ -22,7 +22,7 @@ body {
   font-weight: 400;
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
-  background: #000000 !important;
+  background: #000000;
   background-image: none !important;
   background-attachment: fixed !important;
   font-synthesis: none;

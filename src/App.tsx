@@ -4,6 +4,7 @@ import { LoadingScreen } from './components/LoadingScreen';
 import { Navigation } from './components/Navigation';
 import { SelectionScreen } from './components/SelectionScreen';
 import { HelmetManager } from './components/HelmetManager';
+import DotGrid from './components/ui/DotGrid';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -55,6 +56,8 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [viewMode]);
 
+  const showBackground = viewMode !== 'loading';
+
   if (viewMode === 'loading') {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} language={language} />;
   }
@@ -63,6 +66,7 @@ function App() {
     return (
       <HelmetProvider>
         <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+          {showBackground && <DotGrid />}
           <HelmetManager language={language} activeSection="hero" />
           <Navigation
             language={language}
@@ -83,6 +87,7 @@ function App() {
     return (
       <HelmetProvider>
         <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+          {showBackground && <DotGrid />}
           <HelmetManager language={language} activeSection={activeSection} />
           <Navigation
             language={language}
@@ -109,6 +114,7 @@ function App() {
     return (
       <HelmetProvider>
         <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+          {showBackground && <DotGrid />}
           <HelmetManager language={language} activeSection={activeSection} />
           <Navigation
             language={language}

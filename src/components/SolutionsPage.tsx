@@ -58,7 +58,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   }, [expandedIndex]);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <div className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">

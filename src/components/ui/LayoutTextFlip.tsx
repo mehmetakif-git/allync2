@@ -53,7 +53,7 @@ export function LayoutTextFlip({
     <div
       className={cn("flex flex-wrap items-center justify-center", className)}
     >
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-2 md:gap-3">
         <motion.span
           layoutId="subtext"
           className="text-4xl md:text-6xl font-bold text-white"

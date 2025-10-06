@@ -12,7 +12,7 @@ import { cn } from "../../utils/cn";
 export function LayoutTextFlip({
   words,
   text,
-  duration = 2500,
+  duration = 3000,
   className,
 }: {
   words: string[];

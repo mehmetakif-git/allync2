@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { cn } from '../../utils/cn';
 
@@ -17,10 +19,12 @@ interface Dot {
 
 const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [popup, setPopup] = useState<{ visible: boolean; x: number; y: number; message: string }>({ visible: false, x: 0, y: 0, message: '' });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef<number>();
   const dotsRef = useRef<Dot[]>([]);
+  const clickTracker = useRef({ count: 0, time: 0 });
 
   const shockRadius = 200;
   const shockStrength = 50;
@@ -37,6 +41,25 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   }, []);
 
   const onClick = useCallback((e: MouseEvent) => {
+    const now = Date.now();
+    if (now - clickTracker.current.time > 2000) {
+      clickTracker.current = { count: 1, time: now };
+    } else {
+      clickTracker.current.count++;
+    }
+
+    if (clickTracker.current.count === 7) {
+      const messages = ["Biraz yavaşla :)", "Sakin ol şampiyon!", "Hey, piksellere nazik davran!"];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      setPopup({ visible: true, x: e.clientX, y: e.clientY, message: randomMessage });
+
+      setTimeout(() => {
+        setPopup(prev => ({ ...prev, visible: false }));
+      }, 3000);
+
+      clickTracker.current = { count: 0, time: 0 };
+    }
+
     const clickX = e.clientX;
     const clickY = e.clientY;
 
@@ -159,9 +182,28 @@ const DotGrid: React.FC<DotGridProps> = ({ className }) => {
   }
 
   return (
-    <div className={cn("fixed inset-0 -z-50", className)}>
-      <canvas ref={canvasRef} className="w-full h-full" />
-    </div>
+    <>
+      <div className={cn("fixed inset-0 -z-50", className)}>
+        <canvas ref={canvasRef} className="w-full h-full" />
+      </div>
+      {createPortal(
+        <AnimatePresence>
+          {popup.visible && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.8 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              style={{ top: popup.y, left: popup.x }}
+              className="fixed -translate-x-1/2 -translate-y-[120%] pointer-events-none z-[9999] rounded-lg bg-black/50 backdrop-blur-md border border-white/20 px-4 py-2 text-white text-sm shadow-lg"
+            >
+              {popup.message}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
   );
 };
 

@@ -81,7 +81,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               glow={false}
               disabled={false}
               proximity={64}
-              inactiveZone={0.7}
+              inactiveZone={0.01}
               movementDuration={2}
             />
             <div className="w-full">

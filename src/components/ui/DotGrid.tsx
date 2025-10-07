@@ -62,7 +62,7 @@ const DotGrid: React.FC<DotGridProps> = ({
   proximity = 150,
   shockRadius = 150,
   shockStrength = 5,
-  returnDuration = 2,
+  returnDuration = 3,
   className = '',
   style
 }) => {

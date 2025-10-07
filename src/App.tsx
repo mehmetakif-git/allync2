@@ -108,7 +108,6 @@ function App() {
     };
   }, [showLanyard]); // This effect runs only when showLanyard becomes true */
 
-
   const showBackground = viewMode !== 'loading';
 
   if (viewMode === 'loading') {
@@ -166,4 +165,3 @@ function App() {
 }
 
 export default App;
-  

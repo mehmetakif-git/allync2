@@ -86,9 +86,8 @@ const DotGrid: React.FC<DotGridProps> = ({
   style
 }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-  const [showPopup, setShowPopup] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState('');
+  const [clickCount, setClickCount] = useState<number>(0);
+  const [popup, setPopup] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dotsRef = useRef<Dot[]>([]);
@@ -151,6 +150,28 @@ const DotGrid: React.FC<DotGridProps> = ({
     }
     dotsRef.current = dots;
   }, [dotSize, gap]);
+
+  const handleClick = () => {
+    setClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount === 5) {
+        const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+        setPopup({ visible: true, message: randomMessage });
+        return 0;
+      }
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    if (popup.visible) {
+      const timer = setTimeout(() => {
+        setPopup({ visible: false, message: '' });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [popup.visible]);
 
   useEffect(() => {
     if (!circlePath) return;
@@ -282,19 +303,16 @@ const DotGrid: React.FC<DotGridProps> = ({
           gsap.killTweensOf(dot);
           const falloff = Math.max(0, 1 - dist / shockRadius);
 
-          // Use a smaller shock strength to prevent extreme values
           const effectiveShockStrength = 4;
           const pushX = (dot.cx - cx) * effectiveShockStrength * falloff;
           const pushY = (dot.cy - cy) * effectiveShockStrength * falloff;
 
-          // Use a standard gsap.to for the initial push for better control
           gsap.to(dot, {
             xOffset: pushX,
             yOffset: pushY,
-            duration: 0.3, // A short duration for the "push out"
+            duration: 0.3,
             ease: 'power2.out',
             onComplete: () => {
-              // Animate back to the original position
               gsap.to(dot, {
                 xOffset: 0,
                 yOffset: 0,
@@ -318,22 +336,6 @@ const DotGrid: React.FC<DotGridProps> = ({
     };
   }, [maxSpeed, speedTrigger, proximity, resistance, returnDuration, shockRadius, shockStrength]);
 
-  const handleContainerClick = () => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-
-    if (newCount >= 5) {
-      const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
-      setCurrentMessage(randomMessage);
-      setShowPopup(true);
-      setClickCount(0);
-
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 2000);
-    }
-  };
-
   if (isMobile) {
     return null;
   }
@@ -344,22 +346,36 @@ const DotGrid: React.FC<DotGridProps> = ({
         ref={wrapperRef}
         className={`fixed inset-0 -z-50 ${className}`}
         style={style}
-        onClick={handleContainerClick}
+        onClick={handleClick}
       >
         <canvas ref={canvasRef} />
       </div>
       <AnimatePresence>
-        {showPopup && (
+        {popup.visible && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              padding: '2rem 3rem',
+              borderRadius: '1rem',
+              zIndex: 100,
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              backdropFilter: 'blur(8px)',
+              fontSize: '1.125rem',
+              fontWeight: 500,
+              textAlign: 'center',
+              color: '#000',
+              maxWidth: '28rem'
+            }}
           >
-            <div className="bg-white/90 backdrop-blur-sm text-black px-8 py-6 rounded-2xl shadow-2xl max-w-md text-center font-medium text-lg">
-              {currentMessage}
-            </div>
+            {popup.message}
           </motion.div>
         )}
       </AnimatePresence>

@@ -78,10 +78,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   return (
     <div
       className={`flex flex-col ${isOdd ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}
+      style={{
+        animation: 'fade-in-up 0.8s ease-out',
+        animationDelay: `${index * 0.1}s`,
+        animationFillMode: 'both'
+      }}
     >
       <div className="flex-1 w-full">
         <div className="w-full">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 transition-all duration-500 w-full h-full relative" style={{ transform: 'translateZ(0)' }}>
             <GlowingEffect
               color={service.glowColor}
               blur={20}

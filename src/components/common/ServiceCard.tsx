@@ -86,7 +86,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       <div className="flex-1 w-full">
         <div className="w-full">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 transition-all duration-500 w-full h-full relative" style={{ transform: 'translateZ(0)' }}>
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 transition-all duration-500 w-full h-full relative" style={{ willChange: 'transform' }}>
             <GlowingEffect
               color={service.glowColor}
               blur={20}
@@ -157,7 +157,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
 
       <div className="flex-1 w-full">
-        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden" style={{ transform: 'translateZ(0)' }}>
+        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover:border-white/20 transition-all duration-500 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden" style={{ willChange: 'transform' }}>
           <GlowingEffect
             color={service.glowColor}
             blur={0}

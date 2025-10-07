@@ -82,32 +82,9 @@ function App() {
     };
   }, [showLanyard]); // Dependency on showLanyard to help manage timer state correctly
 
-  // Effect to hide Lanyard after 60 seconds of visibility or on new user activity
-  useEffect(() => {
-    if (!showLanyard) {
-      return;
-    }
-
-    // Auto-hide after 60 seconds
-    const hideTimer = setTimeout(() => {
-      setShowLanyard(false);
-    }, 60000);
-
-    // Hide on any user activity
-    const hideOnActivity = () => {
-      setShowLanyard(false);
-    };
-
-    const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
-    activityEvents.forEach(event => window.addEventListener(event, hideOnActivity, { passive: true }));
-
-    // Cleanup function for this effect
-    return () => {
-      clearTimeout(hideTimer);
-      activityEvents.forEach(event => window.removeEventListener(event, hideOnActivity));
-    };
-  }, [showLanyard]); // This effect runs only when showLanyard becomes true
-
+  const handleLanyardDismiss = () => {
+    setShowLanyard(false);
+  };
 
   const showBackground = viewMode !== 'loading';
 
@@ -125,7 +102,7 @@ function App() {
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ type: 'spring', stiffness: 50, damping: 15 }}
         >
-          <Lanyard />
+          <Lanyard onDismiss={handleLanyardDismiss} />
         </motion.div>
       )}
     </AnimatePresence>

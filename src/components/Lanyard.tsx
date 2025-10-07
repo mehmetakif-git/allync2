@@ -18,7 +18,7 @@ import lanyard from '../assets/lanyard.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-function Band({ maxSpeed = 50, minSpeed = 10 }) {
+function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; minSpeed?: number; onDismiss: () => void }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -44,6 +44,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);
+  const lastPointerY = useRef(0);
+  const pointerYBeforeLast = useRef(0);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -61,6 +63,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   useFrame((state, delta) => {
     if (dragged) {
+      pointerYBeforeLast.current = lastPointerY.current;
+      lastPointerY.current = state.pointer.y;
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
@@ -111,6 +115,10 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => {
               e.target.releasePointerCapture(e.pointerId);
+              const velocityY = lastPointerY.current - pointerYBeforeLast.current;
+              if (velocityY > 0.03) {
+                onDismiss();
+              }
               drag(false);
             }}
             onPointerDown={(e) => {
@@ -149,7 +157,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   );
 }
 
-export default function Lanyard() {
+export default function Lanyard({ onDismiss }: { onDismiss: () => void }) {
   return (
     <div className="w-full h-full pointer-events-auto">
        <Canvas
@@ -159,7 +167,7 @@ export default function Lanyard() {
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
-          <Band />
+          <Band onDismiss={onDismiss} />
         </Physics>
         <Environment resolution={256}>
             <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />

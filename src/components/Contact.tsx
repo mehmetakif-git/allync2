@@ -85,9 +85,8 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
       <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {t.contactTitle}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent block">
-
+              {t.contactTitle}
             </span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.contactSubtitle}</p>
@@ -234,14 +233,6 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                 inactiveZone={0.01}
                 variant="default"
               />
-              <GlowingEffect
-                spread={40}
-                glow={true}
-                disabled={false}
-                proximity={64}
-                inactiveZone={0.01}
-                variant="default"
-              />
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
 
               <div className="space-y-6">
@@ -319,39 +310,6 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <p className="text-gray-400 text-sm">{t.guaranteeDesc}</p>
             </div>
 
-            {/* Company Compliance */}
-            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-xl p-6 relative">
-              <GlowingEffect
-                spread={40}
-                glow={true}
-                disabled={false}
-                proximity={64}
-                inactiveZone={0.01}
-                variant="default"
-              />
-              <h4 className="text-lg font-semibold text-white mb-4">{t.complianceTitle}</h4>
-              <p className="text-gray-400 text-sm mb-4 leading-relaxed">{t.companyCompliance}</p>
-              <p className="text-gray-400 text-sm mb-4 leading-relaxed">{t.dataProtection}</p>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center text-gray-300">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium">ISO 27001</span>
-                </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium">GDPR</span>
-                </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium">SOC 2</span>
-                </div>
-                <div className="flex items-center text-gray-300">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium">%99.9 SLA</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

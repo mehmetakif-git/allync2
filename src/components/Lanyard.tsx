@@ -109,7 +109,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
         >
           <CuboidCollider args={[0.8, 1.125, 0.08]} />
           <group
-            scale={1.5}
+            scale={1.2}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
@@ -150,7 +150,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
           useMap
           map={texture}
           repeat={[-3, 1]}
-          lineWidth={0.6}
+          lineWidth={0.4}
         />
       </mesh>
     </>

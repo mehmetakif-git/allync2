@@ -7,7 +7,6 @@ import { Footer } from './Footer';
 import { ServiceCard } from './common/ServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
 import { ShinyText } from './ui/ShinyText';
-import { useMagnetic } from '../hooks/useMagnetic';
 
 export interface Service {
   icon: LucideIcon;
@@ -39,7 +38,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   const t = translations[language];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const magnetic = useMagnetic(ctaRef);
   const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollToContact = () => {
@@ -131,7 +129,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
           <div className="mt-32 text-center">
             <motion.div
               ref={ctaRef}
-              style={{ x: magnetic.x, y: magnetic.y }}
               className="inline-block"
             >
               <button

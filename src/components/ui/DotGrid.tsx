@@ -61,7 +61,7 @@ const DotGrid: React.FC<DotGridProps> = ({
   activeColor = '#8668ff',
   proximity = 150,
   shockRadius = 150,
-  shockStrength = 5,
+  shockStrength = 10,
   returnDuration = 3,
   className = '',
   style

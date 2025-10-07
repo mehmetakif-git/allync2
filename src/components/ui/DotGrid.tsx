@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useCallback, useMemo, useState } from 'react';
 import { gsap } from 'gsap';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(InertiaPlugin);
 
@@ -51,6 +52,24 @@ function hexToRgb(hex: string) {
   };
 }
 
+const surpriseMessages = [
+  "Biraz mola ver istersen?",
+  "Tıklama rekoru kırmaya mı çalışıyorsun?",
+  "Vay canına, gizli bir dedektif!",
+  "Aradığını buldun mu?",
+  "Noktalar sana selam söylüyor.",
+  "Allync AI was here.",
+  "Bu kadar merak iyi değil.",
+  "Ekranı kıracaksın!",
+  "Sürpriz! Tekrar ben.",
+  "Kahve içtin mi bugün?",
+  "Sanırım burayı sevdin.",
+  "Matrix'e hoş geldin.",
+  "Dikkat et, noktalar ısırabilir!",
+  "777 - Melekler seninle.",
+  "Bir dilek tut!"
+];
+
 const DotGrid: React.FC<DotGridProps> = ({
   dotSize = 5,
   gap = 15,
@@ -67,6 +86,9 @@ const DotGrid: React.FC<DotGridProps> = ({
   style
 }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dotsRef = useRef<Dot[]>([]);
@@ -296,14 +318,52 @@ const DotGrid: React.FC<DotGridProps> = ({
     };
   }, [maxSpeed, speedTrigger, proximity, resistance, returnDuration, shockRadius, shockStrength]);
 
+  const handleContainerClick = () => {
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+
+    if (newCount >= 5) {
+      const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+      setCurrentMessage(randomMessage);
+      setShowPopup(true);
+      setClickCount(0);
+
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+    }
+  };
+
   if (isMobile) {
     return null;
   }
 
   return (
-    <div ref={wrapperRef} className={`fixed inset-0 -z-50 ${className}`} style={style}>
+    <>
+      <div
+        ref={wrapperRef}
+        className={`fixed inset-0 -z-50 ${className}`}
+        style={style}
+        onClick={handleContainerClick}
+      >
         <canvas ref={canvasRef} />
-    </div>
+      </div>
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+          >
+            <div className="bg-white/90 backdrop-blur-sm text-black px-8 py-6 rounded-2xl shadow-2xl max-w-md text-center font-medium text-lg">
+              {currentMessage}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

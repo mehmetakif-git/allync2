@@ -219,13 +219,16 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
                 <motion.div
                   layoutId={`gallery-${service.title}-${expandedIndex}`}
-                  className="aspect-video bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center relative overflow-hidden"
+                  className="aspect-video bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center relative overflow-hidden group"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-20`} />
-                  <Icon className="w-32 h-32 text-gray-400 relative z-10" />
-                  <div className="absolute bottom-6 left-6 z-20">
-                    <p className="text-white text-2xl font-bold">{service.galleryImages[currentIndex]}</p>
-                    <p className="text-gray-300 text-sm mt-1">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
+                  <img
+                    src={service.galleryImages[currentIndex]}
+                    alt={`${service.title} preview`}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-hover:blur-sm transition-all duration-300"
+                  />
+                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                    <p className="text-white text-3xl font-bold">{service.galleryImages[currentIndex]}</p>
+                    <p className="text-gray-300 text-base mt-2">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
                   </div>
                 </motion.div>
 
@@ -246,7 +249,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   </>
                 )}
 
-                <div className="flex gap-2 mt-6 justify-center overflow-x-auto pb-2">
+                <div className="flex gap-2 mt-8 justify-center overflow-x-auto pb-4">
                   {service.galleryImages.map((img, idx) => (
                     <button
                       key={idx}

@@ -35,8 +35,8 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
     type: 'dynamic',
     canSleep: true,
     colliders: false,
-    angularDamping: 2,
-    linearDamping: 2
+    angularDamping: 5,
+    linearDamping: 5
   };
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
@@ -108,7 +108,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
 
   return (
     <>
-      <group position={[2, 4, 0]}>
+      <group position={[2, 6, 0]}>
         <RigidBody ref={fixed} type="fixed" {...segmentProps} />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
@@ -138,8 +138,8 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
               const [vx, vy, vz] = vel.current;
               card.current.applyImpulse({ x: vx * 2, y: vy * 2, z: vz * 2 }, true);
 
-              const velocityY = lastPointerY.current - pointerYBeforeLast.current;
-              if (velocityY > 0.03) {
+              console.log('Vertical Flick Velocity:', vy);
+              if (vy > 20) {
                 onDismiss();
               }
             }}

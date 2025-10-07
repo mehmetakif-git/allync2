@@ -17,6 +17,7 @@ function App() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [showLanyard, setShowLanyard] = useState(false);
+  const [scrollJolt, setScrollJolt] = useState(0);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -58,6 +59,15 @@ function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [viewMode]);
+
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      setScrollJolt(event.deltaY);
+    };
+
+    window.addEventListener('wheel', handleWheel);
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
 
   // Effect to show Lanyard after 90 seconds of inactivity
   useEffect(() => {
@@ -102,7 +112,7 @@ function App() {
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ type: 'spring', stiffness: 50, damping: 15 }}
         >
-          <Lanyard onDismiss={handleLanyardDismiss} />
+          <Lanyard onDismiss={handleLanyardDismiss} scrollJolt={scrollJolt} />
         </motion.div>
       )}
     </AnimatePresence>

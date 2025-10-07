@@ -18,7 +18,7 @@ import lanyard from '../assets/lanyard.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; minSpeed?: number; onDismiss: () => void }) {
+function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpeed?: number; minSpeed?: number; onDismiss: () => void; scrollJolt: number }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -62,6 +62,12 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
       };
     }
   }, [hovered, dragged]);
+
+  useEffect(() => {
+    if (scrollJolt !== 0 && j1.current) {
+      j1.current.applyImpulse({ x: scrollJolt * 0.02, y: 0, z: 0 }, true);
+    }
+  }, [scrollJolt]);
 
   useFrame((state, delta) => {
     if (dragged) {
@@ -173,7 +179,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
   );
 }
 
-export default function Lanyard({ onDismiss }: { onDismiss: () => void }) {
+export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => void; scrollJolt: number }) {
   return (
     <div className="w-full h-full pointer-events-none">
        <Canvas
@@ -184,7 +190,7 @@ export default function Lanyard({ onDismiss }: { onDismiss: () => void }) {
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
-          <Band onDismiss={onDismiss} />
+          <Band onDismiss={onDismiss} scrollJolt={scrollJolt} />
         </Physics>
         <Environment resolution={256}>
             <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />

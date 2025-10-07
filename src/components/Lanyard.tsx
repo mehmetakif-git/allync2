@@ -186,7 +186,7 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
         camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
-        className="pointer-events-auto"
+        style={{ pointerEvents: 'auto' }}
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>

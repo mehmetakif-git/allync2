@@ -164,20 +164,29 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             inactiveZone={0.7}
             movementDuration={2}
           />
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
-            {service.galleryImages.map((image, idx) => (
-              <motion.div
-                key={idx}
-                layoutId={`gallery-${service.title}-${idx}`}
-                onClick={() => handleThumbnailClick(idx)}
-                className={`aspect-video rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center cursor-pointer overflow-hidden relative group hover:scale-105 transition-transform`}
+          <div className="relative z-10 w-full h-full aspect-video">
+            {service.galleryImages && service.galleryImages.length > 0 ? (
+              <motion.button
+                layoutId={`gallery-${service.title}-0`}
+                onClick={() => handleThumbnailClick(0)}
+                className="w-full h-full rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center cursor-pointer overflow-hidden relative group hover:scale-105 transition-transform duration-300"
               >
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all">
-                  <Icon className="w-8 h-8 text-white opacity-60 group-hover:opacity-80 transition-opacity" />
+                <img
+                  src={service.galleryImages[0]}
+                  alt={`${service.title} preview`}
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-70"
+                />
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-all flex items-center justify-center">
+                  <p className="text-white font-semibold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {language === 'tr' ? 'Galeriyi Görüntüle' : 'View Gallery'}
+                  </p>
                 </div>
-                <span className="text-white text-xs font-medium z-10 absolute bottom-2">{idx + 1}</span>
-              </motion.div>
-            ))}
+              </motion.button>
+            ) : (
+              <div className="w-full h-full rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                <p className="text-gray-500">{language === 'tr' ? 'Görsel Yok' : 'No Image'}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

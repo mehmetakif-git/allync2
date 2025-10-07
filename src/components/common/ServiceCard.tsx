@@ -191,7 +191,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         </div>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {expandedIndex !== null && (
           <>
             <motion.div

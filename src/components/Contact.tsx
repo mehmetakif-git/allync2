@@ -224,7 +224,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <div className="flex flex-col space-y-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
               <GlowingEffect
                 spread={40}
@@ -306,7 +306,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
             </div>
 
             {/* Guarantee */}
-            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-6 text-center relative">
+            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-xl p-6 text-center relative">
               <GlowingEffect
                 spread={40}
                 glow={true}
@@ -320,7 +320,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
             </div>
 
             {/* Company Compliance */}
-            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-xl p-6 relative">
+            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-xl p-6 relative">
               <GlowingEffect
                 spread={40}
                 glow={true}

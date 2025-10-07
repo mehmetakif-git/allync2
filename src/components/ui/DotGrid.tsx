@@ -247,12 +247,20 @@ const DotGrid: React.FC<DotGridProps> = ({
           dot._inertiaApplied = true;
           gsap.killTweensOf(dot);
           const falloff = Math.max(0, 1 - dist / shockRadius);
-          const pushX = (dot.cx - cx) * shockStrength * falloff;
-          const pushY = (dot.cy - cy) * shockStrength * falloff;
 
+          // Use a smaller shock strength to prevent extreme values
+          const effectiveShockStrength = 4;
+          const pushX = (dot.cx - cx) * effectiveShockStrength * falloff;
+          const pushY = (dot.cy - cy) * effectiveShockStrength * falloff;
+
+          // Use a standard gsap.to for the initial push for better control
           gsap.to(dot, {
-            inertia: { xOffset: { value: pushX, resistance }, yOffset: { value: pushY, resistance } },
+            xOffset: pushX,
+            yOffset: pushY,
+            duration: 0.3, // A short duration for the "push out"
+            ease: 'power2.out',
             onComplete: () => {
+              // Animate back to the original position
               gsap.to(dot, {
                 xOffset: 0,
                 yOffset: 0,

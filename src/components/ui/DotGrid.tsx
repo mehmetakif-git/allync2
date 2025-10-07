@@ -73,16 +73,9 @@ const DotGrid: React.FC<DotGridProps> = ({
 
   // --- Easter Egg State & Logic ---
   const clickCountRef = useRef(0);
+  const lastClickTimeRef = useRef(0);
   const [popup, setPopup] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
-
-  const handleWrapperClick = () => {
-    clickCountRef.current += 1;
-    if (clickCountRef.current === 5) {
-      const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
-      setPopup({ visible: true, message: randomMessage });
-      clickCountRef.current = 0; // Reset counter
-    }
-  };
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (popup.visible) {
@@ -224,6 +217,21 @@ const DotGrid: React.FC<DotGridProps> = ({
                 });
             }
         }
+
+        // Easter egg logic
+        const now = performance.now();
+        if (now - lastClickTimeRef.current > 2000) {
+            clickCountRef.current = 0;
+        }
+        clickCountRef.current += 1;
+        lastClickTimeRef.current = now;
+
+        if (clickCountRef.current === 5) {
+            const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+            setPopupPosition({ x: e.clientX, y: e.clientY });
+            setPopup({ visible: true, message: randomMessage });
+            clickCountRef.current = 0;
+        }
     };
 
     const throttledMove = throttle(onMove, 16);
@@ -242,7 +250,6 @@ const DotGrid: React.FC<DotGridProps> = ({
         ref={wrapperRef}
         className={`fixed inset-0 -z-50 ${className}`}
         style={style}
-        onClick={handleWrapperClick} // Easter egg click handler
       >
         <canvas ref={canvasRef} />
       </div>
@@ -254,7 +261,7 @@ const DotGrid: React.FC<DotGridProps> = ({
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.3 }}
             style={{
-              position: 'fixed', top: '50%', left: '50%',
+              position: 'fixed', top: popupPosition.y, left: popupPosition.x,
               transform: 'translate(-50%, -50%)',
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
               padding: '20px 30px', borderRadius: '12px', zIndex: 100,

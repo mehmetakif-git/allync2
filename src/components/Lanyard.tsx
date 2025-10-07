@@ -175,11 +175,12 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
 
 export default function Lanyard({ onDismiss }: { onDismiss: () => void }) {
   return (
-    <div className="w-full h-full pointer-events-auto">
+    <div className="w-full h-full pointer-events-none">
        <Canvas
-        camera={{ position: [0, 0, 12], fov: 25 }}
+        camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
+        style={{ pointerEvents: 'auto' }}
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>

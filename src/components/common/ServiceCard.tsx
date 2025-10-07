@@ -249,7 +249,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   </>
                 )}
 
-                <div className="flex gap-2 mt-8 justify-center overflow-x-auto pt-4">
+                <div className="flex gap-2 mt-8 justify-center overflow-x-auto pb-4">
                   {service.galleryImages.map((img, idx) => (
                     <button
                       key={idx}

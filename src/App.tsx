@@ -120,7 +120,7 @@ function App() {
       {showLanyard && (
         <motion.div
           className="fixed inset-0 z-50"
-          initial={{ y: '-100vh', opacity: 0 }}
+          initial={{ y: '-100vh', x: '8vw', opacity: 0 }}
           animate={{ y: '0vh', opacity: 1 }}
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ type: 'spring', stiffness: 50, damping: 15 }}

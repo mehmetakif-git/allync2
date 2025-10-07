@@ -94,7 +94,7 @@ function App() {
     }, 60000);
 
     // Hide on any user activity
-    const hideOnActivity = () => {
+    /*const hideOnActivity = () => {
       setShowLanyard(false);
     };
 
@@ -106,7 +106,7 @@ function App() {
       clearTimeout(hideTimer);
       activityEvents.forEach(event => window.removeEventListener(event, hideOnActivity));
     };
-  }, [showLanyard]); // This effect runs only when showLanyard becomes true
+  }, [showLanyard]); // This effect runs only when showLanyard becomes true*/
 
 
   const showBackground = viewMode !== 'loading';
@@ -120,7 +120,7 @@ function App() {
       {showLanyard && (
         <motion.div
           className="fixed inset-0 z-50"
-          initial={{ y: '-100vh', x: '8vw', opacity: 0 }}
+          initial={{ y: '-100vh', opacity: 0 }}
           animate={{ y: '0vh', opacity: 1 }}
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ type: 'spring', stiffness: 50, damping: 15 }}

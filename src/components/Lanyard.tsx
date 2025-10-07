@@ -139,7 +139,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
               card.current.applyImpulse({ x: vx * 2, y: vy * 2, z: vz * 2 }, true);
 
               console.log('Vertical Flick Velocity:', vy);
-              if (vy > 20) {
+              if (vy > 35) {
                 onDismiss();
               }
             }}
@@ -186,7 +186,6 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
         camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
-        className="pointer-events-auto"
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>

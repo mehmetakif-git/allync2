@@ -224,8 +224,8 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
           </div>
 
           {/* Contact Info */}
-          <div className="flex flex-col space-y-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
+          <div className="flex flex-col gap-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
               <GlowingEffect
                 spread={40}
                 glow={true}

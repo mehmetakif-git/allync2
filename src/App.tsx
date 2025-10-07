@@ -94,7 +94,7 @@ function App() {
     }, 60000);
 
     // Hide on any user activity
-    /*const hideOnActivity = () => {
+    const hideOnActivity = () => {
       setShowLanyard(false);
     };
 
@@ -106,7 +106,7 @@ function App() {
       clearTimeout(hideTimer);
       activityEvents.forEach(event => window.removeEventListener(event, hideOnActivity));
     };
-  }, [showLanyard]); // This effect runs only when showLanyard becomes true*/
+  }, [showLanyard]); // This effect runs only when showLanyard becomes true
 
 
   const showBackground = viewMode !== 'loading';

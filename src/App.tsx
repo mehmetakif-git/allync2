@@ -96,7 +96,7 @@ function App() {
     <AnimatePresence>
       {showLanyard && (
         <motion.div
-          className="fixed inset-0 z-50"
+          className="fixed inset-0 z-50 pointer-events-none"
           initial={{ y: '-100vh', opacity: 0 }}
           animate={{ y: '0vh', opacity: 1 }}
           exit={{ y: '-100vh', opacity: 0 }}

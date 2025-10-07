@@ -46,6 +46,8 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
   const [hovered, hover] = useState(false);
   const lastPointerY = useRef(0);
   const pointerYBeforeLast = useRef(0);
+  const vel = useRef([0, 0, 0]);
+  const lastPos = useRef([0, 0, 0]);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -68,6 +70,16 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
+
+      if (lastPos.current) {
+        const [lx, ly, lz] = lastPos.current;
+        const newVelX = (vec.x - lx) / delta;
+        const newVelY = (vec.y - ly) / delta;
+        const newVelZ = (vec.z - lz) / delta;
+        vel.current = [newVelX, newVelY, newVelZ];
+      }
+      lastPos.current = [vec.x, vec.y, vec.z];
+
       [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
       card.current?.setNextKinematicTranslation({ x: vec.x - dragged.x, y: vec.y - dragged.y, z: vec.z - dragged.z });
     }
@@ -109,17 +121,21 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
         >
           <CuboidCollider args={[0.8, 1.125, 0.08]} />
           <group
-            scale={1.2}
+            scale={2.25}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => {
               e.target.releasePointerCapture(e.pointerId);
+              drag(false);
+
+              const [vx, vy, vz] = vel.current;
+              card.current.applyImpulse({ x: vx * 2, y: vy * 2, z: vz * 2 }, true);
+
               const velocityY = lastPointerY.current - pointerYBeforeLast.current;
               if (velocityY > 0.03) {
                 onDismiss();
               }
-              drag(false);
             }}
             onPointerDown={(e) => {
               e.target.setPointerCapture(e.pointerId);
@@ -150,7 +166,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss }: { maxSpeed?: number; 
           useMap
           map={texture}
           repeat={[-3, 1]}
-          lineWidth={0.4}
+          lineWidth={1}
         />
       </mesh>
     </>

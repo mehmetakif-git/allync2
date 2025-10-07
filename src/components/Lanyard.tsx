@@ -108,7 +108,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
 
   return (
     <>
-      <group position={[2, 6, 0]}>
+      <group position={[3, 6, 0]}>
         <RigidBody ref={fixed} type="fixed" {...segmentProps} />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />

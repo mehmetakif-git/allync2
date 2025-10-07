@@ -55,7 +55,7 @@ const surpriseMessages = [
 ];
 
 const DotGrid: React.FC<DotGridProps> = ({
-  dotSize = 2,
+  dotSize = 4,
   gap = 20,
   baseColor = '#FFFFFF',
   activeColor = '#8668ff',

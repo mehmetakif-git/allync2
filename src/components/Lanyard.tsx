@@ -105,7 +105,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
         >
           <CuboidCollider args={[0.8, 1.125, 0.08]} />
           <group
-            scale={2.25}
+            scale={1.5}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}

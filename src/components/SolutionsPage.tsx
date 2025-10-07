@@ -168,7 +168,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
         .section-separator {
           height: 1px;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          margin: 80px 0;
+          margin: 20px 0;
         }
       `}</style>
     </div>

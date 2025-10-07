@@ -129,23 +129,33 @@ function App() {
           viewMode={viewMode}
           onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
         />
-        {viewMode === 'selection' && (
-          <SelectionScreen
-            language={language}
-            onSelectView={handleSelectView}
-            onLanguageToggle={toggleLanguage}
-          />
-        )}
-        {viewMode === 'ai-view' && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <AllyncAISolutions language={language} />
-          </Suspense>
-        )}
-        {viewMode === 'digital-view' && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <DigitalSolutions language={language} />
-          </Suspense>
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={viewMode}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            {viewMode === 'selection' && (
+              <SelectionScreen
+                language={language}
+                onSelectView={handleSelectView}
+                onLanguageToggle={toggleLanguage}
+              />
+            )}
+            {viewMode === 'ai-view' && (
+              <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                <AllyncAISolutions language={language} />
+              </Suspense>
+            )}
+            {viewMode === 'digital-view' && (
+              <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                <DigitalSolutions language={language} />
+              </Suspense>
+            )}
+          </motion.div>
+        </AnimatePresence>
         {renderLanyard()}
       </div>
     </HelmetProvider>

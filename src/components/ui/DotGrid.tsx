@@ -1,270 +1,285 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import gsap from 'gsap';
-import { cn } from '../../utils/cn';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
+import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import { gsap } from 'gsap';
+import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
-interface DotGridProps {
-  className?: string;
-}
+gsap.registerPlugin(InertiaPlugin);
+
+const throttle = (func: (...args: any[]) => void, limit: number) => {
+  let lastCall = 0;
+  return function (this: any, ...args: any[]) {
+    const now = performance.now();
+    if (now - lastCall >= limit) {
+      lastCall = now;
+      func.apply(this, args);
+    }
+  };
+};
 
 interface Dot {
-  x: number;
-  y: number;
-  baseX: number;
-  baseY: number;
-  opacity: number;
-  radius: number;
+  cx: number;
+  cy: number;
+  xOffset: number;
+  yOffset: number;
+  _inertiaApplied: boolean;
 }
 
-const DotGrid: React.FC<DotGridProps> = ({ className }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [popup, setPopup] = useState<{ visible: boolean; x: number; y: number; message: string }>({ visible: false, x: 0, y: 0, message: '' });
+export interface DotGridProps {
+  dotSize?: number;
+  gap?: number;
+  baseColor?: string;
+  activeColor?: string;
+  proximity?: number;
+  speedTrigger?: number;
+  shockRadius?: number;
+  shockStrength?: number;
+  maxSpeed?: number;
+  resistance?: number;
+  returnDuration?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+function hexToRgb(hex: string) {
+  const m = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  if (!m) return { r: 0, g: 0, b: 0 };
+  return {
+    r: parseInt(m[1], 16),
+    g: parseInt(m[2], 16),
+    b: parseInt(m[3], 16)
+  };
+}
+
+const DotGrid: React.FC<DotGridProps> = ({
+  dotSize = 2,
+  gap = 28,
+  baseColor = '#FFFFFF',
+  activeColor = '#FFFFFF',
+  proximity = 120,
+  speedTrigger = 100,
+  shockRadius = 200,
+  shockStrength = 3,
+  maxSpeed = 5000,
+  resistance = 500,
+  returnDuration = 1,
+  className = '',
+  style
+}) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mousePos = useRef({ x: 0, y: 0 });
-  const animationFrameId = useRef<number>();
   const dotsRef = useRef<Dot[]>([]);
-  const clickTracker = useRef({ count: 0, time: 0 });
-  const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
+  const pointerRef = useRef({
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    speed: 0,
+    lastTime: 0,
+    lastX: 0,
+    lastY: 0
+  });
 
-  const shockRadius = 200;
-  const shockStrength = 50;
-  const resistance = 0.15;
-  const returnDuration = 0.8;
+  const baseRgb = useMemo(() => hexToRgb(baseColor), [baseColor]);
+  const activeRgb = useMemo(() => hexToRgb(activeColor), [activeColor]);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const circlePath = useMemo(() => {
+    if (typeof window === 'undefined' || !window.Path2D) return null;
+    const p = new Path2D();
+    p.arc(0, 0, dotSize / 2, 0, Math.PI * 2);
+    return p;
+  }, [dotSize]);
 
-  const triggerIdleAnimation = useCallback(() => {
-    if (isMobile || !canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    dotsRef.current.forEach((dot) => {
-      const dx = centerX - dot.baseX;
-      const dy = centerY - dot.baseY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < shockRadius * 1.5) {
-        const angle = Math.atan2(dy, dx);
-        const falloff = Math.max(0, 1 - distance / (shockRadius * 1.5));
-        const force = falloff * shockStrength * 0.5;
-        const targetX = dot.baseX - Math.cos(angle) * force;
-        const targetY = dot.baseY - Math.sin(angle) * force;
-
-        gsap.to(dot, {
-          x: targetX,
-          y: targetY,
-          duration: returnDuration,
-          ease: "power2.out",
-          delay: distance * 0.004,
-          onComplete: () => {
-            gsap.to(dot, {
-              x: dot.baseX,
-              y: dot.baseY,
-              duration: returnDuration * 1.5,
-              ease: "elastic.out(1, 0.75)"
-            });
-          }
-        });
-      }
-    });
-  }, [isMobile, shockRadius, shockStrength, returnDuration]);
-
-  const onClick = useCallback((e: MouseEvent) => {
-    const now = Date.now();
-    if (now - clickTracker.current.time > 2000) {
-      clickTracker.current = { count: 1, time: now };
-    } else {
-      clickTracker.current.count++;
-    }
-
-    if (clickTracker.current.count === 7) {
-      const messages = ["Biraz yavaşla :)", "Sakin ol şampiyon!", "Hey, piksellere nazik davran!"];
-      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-      setPopup({ visible: true, x: e.clientX, y: e.clientY, message: randomMessage });
-
-      setTimeout(() => {
-        setPopup(prev => ({ ...prev, visible: false }));
-      }, 3000);
-
-      clickTracker.current = { count: 0, time: 0 };
-    }
-
-    const clickX = e.clientX;
-    const clickY = e.clientY;
-
-    dotsRef.current.forEach((dot) => {
-      const dx = clickX - dot.baseX;
-      const dy = clickY - dot.baseY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < shockRadius) {
-        const angle = Math.atan2(dy, dx);
-        const force = (1 - distance / shockRadius) * shockStrength;
-        const targetX = dot.baseX - Math.cos(angle) * force;
-        const targetY = dot.baseY - Math.sin(angle) * force;
-
-        gsap.to(dot, {
-          x: targetX,
-          y: targetY,
-          duration: resistance,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.to(dot, {
-              x: dot.baseX,
-              y: dot.baseY,
-              duration: returnDuration,
-              ease: "elastic.out(1, 0.3)"
-            });
-          }
-        });
-      }
-    });
-  }, [shockRadius, shockStrength, resistance, returnDuration]);
-
-  useEffect(() => {
+  const buildGrid = useCallback(() => {
+    const wrap = wrapperRef.current;
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!wrap || !canvas) return;
 
+    const { width, height } = wrap.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (ctx) ctx.scale(dpr, dpr);
 
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    const cell = dotSize + gap;
+    const cols = Math.floor(width / cell);
+    const rows = Math.floor(height / cell);
 
-      const dotSpacing = 30;
-      const cols = Math.ceil(canvas.width / dotSpacing);
-      const rows = Math.ceil(canvas.height / dotSpacing);
+    const gridW = cell * cols - gap;
+    const gridH = cell * rows - gap;
 
-      dotsRef.current = [];
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          const x = i * dotSpacing;
-          const y = j * dotSpacing;
-          dotsRef.current.push({
-            x,
-            y,
-            baseX: x,
-            baseY: y,
-            opacity: 0.3,
-            radius: 1.5
+    const extraX = width - gridW;
+    const extraY = height - gridH;
+
+    const startX = extraX / 2 + dotSize / 2;
+    const startY = extraY / 2 + dotSize / 2;
+
+    const dots: Dot[] = [];
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const cx = startX + x * cell;
+        const cy = startY + y * cell;
+        dots.push({ cx, cy, xOffset: 0, yOffset: 0, _inertiaApplied: false });
+      }
+    }
+    dotsRef.current = dots;
+  }, [dotSize, gap]);
+
+  useEffect(() => {
+    if (!circlePath) return;
+
+    let rafId: number;
+    const proxSq = proximity * proximity;
+
+    const draw = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const { x: px, y: py } = pointerRef.current;
+
+      for (const dot of dotsRef.current) {
+        const ox = dot.cx + dot.xOffset;
+        const oy = dot.cy + dot.yOffset;
+        const dx = dot.cx - px;
+        const dy = dot.cy - py;
+        const dsq = dx * dx + dy * dy;
+
+        let opacity = 0.3;
+        if (dsq <= proxSq) {
+          const dist = Math.sqrt(dsq);
+          opacity = 0.3 + (1 - dist / proximity) * 0.7;
+        }
+
+        const r = baseRgb.r;
+        const g = baseRgb.g;
+        const b = baseRgb.b;
+        const style = `rgba(${r},${g},${b}, ${opacity})`;
+
+        ctx.save();
+        ctx.translate(ox, oy);
+        ctx.fillStyle = style;
+        ctx.fill(circlePath);
+        ctx.restore();
+      }
+      rafId = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(rafId);
+  }, [proximity, baseColor, activeRgb, baseRgb, circlePath]);
+
+  useEffect(() => {
+    buildGrid();
+    window.addEventListener('resize', buildGrid);
+    return () => window.removeEventListener('resize', buildGrid);
+  }, [buildGrid]);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const pr = pointerRef.current;
+      const rect = canvasRef.current!.getBoundingClientRect();
+      pr.x = e.clientX - rect.left;
+      pr.y = e.clientY - rect.top;
+
+      const now = performance.now();
+      const dt = pr.lastTime ? now - pr.lastTime : 16;
+      const dx = e.clientX - pr.lastX;
+      const dy = e.clientY - pr.lastY;
+      let vx = (dx / dt) * 1000;
+      let vy = (dy / dt) * 1000;
+      let speed = Math.hypot(vx, vy);
+
+      if (speed > maxSpeed) {
+        const scale = maxSpeed / speed;
+        vx *= scale;
+        vy *= scale;
+        speed = maxSpeed;
+      }
+
+      pr.lastTime = now;
+      pr.lastX = e.clientX;
+      pr.lastY = e.clientY;
+      pr.vx = vx;
+      pr.vy = vy;
+      pr.speed = speed;
+
+      for (const dot of dotsRef.current) {
+        const dist = Math.hypot(dot.cx - pr.x, dot.cy - pr.y);
+        if (speed > speedTrigger && dist < proximity && !dot._inertiaApplied) {
+          dot._inertiaApplied = true;
+          gsap.killTweensOf(dot);
+          const pushX = (dot.cx - pr.x);
+          const pushY = (dot.cy - pr.y);
+          gsap.to(dot, {
+            xOffset: pushX,
+            yOffset: pushY,
+            duration: 0.2,
+            ease: 'power2.out',
+            onComplete: () => {
+              gsap.to(dot, {
+                xOffset: 0,
+                yOffset: 0,
+                duration: returnDuration,
+                ease: 'elastic.out(1,0.5)',
+                onComplete: () => {  dot._inertiaApplied = false; }
+              });
+            }
           });
         }
       }
     };
 
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    const onClick = (e: MouseEvent) => {
+      const rect = canvasRef.current!.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
 
-    const dotRadius = 1.5;
-    const maxDistance = 150;
+      for (const dot of dotsRef.current) {
+        const dist = Math.hypot(dot.cx - cx, dot.cy - cy);
+        if (dist < shockRadius && !dot._inertiaApplied) {
+          dot._inertiaApplied = true;
+          gsap.killTweensOf(dot);
+          const falloff = Math.max(0, 1 - dist / shockRadius);
+          const pushX = (dot.cx - cx) * shockStrength * falloff;
+          const pushY = (dot.cy - cy) * shockStrength * falloff;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
+          gsap.to(dot, {
+            inertia: { xOffset: { value: pushX, resistance }, yOffset: { value: pushY, resistance } },
+            onComplete: () => {
+              gsap.to(dot, {
+                xOffset: 0,
+                yOffset: 0,
+                duration: returnDuration,
+                ease: 'elastic.out(1,0.5)',
+                onComplete: () => { dot._inertiaApplied = false; }
+              });
+            }
+          });
+        }
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const throttledMove = throttle(onMove, 20);
+    window.addEventListener('mousemove', throttledMove, { passive: true });
     window.addEventListener('click', onClick);
 
-    const animate = () => {
-      if (!ctx || !canvas) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      dotsRef.current.forEach((dot) => {
-        const dx = mousePos.current.x - dot.x;
-        const dy = mousePos.current.y - dot.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        let opacity = 0.3;
-        let radius = dotRadius;
-
-        if (distance < maxDistance) {
-          const influence = 1 - distance / maxDistance;
-          opacity = 0.3 + influence * 0.7;
-          radius = dotRadius + influence * 2;
-        }
-
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-        ctx.fill();
-      });
-
-      animationFrameId.current = requestAnimationFrame(animate);
-    };
-
-    animate();
-
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', throttledMove);
       window.removeEventListener('click', onClick);
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
     };
-  }, [onClick]);
-
-  useEffect(() => {
-    if (isMobile) return;
-
-    const resetTimer = () => {
-      if (inactivityTimer.current) {
-        clearTimeout(inactivityTimer.current);
-      }
-      inactivityTimer.current = setTimeout(triggerIdleAnimation, 90000);
-    };
-
-    const activityEvents = ['mousemove', 'mousedown', 'scroll', 'keydown'];
-    activityEvents.forEach(event => window.addEventListener(event, resetTimer));
-
-    resetTimer();
-
-    return () => {
-      if (inactivityTimer.current) {
-        clearTimeout(inactivityTimer.current);
-      }
-      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
-    };
-  }, [isMobile, triggerIdleAnimation]);
-
-  if (isMobile) {
-    return null;
-  }
+  }, [maxSpeed, speedTrigger, proximity, resistance, returnDuration, shockRadius, shockStrength]);
 
   return (
-    <>
-      <div className={cn("fixed inset-0 -z-50", className)}>
-        <canvas ref={canvasRef} className="w-full h-full" />
-      </div>
-      {createPortal(
-        <AnimatePresence>
-          {popup.visible && (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.8 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              style={{ top: popup.y, left: popup.x }}
-              className="fixed -translate-x-1/2 -translate-y-[120%] pointer-events-none z-[9999] rounded-lg bg-black/50 backdrop-blur-md border border-white/20 px-4 py-2 text-white text-sm shadow-lg"
-            >
-              {popup.message}
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
-    </>
+    <div ref={wrapperRef} className={`fixed inset-0 -z-50 ${className}`} style={style}>
+        <canvas ref={canvasRef} />
+    </div>
   );
 };
 

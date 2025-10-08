@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
+import confetti from 'canvas-confetti';
 
 interface ContactProps {
   language: 'tr' | 'en';
@@ -26,6 +27,26 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-\+\(\)]+$/;
 
+  const handleSuccessConfetti = () => {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+    const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+    const interval = window.setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return window.clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
@@ -46,6 +67,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
       if (response.ok) {
         setStatusMessage(language === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!');
+        handleSuccessConfetti();
         setFormData({ name: '', email: '', phone: '', business: '', message: '' });
       } else {
         throw new Error(data.error || 'An error occurred');

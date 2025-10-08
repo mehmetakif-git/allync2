@@ -18,6 +18,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [showLanyard, setShowLanyard] = useState(false);
   const [scrollJolt, setScrollJolt] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -69,8 +70,20 @@ function App() {
     return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Effect to show Lanyard after 90 seconds of inactivity
   useEffect(() => {
+    if (isMobile) return; // Don't run inactivity timer on mobile
+
     let inactivityTimer: NodeJS.Timeout;
 
     const resetTimer = () => {
@@ -90,7 +103,7 @@ function App() {
       clearTimeout(inactivityTimer);
       activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
     };
-  }, [showLanyard]); // Dependency on showLanyard to help manage timer state correctly
+  }, [showLanyard, isMobile]); // Dependency on showLanyard to help manage timer state correctly
 
   const handleLanyardDismiss = () => {
     setShowLanyard(false);
@@ -121,7 +134,7 @@ function App() {
   return (
     <HelmetProvider>
       <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-        {showBackground && <DotGrid />}
+        {showBackground && !isMobile && <DotGrid />}
         <HelmetManager language={language} activeSection={activeSection} />
         <Navigation
           language={language}
@@ -156,7 +169,7 @@ function App() {
             )}
           </motion.div>
         </AnimatePresence>
-        {renderLanyard()}
+        {!isMobile && renderLanyard()}
       </div>
     </HelmetProvider>
   );

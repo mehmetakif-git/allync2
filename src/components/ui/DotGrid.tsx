@@ -76,6 +76,7 @@ const DotGrid: React.FC<DotGridProps> = ({
   const lastClickTimeRef = useRef(0);
   const [popup, setPopup] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [globalAlpha, setGlobalAlpha] = useState(0);
 
   useEffect(() => {
     if (popup.visible) {
@@ -83,6 +84,17 @@ const DotGrid: React.FC<DotGridProps> = ({
       return () => clearTimeout(timer);
     }
   }, [popup.visible]);
+
+  useEffect(() => {
+    gsap.to({ val: 0 }, {
+      val: 1,
+      duration: 2,
+      ease: 'power2.inOut',
+      onUpdate: function() {
+        setGlobalAlpha(this.targets()[0].val);
+      }
+    });
+  }, []);
   // --- End of Easter Egg Logic ---
 
   const baseRgb = useMemo(() => hexToRgb(baseColor), [baseColor]);
@@ -149,15 +161,29 @@ const DotGrid: React.FC<DotGridProps> = ({
         const dy = dot.cy - py;
         const dsq = dx * dx + dy * dy;
 
-        let opacity = 0.3; // Base opacity
+        // 1. Proximity Opacity Calculation
+        let proximityOpacity = 0.3;
         if (dsq <= proxSq) {
           const dist = Math.sqrt(dsq);
-          opacity = 0.3 + (1 - dist / proximity) * 0.7; // Increase opacity based on proximity
+          proximityOpacity = 0.3 + (1 - dist / proximity) * 0.7;
         }
+
+        // 2. Edge Fade Calculation
+        const fadeMargin = canvas.width * 0.15; // 15% margin on each side for fading
+        let edgeFade = 1.0;
+        if (dot.cx < fadeMargin) {
+          edgeFade = dot.cx / fadeMargin;
+        } else if (dot.cx > canvas.width - fadeMargin) {
+          edgeFade = (canvas.width - dot.cx) / fadeMargin;
+        }
+        edgeFade = gsap.utils.clamp(0, 1, edgeFade); // Ensure value is between 0 and 1
+
+        // 3. Combine opacities and apply global fade-in
+        const finalOpacity = proximityOpacity * edgeFade * globalAlpha;
 
         ctx.save();
         ctx.translate(ox, oy);
-        ctx.fillStyle = `rgba(${baseRgb.r}, ${baseRgb.g}, ${baseRgb.b}, ${opacity})`;
+        ctx.fillStyle = `rgba(${baseRgb.r}, ${baseRgb.g}, ${baseRgb.b}, ${finalOpacity})`;
         ctx.fill(circlePath);
         ctx.restore();
       }
@@ -166,7 +192,7 @@ const DotGrid: React.FC<DotGridProps> = ({
 
     draw();
     return () => cancelAnimationFrame(rafId);
-  }, [proximity, baseColor, activeRgb, baseRgb, circlePath]);
+  }, [proximity, baseColor, activeRgb, baseRgb, circlePath, globalAlpha]);
 
   useEffect(() => {
     buildGrid();

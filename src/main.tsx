@@ -3,6 +3,11 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { initScrollAnimations } from './utils/scrollAnimations';
+import emailjs from '@emailjs/browser';
+
+emailjs.init({
+  publicKey: import.meta.env.VITE_EMAILJS_rGwfmmq3dsUQ4dcwL,
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

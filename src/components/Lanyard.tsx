@@ -15,8 +15,6 @@ import {
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
-import cardGLB from '@/assets/card.glb';
-import lanyard from '@/assets/lanyard.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -41,8 +39,8 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt, onDragStart
     linearDamping: 5
   };
 
-  const { nodes, materials } = useGLTF(cardGLB) as any;
-  const texture = useTexture(lanyard);
+  const { nodes, materials } = useGLTF('/card.glb') as any;
+  const texture = useTexture('/lanyard.png');
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState(false);

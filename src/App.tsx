@@ -146,7 +146,7 @@ function App() {
 
   const renderLanyard = () => (
     <AnimatePresence>
-      {showLanyard && (
+      {showLanyard && !isMobile && (
         <motion.div
           className="fixed inset-0 z-50 pointer-events-none"
           initial={{ y: '-100vh', opacity: 0 }}
@@ -154,7 +154,9 @@ function App() {
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ type: 'spring', stiffness: 50, damping: 15 }}
         >
-          <Lanyard onDismiss={handleLanyardDismiss} scrollJolt={scrollJolt} />
+          <Suspense fallback={null}>
+            <Lanyard onDismiss={handleLanyardDismiss} scrollJolt={scrollJolt} />
+          </Suspense>
         </motion.div>
       )}
     </AnimatePresence>
@@ -201,7 +203,7 @@ function App() {
         <AnimatePresence>
           {showWarning && <InactivityWarning countdown={countdown} />}
         </AnimatePresence>
-        {!isMobile && renderLanyard()}
+        {renderLanyard()}
       </div>
     </HelmetProvider>
   );

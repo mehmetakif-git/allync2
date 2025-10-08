@@ -182,7 +182,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
 }
 
 export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => void; scrollJolt: number }) {
-  const [showInstructions, setShowInstructions] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   return (
     <div className="w-full h-full pointer-events-none">
@@ -194,6 +194,7 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl max-w-md">
               <div className="flex justify-between items-start mb-6">
@@ -220,6 +221,7 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
         )}
       </AnimatePresence>
        <Canvas
+        onClick={() => setShowInstructions(true)}
         camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}

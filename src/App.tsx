@@ -132,7 +132,7 @@ function App() {
       clearAllTimers();
       activityEvents.forEach(event => window.removeEventListener(event, startTimers));
     };
-  }, [showLanyard]); // We keep showLanyard here to interact with other logic if needed.
+  }, []);
 
   const handleLanyardDismiss = () => {
     setShowLanyard(false);

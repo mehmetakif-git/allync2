@@ -6,7 +6,7 @@ import { initScrollAnimations } from './utils/scrollAnimations';
 import emailjs from '@emailjs/browser';
 
 emailjs.init({
-  publicKey: import.meta.env.VITE_EMAILJS_rGwfmmq3dsUQ4dcwL,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KE,
 });
 
 createRoot(document.getElementById('root')!).render(

@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useState } from 'react';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
@@ -10,7 +9,6 @@ interface ContactProps {
 
 export const Contact: React.FC<ContactProps> = ({ language }) => {
   const t = translations[language];
-  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,30 +26,36 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-\+\(\)]+$/;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.current) return;
+    if (!isFormValid) return;
 
     setIsSubmitting(true);
     setStatusMessage('');
 
-    emailjs.sendForm(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID="service_allync",
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID="template_allync",
-      form.current,
-    ).then(
-      (result) => {
-        console.log('SUCCESS!', result.text);
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
         setStatusMessage(language === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!');
         setFormData({ name: '', email: '', phone: '', business: '', message: '' });
-      },
-      (error) => {
-        console.log('FAILED...', error.text);
-        setStatusMessage(language === 'tr' ? 'Bir hata oluştu, lütfen tekrar deneyin.' : 'An error occurred, please try again.');
+      } else {
+        throw new Error(data.error || 'An error occurred');
       }
-    ).finally(() => {
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setStatusMessage(language === 'tr' ? 'Bir hata oluştu, lütfen tekrar deneyin.' : 'An error occurred, please try again.');
+    } finally {
       setIsSubmitting(false);
-    });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -95,7 +99,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6 form-grid">
+            <form onSubmit={handleSubmit} className="space-y-6 form-grid">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <LabelInputContainer>
                   <LabelGlow htmlFor="name">{t.fullName} *</LabelGlow>

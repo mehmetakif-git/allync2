@@ -60,7 +60,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, language }),
       });
 
       const data = await response.json();

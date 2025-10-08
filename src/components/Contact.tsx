@@ -36,10 +36,10 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     setStatusMessage('');
 
     emailjs.sendForm(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      import.meta.env.service_allync,
+      import.meta.env.template_allync,
       form.current,
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      import.meta.env.rGwfmmq3dsUQ4dcwL
     ).then(
       (result) => {
         console.log('SUCCESS!', result.text);

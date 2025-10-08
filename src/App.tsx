@@ -7,6 +7,7 @@ import { SelectionScreen } from './components/SelectionScreen';
 import { HelmetManager } from './components/HelmetManager';
 import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
+import { InactivityWarning } from './components/InactivityWarning';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -19,6 +20,8 @@ function App() {
   const [showLanyard, setShowLanyard] = useState(false);
   const [scrollJolt, setScrollJolt] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const [countdown, setCountdown] = useState(10);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -80,30 +83,56 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Effect to show Lanyard after 90 seconds of inactivity
   useEffect(() => {
-    if (isMobile) return; // Don't run inactivity timer on mobile
+    // This effect should only run on the client, and not on mobile.
+    if (typeof window === 'undefined' || window.innerWidth < 768) {
+      return;
+    }
 
-    let inactivityTimer: NodeJS.Timeout;
+    let warningTimer: NodeJS.Timeout;
+    let lanyardTimer: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout | null = null;
 
-    const resetTimer = () => {
-      clearTimeout(inactivityTimer);
-      if (!showLanyard) { // Don't set a new timer if lanyard is already trying to show or is shown
-          inactivityTimer = setTimeout(() => {
-              setShowLanyard(true);
-          }, 90000);
-      }
+    const clearAllTimers = () => {
+      clearTimeout(warningTimer);
+      clearTimeout(lanyardTimer);
+      if (countdownInterval) clearInterval(countdownInterval);
+      setShowWarning(false);
+      setCountdown(10);
+    };
+
+    const startTimers = () => {
+      clearAllTimers();
+
+      warningTimer = setTimeout(() => {
+        setShowWarning(true);
+        countdownInterval = setInterval(() => {
+          setCountdown(prev => {
+            if (prev <= 1) {
+              if (countdownInterval) clearInterval(countdownInterval);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }, 80000); // Show warning at 80 seconds
+
+      lanyardTimer = setTimeout(() => {
+        setShowLanyard(true);
+        setShowWarning(false);
+      }, 90000); // Show lanyard at 90 seconds
     };
 
     const activityEvents: (keyof WindowEventMap)[] = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
-    activityEvents.forEach(event => window.addEventListener(event, resetTimer, { passive: true }));
-    resetTimer(); // Start the timer initially
+    activityEvents.forEach(event => window.addEventListener(event, startTimers, { passive: true }));
+
+    startTimers(); // Start the timers initially
 
     return () => {
-      clearTimeout(inactivityTimer);
-      activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
+      clearAllTimers();
+      activityEvents.forEach(event => window.removeEventListener(event, startTimers));
     };
-  }, [showLanyard, isMobile]); // Dependency on showLanyard to help manage timer state correctly
+  }, [showLanyard]); // We keep showLanyard here to interact with other logic if needed.
 
   const handleLanyardDismiss = () => {
     setShowLanyard(false);
@@ -168,6 +197,9 @@ function App() {
               </Suspense>
             )}
           </motion.div>
+        </AnimatePresence>
+        <AnimatePresence>
+          {showWarning && <InactivityWarning countdown={countdown} />}
         </AnimatePresence>
         {!isMobile && renderLanyard()}
       </div>

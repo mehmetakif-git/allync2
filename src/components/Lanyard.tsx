@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 import {
   BallCollider,
   CuboidCollider,
@@ -180,8 +182,43 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
 }
 
 export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => void; scrollJolt: number }) {
+  const [showInstructions, setShowInstructions] = useState(true);
+
   return (
     <div className="w-full h-full pointer-events-none">
+      <AnimatePresence>
+        {showInstructions && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-auto"
+          >
+            <div className="bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl max-w-md">
+              <div className="flex justify-between items-start mb-6">
+                <h3 className="text-white text-2xl font-bold">Nasıl Kullanılır?</h3>
+                <button
+                  onClick={() => setShowInstructions(false)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              <div className="space-y-4 text-gray-300">
+                <p className="text-lg">🎯 Sürükle, Bırak, Çevir</p>
+                <p className="text-lg">🚀 Kapatmak için Hızlıca Fırlat</p>
+              </div>
+              <button
+                onClick={() => setShowInstructions(false)}
+                className="w-full mt-6 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-white font-semibold transition-colors"
+              >
+                Anladım
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
        <Canvas
         camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}

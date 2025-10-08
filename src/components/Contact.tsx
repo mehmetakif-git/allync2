@@ -39,7 +39,6 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
       import.meta.env.VITE_EMAILJS_SERVICE_ID="service_allync",
       import.meta.env.VITE_EMAILJS_TEMPLATE_ID="template_allync",
       form.current,
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY="rGwfmmq3dsUQ4dcwL"
     ).then(
       (result) => {
         console.log('SUCCESS!', result.text);

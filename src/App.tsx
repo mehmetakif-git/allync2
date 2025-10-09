@@ -148,7 +148,7 @@ function App() {
     <AnimatePresence>
       {showLanyard && !isMobile && (
         <motion.div
-          className="fixed inset-0 z-50 pointer-events-none"
+          className="fixed inset-0 z-50"
           initial={{ y: '-100vh', opacity: 0 }}
           animate={{ y: '0vh', opacity: 1 }}
           exit={{ y: '-100vh', opacity: 0 }}

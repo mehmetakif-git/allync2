@@ -1877,3 +1877,12 @@ textarea:focus-visible,
 select:focus-visible {
   @apply outline-none ring-2 ring-offset-2 ring-offset-black ring-blue-500;
 }
+
+/* Lanyard canvas pointer events fix */
+.lanyard-canvas {
+  pointer-events: none !important;
+}
+
+.lanyard-canvas canvas {
+  pointer-events: auto !important;
+}

@@ -244,12 +244,12 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
           </motion.div>
         )}
       </AnimatePresence>
-       <Canvas
-        camera={{ position: [0, 0, 20], fov: 25 }}
-        gl={{ alpha: true }}
-        onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
-        style={{ pointerEvents: 'auto' }}
-      >
+      <div className="lanyard-canvas w-full h-full">
+        <Canvas
+          camera={{ position: [0, 0, 20], fov: 25 }}
+          gl={{ alpha: true }}
+          onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
+        >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Band
@@ -266,7 +266,8 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
             <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
             <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
         </Environment>
-      </Canvas>
+        </Canvas>
+      </div>
     </div>
   );
 }

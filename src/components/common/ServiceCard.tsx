@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Video as LucideIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { EvervaultCardEffect } from '../ui/EvervaultCardEffect';
+import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
 import { useMagneticCursor } from '../../hooks/useMagneticCursor';
@@ -87,8 +87,19 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="flex-1 w-full">
-        <EvervaultCardEffect color={service.glowColor || '#8b5cf6'}>
+        <div className="w-full">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative">
+            <GlowingEffect
+              color={service.glowColor}
+              blur={20}
+              borderWidth={1.8}
+              spread={100}
+              glow={false}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+              movementDuration={2}
+            />
             <div className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
@@ -150,13 +161,23 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               </div>
             </div>
           </div>
-        </EvervaultCardEffect>
+        </div>
       </div>
 
       <div className="flex-1 w-full">
-        <EvervaultCardEffect color={service.glowColor || '#8b5cf6'}>
-          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
-            <div className="relative z-10 w-full h-full aspect-video">
+        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
+          <GlowingEffect
+            color={service.glowColor}
+            blur={0}
+            borderWidth={1}
+            spread={80}
+            glow={false}
+            disabled={false}
+            proximity={0}
+            inactiveZone={0.7}
+            movementDuration={2}
+          />
+          <div className="relative z-10 w-full h-full aspect-video">
             {service.galleryImages && service.galleryImages.length > 0 ? (
               <motion.button
                 layoutId={`gallery-${service.title}-0`}
@@ -179,9 +200,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 <p className="text-gray-500">{language === 'tr' ? 'Görsel Yok' : 'No Image'}</p>
               </div>
             )}
-            </div>
           </div>
-        </EvervaultCardEffect>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">

@@ -48,8 +48,8 @@ export const HolographicLogo: React.FC<HolographicLogoProps> = ({
             background: `radial-gradient(circle, ${color}, transparent)`,
           }}
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.6, 0.8, 0.6]
+            scale: [1, 1.3, 1],
+            opacity: [0.6, 1, 0.6]
           }}
           transition={{
             duration: 2,
@@ -78,11 +78,12 @@ export const HolographicLogo: React.FC<HolographicLogoProps> = ({
             background: `linear-gradient(135deg, transparent 30%, ${color}40 50%, transparent 70%)`,
           }}
           animate={{
-            x: [-20, 20, -20],
-            y: [-20, 20, -20]
+            x: [-30, 30, -30],
+            y: [-30, 30, -30],
+            rotate: [0, 360]
           }}
           transition={{
-            duration: 3,
+            duration: 4,
             repeat: Infinity,
             ease: 'linear'
           }}

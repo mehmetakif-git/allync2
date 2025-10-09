@@ -117,19 +117,19 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   return (
     <section className="py-8 md:py-12 relative bg-black contact-section" id="contact" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
 
-      <div className="max-w-1200px mx-auto px-4 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="max-w-1200px mx-auto px-5 sm:px-6 lg:px-8" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="text-center mb-8 md:mb-16 section-reveal">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent block">
               {t.contactTitle}
             </span>
           </h2>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">{t.contactSubtitle}</p>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">{t.contactSubtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6 form-grid">
@@ -229,7 +229,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <button
                 type="submit"
                 disabled={isSubmitting || !isFormValid}
-                className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-gray-700 to-gray-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:shadow-xl transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed px-2 text-xs sm:text-base"
+                className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-gray-700 to-gray-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:shadow-xl transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -254,7 +254,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
           {/* Contact Info */}
           <div className="flex flex-col gap-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-2xl p-4 md:p-6 lg:p-8 relative">
+            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
 
               <div className="space-y-6">

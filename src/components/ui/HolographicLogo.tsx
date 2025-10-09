@@ -43,16 +43,16 @@ export const HolographicLogo: React.FC<HolographicLogoProps> = ({
       <div className="relative" style={{ width: size, height: size }}>
         {/* Background glow */}
         <motion.div
-          className="absolute inset-0 rounded-lg blur-xl opacity-60"
+          className="absolute inset-0 rounded-lg blur-xl"
           style={{
             background: `radial-gradient(circle, ${color}, transparent)`,
           }}
           animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.6, 1, 0.6]
+            scale: [1, 1.5, 1],
+            opacity: [0.4, 0.9, 0.4]
           }}
           transition={{
-            duration: 2,
+            duration: 1.5,
             repeat: Infinity,
             ease: 'easeInOut'
           }}
@@ -75,15 +75,13 @@ export const HolographicLogo: React.FC<HolographicLogoProps> = ({
         <motion.div
           className="absolute inset-0 rounded-lg"
           style={{
-            background: `linear-gradient(135deg, transparent 30%, ${color}40 50%, transparent 70%)`,
+            background: `linear-gradient(135deg, transparent 20%, ${color}80 50%, transparent 80%)`,
           }}
           animate={{
-            x: [-30, 30, -30],
-            y: [-30, 30, -30],
             rotate: [0, 360]
           }}
           transition={{
-            duration: 4,
+            duration: 8,
             repeat: Infinity,
             ease: 'linear'
           }}

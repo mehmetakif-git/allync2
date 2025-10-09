@@ -9,7 +9,7 @@ interface HolographicShimmerProps {
 
 export const HolographicShimmer: React.FC<HolographicShimmerProps> = ({
   className = '',
-  intensity = 0.5,
+  intensity = 0.8,
   color = '#8b5cf6'
 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
@@ -24,15 +24,6 @@ export const HolographicShimmer: React.FC<HolographicShimmerProps> = ({
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
     setMousePosition({ x, y });
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setMousePosition({ x: 50, y: 50 });
   };
 
   const hexToRgb = (hex: string) => {
@@ -50,56 +41,112 @@ export const HolographicShimmer: React.FC<HolographicShimmerProps> = ({
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-auto ${className}`}
-      style={{ zIndex: 1 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setMousePosition({ x: 50, y: 50 });
+      }}
+      className={`absolute inset-0 overflow-hidden rounded-[inherit] ${className}`}
+      style={{ pointerEvents: 'none' }}
     >
-      <motion.div
-        className="absolute inset-0"
+      {/* LARGE radial gradient that follows mouse */}
+      <div
+        className="absolute inset-0 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%,
-            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.4}),
-            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.2}),
-            transparent 40%)`,
-          opacity: isHovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          mixBlendMode: 'screen',
-          pointerEvents: 'none'
+          background: `radial-gradient(800px circle at ${mousePosition.x}% ${mousePosition.y}%,
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity * 0.6 : intensity * 0.3}),
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity * 0.4 : intensity * 0.2}),
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity * 0.2 : intensity * 0.1}),
+            transparent 50%)`,
+          opacity: 1,
+          mixBlendMode: 'screen'
         }}
       />
 
+      {/* Animated shimmer sweep */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0"
         animate={isHovered ? {
-          x: ['-100%', '200%']
-        } : { x: '-100%' }}
+          x: ['-150%', '250%']
+        } : {}}
         transition={{
-          duration: 2,
+          duration: 2.5,
           repeat: isHovered ? Infinity : 0,
-          ease: 'linear'
+          ease: 'linear',
+          repeatDelay: 0
         }}
         style={{
-          width: '50%',
-          height: '100%',
-          transform: 'skewX(-20deg)',
+          width: '100%',
+          height: '200%',
+          transform: 'skewX(-25deg)',
           background: `linear-gradient(90deg,
             transparent 0%,
-            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0) 20%,
-            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.8}) 50%,
-            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0) 80%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(255, 255, 255, ${isHovered ? 0.4 : 0.2}) 50%,
+            rgba(255, 255, 255, 0) 80%,
+            transparent 100%)`,
+          filter: 'blur(2px)'
+        }}
+      />
+
+      {/* Colored shimmer sweep */}
+      <motion.div
+        className="absolute inset-0"
+        animate={isHovered ? {
+          x: ['-150%', '250%']
+        } : {}}
+        transition={{
+          duration: 3,
+          repeat: isHovered ? Infinity : 0,
+          ease: 'linear',
+          repeatDelay: 0,
+          delay: 0.5
+        }}
+        style={{
+          width: '100%',
+          height: '200%',
+          transform: 'skewX(-25deg)',
+          background: `linear-gradient(90deg,
+            transparent 0%,
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0) 30%,
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity : intensity * 0.5}) 50%,
+            rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0) 70%,
             transparent 100%)`
         }}
       />
 
+      {/* Edge glow that pulses */}
       <motion.div
-        className="absolute inset-0 rounded-[inherit] pointer-events-none"
+        className="absolute inset-0 rounded-[inherit]"
+        animate={isHovered ? {
+          boxShadow: [
+            `0 0 20px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.3}), inset 0 0 20px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.2})`,
+            `0 0 40px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.5}), inset 0 0 30px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.3})`,
+            `0 0 20px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.3}), inset 0 0 20px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.2})`
+          ]
+        } : {
+          boxShadow: `0 0 0px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0)`
+        }}
+        transition={{
+          duration: 2,
+          repeat: isHovered ? Infinity : 0,
+          ease: 'easeInOut'
+        }}
+      />
+
+      {/* Corner highlights */}
+      <div
+        className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl transition-opacity duration-300"
         style={{
-          boxShadow: isHovered
-            ? `0 0 30px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.6}),
-               inset 0 0 30px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${intensity * 0.3})`
-            : 'none',
-          transition: 'box-shadow 0.3s ease'
+          background: `radial-gradient(circle, rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity * 0.4 : 0}), transparent)`,
+          transform: 'translate(50%, -50%)'
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-0 w-32 h-32 rounded-full blur-2xl transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(circle, rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${isHovered ? intensity * 0.4 : 0}), transparent)`,
+          transform: 'translate(-50%, 50%)'
         }}
       />
     </div>

@@ -8,6 +8,7 @@ import { HelmetManager } from './components/HelmetManager';
 import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
 import { InactivityWarning } from './components/InactivityWarning';
+import { ScrollProgress } from './components/ui/ScrollProgress';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -167,6 +168,9 @@ function App() {
           viewMode={viewMode}
           onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
         />
+        {(viewMode === 'ai-view' || viewMode === 'digital-view') && (
+          <ScrollProgress showMilestones={!isMobile} />
+        )}
         <AnimatePresence mode="wait">
           <motion.div
             key={viewMode}

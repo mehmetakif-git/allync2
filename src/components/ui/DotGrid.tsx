@@ -252,7 +252,7 @@ const DotGrid: React.FC<DotGridProps> = ({
         clickCountRef.current += 1;
         lastClickTimeRef.current = now;
 
-        if (clickCountRef.current === 5) {
+        if (clickCountRef.current === 10) {
             const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
             setPopupPosition({ x: e.clientX, y: e.clientY });
             setPopup({ visible: true, message: randomMessage });

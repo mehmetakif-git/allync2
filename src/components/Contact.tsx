@@ -19,7 +19,8 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   });
   const [errors, setErrors] = useState({
     email: '',
-    phone: ''
+    phone: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
@@ -93,15 +94,25 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     }
 
     if (name === 'phone') {
-      if (value && !phoneRegex.test(value)) {
-        setErrors({ ...errors, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' });
+      if (!value) {
+        setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Telefon numarası zorunludur' : 'Phone number is required' }));
+      } else if (!phoneRegex.test(value)) {
+        setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' }));
       } else {
-        setErrors({ ...errors, phone: '' });
+        setErrors(prev => ({ ...prev, phone: '' }));
+      }
+    }
+
+    if (name === 'message') {
+      if (!value) {
+        setErrors(prev => ({ ...prev, message: language === 'tr' ? 'Mesaj alanı zorunludur' : 'Message is required' }));
+      } else {
+        setErrors(prev => ({ ...prev, message: '' }));
       }
     }
   };
 
-  const isFormValid = formData.name && formData.email && formData.business && !errors.email && (!formData.phone || !errors.phone);
+  const isFormValid = formData.name && formData.email && formData.business && formData.phone && formData.message && !errors.email && !errors.phone;
 
   return (
     <section className="py-8 md:py-12 relative bg-black contact-section" id="contact" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
@@ -152,11 +163,12 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <LabelInputContainer>
-                  <LabelGlow htmlFor="phone">{t.phoneNumber}</LabelGlow>
+                  <LabelGlow htmlFor="phone">{t.phoneNumber} *</LabelGlow>
                   <InputGlow
                     type="tel"
                     id="phone"
                     name="phone"
+                    required
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder={language === 'tr' ? '+90 555 123 4567' : '+1 (555) 123-4567'}
@@ -200,16 +212,18 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               </div>
 
               <LabelInputContainer>
-                <LabelGlow htmlFor="message">{t.tellUsNeeds}</LabelGlow>
+                <LabelGlow htmlFor="message">{t.tellUsNeeds} *</LabelGlow>
                 <InputGlow
                   id="message"
                   name="message"
                   isTextarea
                   rows={4}
+                  required
                   value={formData.message}
                   onChange={handleChange}
                   placeholder={t.needsPlaceholder}
                 />
+                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </LabelInputContainer>
 
               <button

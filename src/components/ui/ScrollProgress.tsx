@@ -61,7 +61,9 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({
     return () => window.removeEventListener('scroll', updateSection);
   }, [config.positions]);
 
-  const gradientColors = config.colors.join(', ');
+  const progressGradient = viewMode === 'ai-view'
+    ? 'linear-gradient(to right, #8F43EE, #2389D6, #0DA2AD)'
+    : 'linear-gradient(to right, #0C9FAD, #13AC63, #2588D9)';
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
@@ -69,7 +71,7 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({
         className="h-1 origin-left"
         style={{
           scaleX,
-          background: `linear-gradient(to right, ${gradientColors})`
+          background: progressGradient
         }}
       />
 

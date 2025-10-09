@@ -57,11 +57,11 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 
   return (
     <div className="min-h-screen">
-      <div className="pt-20 md:pt-32 pb-12 md:pb-20 px-4">
+      <div className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 md:mb-20">
-            <div className="flex flex-col items-center justify-center mb-4 md:mb-6">
-              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-4 text-center">
+          <div className="text-center mb-20">
+            <div className="flex flex-col items-center justify-center mb-6">
+              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
                 <LayoutTextFlip
                   text={pageTitle}
                   words={flipWords}
@@ -73,10 +73,10 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                 />
               </motion.div>
             </div>
-            <ShinyText text={pageSubtitle} className="text-base md:text-xl text-gray-400 max-w-3xl mx-auto mb-6 md:mb-8 px-4" />
+            <ShinyText text={pageSubtitle} className="text-xl text-gray-400 max-w-3xl mx-auto mb-8" />
           </div>
 
-          <div className="space-y-12 md:space-y-32">
+          <div className="space-y-32">
             {services.map((service, index) => (
               <div key={index} className="relative">
                 <ServiceCard
@@ -97,16 +97,16 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl md:rounded-3xl overflow-hidden mt-4"
+                      className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl overflow-hidden mt-4"
                     >
-                      <div className="p-4 md:p-8 relative">
+                      <div className="p-8 relative">
                         <button
                           onClick={() => setExpandedIndex(null)}
-                          className="absolute top-2 right-2 md:top-4 md:right-4 text-white text-xl md:text-2xl hover:text-gray-300 transition-colors z-10 p-2"
+                          className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition-colors"
                         >
                           ✕
                         </button>
-                        <div className="text-sm md:text-base text-gray-300 whitespace-pre-line leading-relaxed pr-8">
+                        <div className="text-gray-300 whitespace-pre-line leading-relaxed">
                           {service.extendedContent}
                         </div>
                         <button
@@ -114,7 +114,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                             scrollToContact();
                             setExpandedIndex(null);
                           }}
-                          className={`mt-4 md:mt-6 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-gradient-to-r ${service.gradient} text-white rounded-lg hover:scale-105 transition-all duration-300`}
+                          className={`mt-6 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white rounded-lg hover:scale-105 transition-all duration-300`}
                         >
                           {t.requestCustomQuote}
                         </button>
@@ -126,14 +126,14 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
             ))}
           </div>
 
-          <div className="mt-16 md:mt-32 text-center">
+          <div className="mt-32 text-center">
             <motion.div
               ref={ctaRef}
               className="inline-block"
             >
               <button
                 onClick={scrollToContact}
-                className={`px-8 md:px-12 py-3 md:py-5 bg-gradient-to-r ${ctaButtonGradient} text-white text-base md:text-lg font-bold rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-2xl`}
+                className={`px-12 py-5 bg-gradient-to-r ${ctaButtonGradient} text-white text-lg font-bold rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-2xl`}
               >
                 {t.getStarted}
               </button>

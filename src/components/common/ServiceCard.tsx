@@ -77,11 +77,11 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <div
-      className={`flex flex-col ${isOdd ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-6 md:gap-12 items-center`}
+      className={`flex flex-col ${isOdd ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}
     >
       <div className="flex-1 w-full">
         <div className="w-full">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-12 w-full h-full relative">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative">
             <GlowingEffect
               color={service.glowColor}
               blur={20}
@@ -94,32 +94,32 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               movementDuration={2}
             />
             <div className="w-full">
-              <div className={`w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br ${service.gradient} rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6`}>
-                <Icon className="w-8 h-8 md:w-10 md:h-10 text-white" />
+              <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
+                <Icon className="w-10 h-10 text-white" />
               </div>
             </div>
 
             <div className="w-full">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 {service.title}
               </h2>
             </div>
 
             <div className="w-full">
-              <p className="text-base md:text-lg text-gray-400 mb-6 md:mb-8 leading-relaxed">
+              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
                 {service.description}
               </p>
             </div>
 
             <div className="w-full">
-              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">
+              <div className="space-y-4 mb-8">
+                <h3 className="text-xl font-semibold text-white mb-4">
                   {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
                 </h3>
                 {service.benefits.map((benefit, idx) => (
                   <div key={idx} className="flex items-start">
                     <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0`}></div>
-                    <p className="text-sm md:text-base text-gray-300">{benefit}</p>
+                    <p className="text-gray-300">{benefit}</p>
                   </div>
                 ))}
               </div>
@@ -135,13 +135,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                       onDetailClick();
                     }
                   }}
-                  className={`flex-1 px-4 md:px-6 py-3 md:py-3 text-sm md:text-base bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform active:scale-95`}
+                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
                 </button>
                 <button
                   onClick={onContactClick}
-                  className="flex-1 px-4 md:px-6 py-3 md:py-3 text-sm md:text-base bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform active:scale-95"
+                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
                 >
                   {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
                 </button>
@@ -152,7 +152,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
 
       <div className="flex-1 w-full">
-        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-2xl md:rounded-3xl p-4 md:p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
+        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
           <GlowingEffect
             color={service.glowColor}
             blur={0}
@@ -177,7 +177,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-70"
                 />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-all flex items-center justify-center">
-                  <p className="text-white font-semibold text-sm md:text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white font-semibold text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {language === 'tr' ? 'Galeriyi Görüntüle' : 'View Gallery'}
                   </p>
                 </div>
@@ -201,7 +201,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               transition={{ duration: 0.3 }}
               className="fixed inset-0 bg-black/80 backdrop-blur-md z-[99998]"
             />
-            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-2 md:p-4">
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
               <motion.div
                 ref={modalRef}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -212,9 +212,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               >
                 <button
                   onClick={() => setExpandedIndex(null)}
-                  className="absolute -top-8 md:-top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-[100000]"
+                  className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-[100000]"
                 >
-                  <X className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <X className="w-6 h-6 text-white" />
                 </button>
 
                 <motion.div
@@ -227,8 +227,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-hover:blur-sm transition-all duration-300"
                   />
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300 opacity-0 group-hover:opacity-100">
-                    <p className="text-white text-xl md:text-3xl font-bold px-4 text-center">{service.galleryImages[currentIndex]}</p>
-                    <p className="text-gray-300 text-sm md:text-base mt-2">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
+                    <p className="text-white text-3xl font-bold">{service.galleryImages[currentIndex]}</p>
+                    <p className="text-gray-300 text-base mt-2">{language === 'tr' ? 'Görsel' : 'Image'} {currentIndex + 1} / {service.galleryImages.length}</p>
                   </div>
                 </motion.div>
 
@@ -236,25 +236,25 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   <>
                     <button
                       onClick={() => setCurrentIndex(prev => prev === 0 ? service.galleryImages.length - 1 : prev - 1)}
-                      className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-2 md:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
                     >
-                      <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                      <ChevronLeft className="w-6 h-6 text-white" />
                     </button>
                     <button
                       onClick={() => setCurrentIndex(prev => prev === service.galleryImages.length - 1 ? 0 : prev + 1)}
-                      className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-2 md:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all"
                     >
-                      <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                      <ChevronRight className="w-6 h-6 text-white" />
                     </button>
                   </>
                 )}
 
-                <div className="flex gap-2 mt-4 md:mt-8 justify-center overflow-x-auto pb-4 pt-1">
+                <div className="flex gap-2 mt-8 justify-center overflow-x-auto pb-4 pt-1">
                   {service.galleryImages.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
-                      className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg bg-white/5 border-2 flex items-center justify-center transition-all ${
+                      className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg bg-white/5 border-2 flex items-center justify-center transition-all ${
                         idx === currentIndex ? 'border-white scale-110' : 'border-white/20 hover:border-white/40'
                       }`}
                     >

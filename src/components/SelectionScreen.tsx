@@ -14,7 +14,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
   const t = translations[language];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 sm:px-6 relative overflow-x-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-x-hidden">
 
       <button
         onClick={onLanguageToggle}
@@ -54,7 +54,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
           </TextRevealCard>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 w-full">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-8 w-full">
           <CometCard className="w-full max-w-sm mx-auto md:max-w-none">
             <button
               onClick={() => onSelectView('ai-view')}

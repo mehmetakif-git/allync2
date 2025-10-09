@@ -102,8 +102,8 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt, onDragStart
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
 
       if (card.current) {
-        const screenPosition = new THREE.Vector3();
-        card.current.getWorldPosition(screenPosition);
+        const worldPos = card.current.translation();
+        const screenPosition = new THREE.Vector3(worldPos.x, worldPos.y, worldPos.z);
         screenPosition.project(state.camera);
         const x = (screenPosition.x * 0.5 + 0.5) * state.size.width;
         const y = (-screenPosition.y * 0.5 + 0.5) * state.size.height;

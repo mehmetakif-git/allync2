@@ -7,6 +7,7 @@ import { SelectionScreen } from './components/SelectionScreen';
 import { HelmetManager } from './components/HelmetManager';
 import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
+import { InactivityWarning } from './components/InactivityWarning';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -19,6 +20,8 @@ function App() {
   const [showLanyard, setShowLanyard] = useState(false);
   const [scrollJolt, setScrollJolt] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const [warningCountdown, setWarningCountdown] = useState(10);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
@@ -80,7 +83,7 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Effect to show Lanyard after 90 seconds of inactivity
+  // Effect to show warning at 80 seconds and Lanyard after 90 seconds of inactivity
   useEffect(() => {
     if (isMobile) return; // Don't run inactivity timer on mobile
 
@@ -88,10 +91,13 @@ function App() {
 
     const resetTimer = () => {
       clearTimeout(inactivityTimer);
+      setShowWarning(false);
+      setWarningCountdown(10);
+
       if (!showLanyard) { // Don't set a new timer if lanyard is already trying to show or is shown
           inactivityTimer = setTimeout(() => {
-              setShowLanyard(true);
-          }, 90000);
+              setShowWarning(true);
+          }, 80000);
       }
     };
 
@@ -104,6 +110,25 @@ function App() {
       activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
     };
   }, [showLanyard, isMobile]); // Dependency on showLanyard to help manage timer state correctly
+
+  // Effect to handle countdown when warning is shown
+  useEffect(() => {
+    if (!showWarning) return;
+
+    const countdownInterval = setInterval(() => {
+      setWarningCountdown((prev) => {
+        if (prev <= 1) {
+          setShowWarning(false);
+          setShowLanyard(true);
+          setWarningCountdown(10);
+          return 10;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(countdownInterval);
+  }, [showWarning]);
 
   const handleLanyardDismiss = () => {
     setShowLanyard(false);
@@ -169,7 +194,14 @@ function App() {
             )}
           </motion.div>
         </AnimatePresence>
-        {!isMobile && renderLanyard()}
+        {!isMobile && (
+          <>
+            <AnimatePresence>
+              {showWarning && <InactivityWarning countdown={warningCountdown} />}
+            </AnimatePresence>
+            {renderLanyard()}
+          </>
+        )}
       </div>
     </HelmetProvider>
   );

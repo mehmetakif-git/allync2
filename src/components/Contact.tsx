@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
-import confetti from 'canvas-confetti';
 
 interface ContactProps {
   language: 'tr' | 'en';
@@ -19,34 +18,13 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   });
   const [errors, setErrors] = useState({
     email: '',
-    phone: '',
-    message: ''
+    phone: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-
-  const handleSuccessConfetti = () => {
-    const duration = 3 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
-
-    const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-    const interval = window.setInterval(() => {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return window.clearInterval(interval);
-      }
-
-      const particleCount = 50 * (timeLeft / duration);
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-    }, 250);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,14 +39,13 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, language }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setStatusMessage(language === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!');
-        handleSuccessConfetti();
         setFormData({ name: '', email: '', phone: '', business: '', message: '' });
       } else {
         throw new Error(data.error || 'An error occurred');
@@ -94,25 +71,15 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     }
 
     if (name === 'phone') {
-      if (!value) {
-        setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Telefon numarası zorunludur' : 'Phone number is required' }));
-      } else if (!phoneRegex.test(value)) {
-        setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' }));
+      if (value && !phoneRegex.test(value)) {
+        setErrors({ ...errors, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' });
       } else {
-        setErrors(prev => ({ ...prev, phone: '' }));
-      }
-    }
-
-    if (name === 'message') {
-      if (!value) {
-        setErrors(prev => ({ ...prev, message: language === 'tr' ? 'Mesaj alanı zorunludur' : 'Message is required' }));
-      } else {
-        setErrors(prev => ({ ...prev, message: '' }));
+        setErrors({ ...errors, phone: '' });
       }
     }
   };
 
-  const isFormValid = formData.name && formData.email && formData.business && formData.phone && formData.message && !errors.email && !errors.phone;
+  const isFormValid = formData.name && formData.email && formData.business && !errors.email && (!formData.phone || !errors.phone);
 
   return (
     <section className="py-8 md:py-12 relative bg-black contact-section" id="contact" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>
@@ -163,12 +130,11 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <LabelInputContainer>
-                  <LabelGlow htmlFor="phone">{t.phoneNumber} *</LabelGlow>
+                  <LabelGlow htmlFor="phone">{t.phoneNumber}</LabelGlow>
                   <InputGlow
                     type="tel"
                     id="phone"
                     name="phone"
-                    required
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder={language === 'tr' ? '+90 555 123 4567' : '+1 (555) 123-4567'}
@@ -212,18 +178,16 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               </div>
 
               <LabelInputContainer>
-                <LabelGlow htmlFor="message">{t.tellUsNeeds} *</LabelGlow>
+                <LabelGlow htmlFor="message">{t.tellUsNeeds}</LabelGlow>
                 <InputGlow
                   id="message"
                   name="message"
                   isTextarea
                   rows={4}
-                  required
                   value={formData.message}
                   onChange={handleChange}
                   placeholder={t.needsPlaceholder}
                 />
-                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </LabelInputContainer>
 
               <button

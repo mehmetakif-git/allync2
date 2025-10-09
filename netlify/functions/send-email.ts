@@ -15,7 +15,7 @@ export const handler: Handler = async (event) => {
     if (!event.body) {
       throw new Error('No body provided');
     }
-    const { name, email, phone, business, message, language } = JSON.parse(event.body);
+    const { name, email, phone, business, message } = JSON.parse(event.body);
 
     if (!name || !email || !business) {
       return {
@@ -41,15 +41,12 @@ export const handler: Handler = async (event) => {
       `,
     });
 
-    // 2. Auto-Reply Email to the User (Now with i18n)
-    const isTurkish = language === 'tr';
-
-    const subject = isTurkish
-      ? 'Mesajınız Alınmıştır | Allync AI'
-      : 'Your Message Has Been Received | Allync AI';
-
-    const html = isTurkish
-      ? `
+    // 2. Auto-Reply Email to the User
+    await resend.emails.send({
+        from: 'info@allyncai.com', // MUST be an email from your verified Resend domain
+        to: email,
+        subject: 'Mesajınız Alınmıştır | Allync AI',
+        html: `
           <p>Merhaba ${name},</p>
           <p>Bizimle iletişime geçtiğiniz için teşekkür ederiz.</p>
           <p>Mesajınız ekibimize başarıyla ulaşmıştır. En kısa sürede size geri dönüş yapacağız.</p>
@@ -57,20 +54,6 @@ export const handler: Handler = async (event) => {
           <p>Saygılarımızla,</p>
           <p><strong>Allync AI Ekibi</strong></p>
         `
-      : `
-          <p>Hello ${name},</p>
-          <p>Thank you for contacting us.</p>
-          <p>Your message has been successfully received by our team. We will get back to you as soon as possible.</p>
-          <br>
-          <p>Best regards,</p>
-          <p><strong>The Allync AI Team</strong></p>
-        `;
-
-    await resend.emails.send({
-      from: 'info@allyncai.com',
-      to: email,
-      subject,
-      html,
     });
 
     return {

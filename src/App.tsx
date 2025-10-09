@@ -8,6 +8,7 @@ import { HelmetManager } from './components/HelmetManager';
 import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
 import { InactivityWarning } from './components/InactivityWarning';
+import MobileDock from './components/MobileDock';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -167,12 +168,14 @@ function App() {
       <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
         {showBackground && !isMobile && <DotGrid />}
         <HelmetManager language={language} activeSection={activeSection} />
-        <Navigation
-          language={language}
-          onLanguageToggle={toggleLanguage}
-          viewMode={viewMode}
-          onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
-        />
+        {!isMobile && (
+          <Navigation
+            language={language}
+            onLanguageToggle={toggleLanguage}
+            viewMode={viewMode}
+            onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
+          />
+        )}
         <AnimatePresence mode="wait">
           <motion.div
             key={viewMode}
@@ -204,6 +207,7 @@ function App() {
           {showWarning && <InactivityWarning countdown={countdown} />}
         </AnimatePresence>
         {renderLanyard()}
+        {isMobile && <MobileDock />}
       </div>
     </HelmetProvider>
   );

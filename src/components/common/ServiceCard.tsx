@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Video as LucideIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HolographicShimmer } from '../ui/HolographicShimmer';
-import { HolographicLogo } from '../ui/HolographicLogo';
+import { EvervaultCardEffect } from '../ui/EvervaultCardEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
 import { useMagneticCursor } from '../../hooks/useMagneticCursor';
@@ -40,9 +39,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
   const magneticDetails = useMagneticCursor(0.25);
   const magneticContact = useMagneticCursor(0.25);
 
@@ -76,26 +73,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     }
   }, [expandedIndex]);
 
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || window.innerWidth < 768) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-
-    setTilt({ x: rotateX, y: rotateY });
-  };
-
-  const handleCardMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-  };
-
   const handleThumbnailClick = (idx: number) => {
     setExpandedIndex(idx);
     setCurrentIndex(idx);
@@ -110,23 +87,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="flex-1 w-full">
-        <div
-          ref={cardRef}
-          onMouseMove={handleCardMouseMove}
-          onMouseLeave={handleCardMouseLeave}
-          className="w-full"
-          style={{
-            transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-            transition: 'transform 0.1s ease-out'
-          }}
-        >
+        <EvervaultCardEffect color={service.glowColor || '#8b5cf6'}>
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative">
-            <HolographicShimmer intensity={0.6} color={service.glowColor || '#8b5cf6'} />
-            <HolographicLogo
-              color={service.glowColor || '#8b5cf6'}
-              size={50}
-              position="top-right"
-            />
             <div className="w-full">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
@@ -188,13 +150,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </EvervaultCardEffect>
       </div>
 
       <div className="flex-1 w-full">
-        <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
-          <HolographicShimmer intensity={0.4} color={service.glowColor || '#8b5cf6'} />
-          <div className="relative z-10 w-full h-full aspect-video">
+        <EvervaultCardEffect color={service.glowColor || '#8b5cf6'}>
+          <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
+            <div className="relative z-10 w-full h-full aspect-video">
             {service.galleryImages && service.galleryImages.length > 0 ? (
               <motion.button
                 layoutId={`gallery-${service.title}-0`}
@@ -217,8 +179,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 <p className="text-gray-500">{language === 'tr' ? 'Görsel Yok' : 'No Image'}</p>
               </div>
             )}
+            </div>
           </div>
-        </div>
+        </EvervaultCardEffect>
       </div>
 
       <AnimatePresence mode="wait">

@@ -5,6 +5,7 @@ import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
 import confetti from 'canvas-confetti';
 import { useMagneticCursor } from '../hooks/useMagneticCursor';
+import { useParallax } from '../hooks/useParallax';
 
 interface ContactProps {
   language: 'tr' | 'en';
@@ -13,6 +14,8 @@ interface ContactProps {
 export const Contact: React.FC<ContactProps> = ({ language }) => {
   const t = translations[language];
   const magneticSubmit = useMagneticCursor(0.3);
+  const parallaxForm = useParallax(0.2);
+  const parallaxInfo = useParallax(0.3);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -132,7 +135,11 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <motion.div
+            ref={parallaxForm.ref}
+            style={{ y: parallaxForm.y }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative"
+          >
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6 form-grid">
@@ -255,10 +262,14 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                 </p>
               )}
             </form>
-          </div>
+          </motion.div>
 
           {/* Contact Info */}
-          <div className="flex flex-col gap-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <motion.div
+            ref={parallaxInfo.ref}
+            style={{ y: parallaxInfo.y }}
+            className="flex flex-col gap-8 fade-in-right contact-info"
+          >
             <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
 
@@ -313,7 +324,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <p className="text-gray-400 text-sm">{t.guaranteeDesc}</p>
             </div>
 
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

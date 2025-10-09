@@ -95,6 +95,19 @@ const DotGrid: React.FC<DotGridProps> = ({
       }
     });
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const canvas = canvasRef.current;
+      if (canvas) {
+        canvas.style.transform = `translateY(${scrolled * 0.3}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   // --- End of Easter Egg Logic ---
 
   const baseRgb = useMemo(() => hexToRgb(baseColor), [baseColor]);

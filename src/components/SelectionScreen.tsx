@@ -1,8 +1,10 @@
 import React from 'react';
 import { Zap, Code } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 import { TextRevealCard, TextRevealCardTitle, TextRevealCardDescription } from './ui/TextRevealCard';
 import { CometCard } from './ui/CometCard';
+import { useParallaxScroll } from '../hooks/useParallax';
 
 interface SelectionScreenProps {
   language: 'tr' | 'en';
@@ -12,9 +14,33 @@ interface SelectionScreenProps {
 
 export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSelectView, onLanguageToggle }) => {
   const t = translations[language];
+  const { y1, y2, y3 } = useParallaxScroll();
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative overflow-x-hidden">
+      <motion.div
+        style={{ y: y1 }}
+        className="absolute inset-0 opacity-20 pointer-events-none"
+      >
+        <div className="absolute top-20 left-10 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl" />
+      </motion.div>
+
+      <motion.div
+        style={{ y: y2 }}
+        className="absolute inset-0 opacity-30 pointer-events-none"
+      >
+        <div className="absolute top-40 right-20 w-48 h-48 bg-blue-600/20 rounded-full blur-2xl" />
+        <div className="absolute bottom-40 left-20 w-72 h-72 bg-purple-600/20 rounded-full blur-2xl" />
+      </motion.div>
+
+      <motion.div
+        style={{ y: y3 }}
+        className="absolute inset-0 opacity-40 pointer-events-none"
+      >
+        <div className="absolute top-60 left-1/3 w-32 h-32 bg-cyan-600/20 rounded-full blur-xl" />
+        <div className="absolute bottom-60 right-1/3 w-40 h-40 bg-pink-600/20 rounded-full blur-xl" />
+      </motion.div>
 
       <button
         onClick={onLanguageToggle}

@@ -217,7 +217,7 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
   };
 
   return (
-    <div className="w-full h-full pointer-events-none">
+    <div className="w-full h-full">
       <AnimatePresence>
         {bubble.visible && (
           <motion.div

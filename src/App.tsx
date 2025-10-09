@@ -169,7 +169,11 @@ function App() {
           onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
         />
         {(viewMode === 'ai-view' || viewMode === 'digital-view') && (
-          <ScrollProgress showMilestones={!isMobile} />
+          <ScrollProgress
+            showMilestones={!isMobile}
+            viewMode={viewMode}
+            language={language}
+          />
         )}
         <AnimatePresence mode="wait">
           <motion.div

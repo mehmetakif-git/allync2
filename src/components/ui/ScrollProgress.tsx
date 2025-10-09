@@ -3,9 +3,15 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 
 interface ScrollProgressProps {
   showMilestones?: boolean;
+  viewMode: 'ai-view' | 'digital-view';
+  language: 'tr' | 'en';
 }
 
-export const ScrollProgress: React.FC<ScrollProgressProps> = ({ showMilestones = true }) => {
+export const ScrollProgress: React.FC<ScrollProgressProps> = ({
+  showMilestones = true,
+  viewMode,
+  language
+}) => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -13,17 +19,28 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({ showMilestones =
     restDelta: 0.001
   });
 
-  const [currentSection, setCurrentSection] = useState('hero');
+  const [currentSection, setCurrentSection] = useState(0);
 
-  const milestones = [
-    { id: 'hero', label: 'Home', position: 0 },
-    { id: 'chat-demo', label: 'Demo', position: 0.15 },
-    { id: 'packages', label: 'Packages', position: 0.30 },
-    { id: 'industry-examples', label: 'Industries', position: 0.45 },
-    { id: 'features', label: 'Features', position: 0.60 },
-    { id: 'pricing', label: 'Pricing', position: 0.75 },
-    { id: 'contact', label: 'Contact', position: 0.90 }
-  ];
+  const aiMilestones = {
+    colors: ['#0DA266', '#D542AE', '#2389D6', '#8F43EE', '#E94720', '#4C5564', '#0DA2AD', '#3464ED', '#EA820A', '#0DA266'],
+    labels: {
+      tr: ['WA Otomasyon', 'IG Otomasyon', 'Text→Video', 'Text→Image', 'Voice AI', 'Doc AI', 'Image→Video', 'Video→Video', 'Data AI', 'Custom AI'],
+      en: ['WA Automation', 'IG Automation', 'Text→Video', 'Text→Image', 'Voice AI', 'Doc AI', 'Image→Video', 'Video→Video', 'Data AI', 'Custom AI']
+    },
+    positions: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  };
+
+  const digitalMilestones = {
+    colors: ['#13AC63', '#2588D9', '#C938A5', '#E84520', '#0C9FAD', '#3D65EE', '#AE3AEC', '#4F5867'],
+    labels: {
+      tr: ['E-Ticaret', 'Kurumsal', 'Mobil App', 'Dijital Paz.', 'IoT', 'Bulut', 'UI/UX', 'Bakım'],
+      en: ['E-Commerce', 'Corporate', 'Mobile App', 'Digital Mkt', 'IoT', 'Cloud', 'UI/UX', 'Support']
+    },
+    positions: [0, 0.14, 0.28, 0.42, 0.56, 0.70, 0.84, 0.98]
+  };
+
+  const config = viewMode === 'ai-view' ? aiMilestones : digitalMilestones;
+  const labels = config.labels[language];
 
   useEffect(() => {
     const updateSection = () => {
@@ -31,49 +48,69 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({ showMilestones =
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrolled / totalHeight;
 
-      for (let i = milestones.length - 1; i >= 0; i--) {
-        if (progress >= milestones[i].position) {
-          setCurrentSection(milestones[i].id);
+      for (let i = config.positions.length - 1; i >= 0; i--) {
+        if (progress >= config.positions[i]) {
+          setCurrentSection(i);
           break;
         }
       }
     };
 
     window.addEventListener('scroll', updateSection, { passive: true });
+    updateSection();
     return () => window.removeEventListener('scroll', updateSection);
-  }, []);
+  }, [config.positions]);
+
+  const gradientColors = config.colors.join(', ');
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
       <motion.div
-        className="h-1 bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-400 origin-left"
-        style={{ scaleX }}
+        className="h-1 origin-left"
+        style={{
+          scaleX,
+          background: `linear-gradient(to right, ${gradientColors})`
+        }}
       />
 
       {showMilestones && (
-        <div className="absolute top-2 left-0 right-0 flex justify-between px-8 pointer-events-auto">
-          {milestones.map((milestone) => (
+        <div className="absolute top-2 left-0 right-0 flex justify-between px-4 md:px-8 pointer-events-auto">
+          {config.positions.map((position, index) => (
             <button
-              key={milestone.id}
+              key={index}
               onClick={() => {
-                const element = document.getElementById(milestone.id);
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const targetScroll = position * totalHeight;
+                window.scrollTo({ top: targetScroll, behavior: 'smooth' });
               }}
               className={`group relative transition-all duration-300 ${
-                currentSection === milestone.id ? 'scale-110' : 'scale-100 opacity-50 hover:opacity-100'
+                currentSection === index ? 'scale-110' : 'scale-100 opacity-50 hover:opacity-100'
               }`}
             >
-              <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentSection === milestone.id
-                  ? 'bg-white shadow-lg shadow-blue-500/50'
-                  : 'bg-gray-500 group-hover:bg-gray-300'
-              }`} />
+              <div
+                className={`w-2 h-2 rounded-full transition-all duration-300`}
+                style={{
+                  backgroundColor: currentSection === index ? config.colors[index] : '#6b7280',
+                  boxShadow: currentSection === index
+                    ? `0 0 12px ${config.colors[index]}, 0 0 24px ${config.colors[index]}40`
+                    : 'none'
+                }}
+              />
 
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                <div className="bg-black/90 backdrop-blur-sm border border-white/20 rounded px-2 py-1 whitespace-nowrap">
-                  <span className="text-xs text-white font-medium">{milestone.label}</span>
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                <div
+                  className="backdrop-blur-sm rounded px-2 py-1 border"
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    borderColor: config.colors[index]
+                  }}
+                >
+                  <span
+                    className="text-xs font-medium"
+                    style={{ color: config.colors[index] }}
+                  >
+                    {labels[index]}
+                  </span>
                 </div>
               </div>
             </button>
@@ -85,7 +122,7 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({ showMilestones =
         className="absolute top-0 h-1 w-20 pointer-events-none"
         style={{
           left: scrollYProgress,
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)',
+          background: `radial-gradient(circle, ${config.colors[currentSection]}cc 0%, transparent 70%)`,
           filter: 'blur(8px)',
           scaleX: 1
         }}

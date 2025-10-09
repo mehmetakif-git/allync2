@@ -20,7 +20,7 @@ import lanyard from '../assets/lanyard.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpeed?: number; minSpeed?: number; onDismiss: () => void; scrollJolt: number }) {
+function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt, onDragStart, onDragEnd, onPositionUpdate }: { maxSpeed?: number; minSpeed?: number; onDismiss: () => void; scrollJolt: number; onDragStart: () => void; onDragEnd: () => void; onPositionUpdate: (x: number, y: number) => void; }) {
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -102,6 +102,15 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
+
+      if (card.current) {
+        const screenPosition = new THREE.Vector3();
+        card.current.getWorldPosition(screenPosition);
+        screenPosition.project(state.camera);
+        const x = (screenPosition.x * 0.5 + 0.5) * state.size.width;
+        const y = (-screenPosition.y * 0.5 + 0.5) * state.size.height;
+        onPositionUpdate(x, y);
+      }
     }
   });
 
@@ -134,6 +143,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => {
+              onDragEnd();
               e.target.releasePointerCapture(e.pointerId);
               drag(false);
 
@@ -146,6 +156,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
               }
             }}
             onPointerDown={(e) => {
+              onDragStart();
               e.target.setPointerCapture(e.pointerId);
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
             }}
@@ -182,46 +193,60 @@ function Band({ maxSpeed = 50, minSpeed = 10, onDismiss, scrollJolt }: { maxSpee
 }
 
 export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => void; scrollJolt: number }) {
-  const [showInstructions, setShowInstructions] = useState(false);
+  const wittyMessages = [
+    'Hadi, daha hızlı fırlat!',
+    'Yapabilirsin, az kaldı!',
+    'Allync AI hizmetinizde.',
+    'Beni göndermek için biraz daha salla!',
+    'Hey, naber?',
+    'Matrix\'e hoş geldin...',
+    'Sıkı tut!'
+  ];
+
+  const [bubble, setBubble] = useState({ visible: false, text: '', x: 0, y: 0 });
+
+  const handleDragStart = () => {
+    const randomText = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
+    setBubble(prev => ({ ...prev, visible: true, text: randomText }));
+  };
+
+  const handleDragEnd = () => {
+    setBubble(prev => ({ ...prev, visible: false }));
+  };
+
+  const handleCardPositionUpdate = (x: number, y: number) => {
+    setBubble(prev => ({ ...prev, x, y }));
+  };
 
   return (
     <div className="w-full h-full pointer-events-none">
       <AnimatePresence>
-        {showInstructions && (
+        {bubble.visible && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.6, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-auto"
-            onClick={(e) => e.stopPropagation()}
+            exit={{ opacity: 0, scale: 0.6, y: 10 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            style={{
+              position: 'absolute',
+              top: bubble.y,
+              left: bubble.x,
+              transform: 'translate(20px, -110%)',
+              zIndex: 999,
+            }}
+            className="pointer-events-none"
           >
-            <div className="bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl max-w-md">
-              <div className="flex justify-between items-start mb-6">
-                <h3 className="text-white text-2xl font-bold">Nasıl Kullanılır?</h3>
-                <button
-                  onClick={() => setShowInstructions(false)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5 text-white" />
-                </button>
-              </div>
-              <div className="space-y-4 text-gray-300">
-                <p className="text-lg">🎯 Sürükle, Bırak, Çevir</p>
-                <p className="text-lg">🚀 Kapatmak için Hızlıca Fırlat</p>
-              </div>
-              <button
-                onClick={() => setShowInstructions(false)}
-                className="w-full mt-6 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-white font-semibold transition-colors"
-              >
-                Anladım
-              </button>
+            <div className="relative bg-white text-black py-2 px-4 rounded-lg shadow-xl">
+              <p className="whitespace-nowrap font-semibold">{bubble.text}</p>
+              <div
+                className="absolute left-0 bottom-0 w-0 h-0 border-8 border-transparent border-t-white border-l-white"
+                style={{ transform: 'translate(20px, 8px) rotate(45deg)' }}
+              />
             </div>
           </motion.div>
         )}
       </AnimatePresence>
        <Canvas
-        onClick={() => setShowInstructions(true)}
         camera={{ position: [0, 0, 20], fov: 25 }}
         gl={{ alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color('black'), 0)}
@@ -229,7 +254,13 @@ export default function Lanyard({ onDismiss, scrollJolt }: { onDismiss: () => vo
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={[0, -40, 0]} timeStep={1 / 60}>
-          <Band onDismiss={onDismiss} scrollJolt={scrollJolt} />
+          <Band
+            onDismiss={onDismiss}
+            scrollJolt={scrollJolt}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onPositionUpdate={handleCardPositionUpdate}
+          />
         </Physics>
         <Environment resolution={256}>
             <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />

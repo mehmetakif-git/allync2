@@ -76,8 +76,12 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
       className={`flex flex-col ${isOdd ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="flex-1 w-full">
         <div className="w-full">
@@ -279,6 +283,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         ctaText={language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
         onCtaClick={onContactClick}
       />
-    </div>
+    </motion.div>
   );
 };

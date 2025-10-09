@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
+import { useMagneticCursor } from '../../hooks/useMagneticCursor';
 
 interface Service {
   icon: LucideIcon;
@@ -39,6 +40,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
   const modalRef = useRef<HTMLDivElement>(null);
+  const magneticDetails = useMagneticCursor(0.25);
+  const magneticContact = useMagneticCursor(0.25);
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
 
@@ -131,7 +134,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
             <div className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
-                <button
+                <motion.button
+                  ref={magneticDetails.ref as any}
+                  style={{ x: magneticDetails.x, y: magneticDetails.y }}
                   onClick={() => {
                     if (isDesktop) {
                       setIsModalOpen(true);
@@ -142,15 +147,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                  ref={magneticContact.ref as any}
+                  style={{ x: magneticContact.x, y: magneticContact.y }}
                   onClick={onContactClick}
                   className="w-full sm:w-auto sm:flex-1 min-w-[200px] px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform flex items-center justify-center gap-2 relative"
                 >
                   <span className="relative z-10">
                     {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
                   </span>
-                </button>
+                </motion.button>
               </div>
             </div>
           </div>

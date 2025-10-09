@@ -291,7 +291,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center counter-animate relative">
                 <p className="text-3xl font-bold text-gray-300">500+</p>
                 <p className="text-gray-400 text-sm">{t.businessesAutomated}</p>

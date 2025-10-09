@@ -31,7 +31,7 @@ export const EvervaultCardEffect: React.FC<EvervaultCardEffectProps> = ({
     mouseY.set(e.clientY - top);
   };
 
-  const maskImage = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, white, transparent)`;
+  const maskImage = useMotionTemplate`radial-gradient(250px circle at ${mouseX}px ${mouseY}px, white, transparent)`;
 
   const hexToRgb = (hex: string) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -85,22 +85,13 @@ export const EvervaultCardEffect: React.FC<EvervaultCardEffectProps> = ({
               WebkitMaskImage: maskImage
             }}
           >
-            <motion.img
+            <img
               src={logoSvg}
               alt="Allync"
               className="w-32 h-32 md:w-40 md:h-40"
               style={{
                 filter: `drop-shadow(0 0 20px ${color}) brightness(1.3)`,
                 mixBlendMode: 'screen'
-              }}
-              animate={{
-                scale: [1, 1.05, 1],
-                rotate: [0, 5, 0]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'easeInOut'
               }}
             />
           </motion.div>

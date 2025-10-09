@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 import logoSvg from '../assets/logo.svg';
 import { useMagneticCursor } from '../hooks/useMagneticCursor';
-import { useParallax } from '../hooks/useParallax';
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   language: 'tr' | 'en';
@@ -14,9 +13,6 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
   const t = translations[language];
   const magneticPrimary = useMagneticCursor(0.3);
   const magneticSecondary = useMagneticCursor(0.25);
-  const parallaxLogo = useParallax(0.3);
-  const parallaxTitle = useParallax(0.5);
-  const parallaxSubtitle = useParallax(0.7);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black py-8 md:py-12" {...props}>
@@ -24,21 +20,13 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
       <div className="relative z-10 max-w-1200px mx-auto px-5 sm:px-6 lg:px-8 pt-24 pb-12" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'block', opacity: 1 }}>
         <div className="text-center">
           {/* Badge */}
-          <motion.div
-            ref={parallaxLogo.ref}
-            style={{ y: parallaxLogo.y }}
-            className="hero-logo inline-flex items-center px-4 py-2 rounded-full glass bg-white/5 border border-gray-600 mb-8 hover:bg-white/10 transition-all duration-500 magnetic"
-          >
+          <div className="hero-logo inline-flex items-center px-4 py-2 rounded-full glass bg-white/5 border border-gray-600 mb-8 hover:bg-white/10 transition-all duration-500 magnetic">
             <Sparkles className="w-4 h-4 text-gray-300 mr-2 animate-pulse" />
             <span className="text-sm text-gray-300 typewriter">{t.heroSlogan}</span>
-          </motion.div>
+          </div>
 
           {/* Company Name */}
-          <motion.div
-            ref={parallaxTitle.ref}
-            style={{ y: parallaxTitle.y }}
-            className="hero-title mb-6"
-          >
+          <div className="hero-title mb-6">
             <div className="flex items-center justify-center mb-4">
               <img src={logoSvg} alt="Allync" className="h-16 md:h-24 w-auto mr-4" />
               <h1 className="text-6xl md:text-8xl font-bold text-white glitch text-glow" data-text="Allync">
@@ -46,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
               </h1>
             </div>
             <p className="text-lg text-gray-400 italic gradient-text">Beyond Human Automation</p>
-          </motion.div>
+          </div>
 
           {/* Main headline */}
           <h2 className="hero-subtitle text-4xl md:text-6xl font-bold text-white mb-6 leading-tight text-reveal">
@@ -56,13 +44,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
             </span>
           </h2>
 
-          <motion.p
-            ref={parallaxSubtitle.ref}
-            style={{ y: parallaxSubtitle.y }}
-            className="hero-subtitle text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed"
-          >
-            {t.heroSubtitle}
-          </motion.p>
+          <p className="hero-subtitle text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">{t.heroSubtitle}</p>
 
           {/* CTA buttons */}
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-16">

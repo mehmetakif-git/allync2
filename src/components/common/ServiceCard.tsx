@@ -5,7 +5,6 @@ import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
 import { useMagneticCursor } from '../../hooks/useMagneticCursor';
-import { useParallax } from '../../hooks/useParallax';
 
 interface Service {
   icon: LucideIcon;
@@ -43,7 +42,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const magneticDetails = useMagneticCursor(0.25);
   const magneticContact = useMagneticCursor(0.25);
-  const parallaxImage = useParallax(0.4);
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
 
@@ -166,11 +164,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         </div>
       </div>
 
-      <motion.div
-        ref={parallaxImage.ref}
-        style={{ y: parallaxImage.y }}
-        className="flex-1 w-full"
-      >
+      <div className="flex-1 w-full">
         <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-white/20 w-full h-full relative pointer-events-auto cursor-pointer overflow-hidden">
           <GlowingEffect
             color={service.glowColor}
@@ -208,7 +202,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <AnimatePresence mode="wait">
         {expandedIndex !== null && (

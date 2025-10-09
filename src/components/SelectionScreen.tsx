@@ -68,7 +68,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
                   <Zap className="w-10 h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300 whitespace-nowrap">
                   {t.aiPillarTitle}
                 </h2>
 
@@ -92,7 +92,7 @@ export const SelectionScreen: React.FC<SelectionScreenProps> = ({ language, onSe
                   <Code className="w-10 h-10 md:w-12 md:h-12 text-white" />
                 </div>
 
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300 whitespace-nowrap">
                   {t.digitalPillarTitle}
                 </h2>
 

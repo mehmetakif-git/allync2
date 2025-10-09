@@ -141,9 +141,11 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 </button>
                 <button
                   onClick={onContactClick}
-                  className="flex-1 px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
+                  className="w-full sm:w-auto sm:flex-1 min-w-[200px] px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform flex items-center justify-center gap-2 relative"
                 >
-                  {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
+                  <span className="relative z-10">
+                    {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
+                  </span>
                 </button>
               </div>
             </div>

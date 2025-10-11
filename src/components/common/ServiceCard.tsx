@@ -311,7 +311,11 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20`}
               >
-                <AnimatedIcon IconComponent={Icon} glowColor={service.glowColor} />
+                {isDesktop ? (
+                  <AnimatedIcon IconComponent={Icon} glowColor={service.glowColor} />
+                ) : (
+                  <Icon className="w-10 h-10 text-white" strokeWidth={1.5} />
+                )}
               </motion.div>
             </div>
 

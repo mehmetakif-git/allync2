@@ -80,8 +80,7 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
   };
 
   return (
-    // Bu dış katmanın GÖREVİ SADECE arka planı yönetmek. Opacity'yi ona bırakmıyoruz.
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
+    <motion.div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
       {/* Arka plan animasyonu */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -178,6 +177,6 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
         )}
         </AnimatePresence>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };

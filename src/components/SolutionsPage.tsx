@@ -4,9 +4,10 @@ import { Video as LucideIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
-import { ServiceCard } from './common/ServiceCard';
+import { InteractiveServiceCard } from './common/InteractiveServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
 import { ShinyText } from './ui/ShinyText';
+import { ListeningModal } from './ListeningModal';
 
 export interface Service {
   icon: LucideIcon;
@@ -16,6 +17,9 @@ export interface Service {
   gradient: string;
   extendedContent: string;
   galleryImages: string[];
+  glowColor?: string;
+  audioSrc?: string;
+  subtitles?: Array<{ start: number; text: string }>;
 }
 
 interface SolutionsPageProps {
@@ -37,6 +41,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 }) => {
   const t = translations[language];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [modalService, setModalService] = useState<Service | null>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -80,13 +85,14 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
           <div className="space-y-32">
             {services.map((service, index) => (
               <div key={index} className="relative">
-                <ServiceCard
+                <InteractiveServiceCard
                   service={service}
                   language={language}
                   isOdd={index % 2 === 0}
                   index={index}
                   onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
                   onContactClick={scrollToContact}
+                  onHoldSuccess={() => setModalService(service)}
                 />
 
                 <AnimatePresence>
@@ -150,6 +156,13 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
       </div>
 
       <Footer language={language} />
+
+      {modalService && (
+        <ListeningModal
+          service={modalService}
+          onClose={() => setModalService(null)}
+        />
+      )}
 
       <style>{`
         @keyframes fade-in-up {

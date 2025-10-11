@@ -169,10 +169,12 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 
       <Footer language={language} />
 
+      {/* --- SON DÜZELTME BURADA --- */}
       <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
         {modalService && (
           <ListeningModal
-            key={modalService.title}
+            // BU SATIR BÜTÜN SORUNU ÇÖZÜYOR
+            key={modalService.title} 
             service={modalService}
             onClose={() => setModalService(null)}
           />

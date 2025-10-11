@@ -101,7 +101,7 @@ export const ScrollProgress: React.FC<ScrollProgressProps> = ({
 
               <div className="absolute top-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                 <div
-                  className="backdrop-blur-sm rounded px-2 py-1 border"
+                  className="backdrop-blur-[6px] rounded px-2 py-1 border"
                   style={{
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
                     borderColor: config.colors[index]

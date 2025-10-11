@@ -129,7 +129,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
+          <div className="bg-white/5 backdrop-blur-[6px] border border-white/10 rounded-2xl p-6 lg:p-8 fade-in-left contact-form relative" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
             <h3 className="text-2xl font-bold text-white mb-6">{t.getCustomDemo}</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6 form-grid">
@@ -254,7 +254,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
           {/* Contact Info */}
           <div className="flex flex-col gap-8 fade-in-right contact-info" style={{ display: 'block', visibility: 'visible', opacity: 1 }}>
-            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
+            <div className="bg-gradient-to-br from-gray-500/10 to-gray-400/10 backdrop-blur-[6px] border border-gray-500/20 rounded-2xl p-6 lg:p-8 relative">
               <h3 className="text-2xl font-bold text-white mb-6">{t.whyChooseAI}</h3>
 
               <div className="space-y-6">
@@ -292,18 +292,18 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center counter-animate relative">
+              <div className="bg-white/5 backdrop-blur-[6px] border border-white/10 rounded-xl p-6 text-center counter-animate relative">
                 <p className="text-3xl font-bold text-gray-300">500+</p>
                 <p className="text-gray-400 text-sm">{t.businessesAutomated}</p>
               </div>
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center counter-animate stagger-1 relative">
+              <div className="bg-white/5 backdrop-blur-[6px] border border-white/10 rounded-xl p-6 text-center counter-animate stagger-1 relative">
                 <p className="text-3xl font-bold text-gray-400">98.5%</p>
                 <p className="text-gray-400 text-sm">{t.clientSatisfaction}</p>
               </div>
             </div>
 
             {/* Guarantee */}
-            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 backdrop-blur-sm border border-gray-500/20 rounded-xl p-6 text-center relative">
+            <div className="bg-gradient-to-r from-gray-500/10 to-gray-400/10 backdrop-blur-[6px] border border-gray-500/20 rounded-xl p-6 text-center relative">
               <h4 className="text-lg font-semibold text-white mb-2">{t.guarantee}</h4>
               <p className="text-gray-400 text-sm">{t.guaranteeDesc}</p>
             </div>

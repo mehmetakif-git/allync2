@@ -80,33 +80,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   }, [expandedIndex]);
 
   useEffect(() => {
-    if (isHolding) {
-      const rootElement = document.getElementById('root');
-      if (rootElement) {
-        rootElement.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), filter 2.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        rootElement.style.transform = `scale(${0.85 + (holdProgress / 100) * -0.0001})`;
-        rootElement.style.transformOrigin = 'center';
-      }
-    } else {
-      const rootElement = document.getElementById('root');
-      if (rootElement) {
-        rootElement.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        rootElement.style.transform = 'scale(1)';
-        rootElement.style.filter = 'blur(0px)';
-      }
-    }
-  }, [isHolding, holdProgress]);
-
-  useEffect(() => {
     return () => {
-      const rootElement = document.getElementById('root');
-      if (rootElement) {
-        rootElement.style.transform = '';
-        rootElement.style.filter = '';
-        rootElement.style.transition = '';
+      if (!isHolding) {
+        document.documentElement.style.transform = '';
+        document.documentElement.style.filter = '';
+        document.documentElement.style.willChange = '';
+        document.documentElement.style.transition = '';
       }
     };
-  }, []);
+  }, [isHolding]);
 
   const startHold = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDesktop) {

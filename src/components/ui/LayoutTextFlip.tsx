@@ -68,7 +68,7 @@ export function LayoutTextFlip({
       <div className="flex items-center justify-center gap-2 md:gap-3">
         <motion.span
           layoutId="subtext"
-          className="text-3xl md:text-6xl font-bold text-white"
+          className={cn("font-bold text-white", className)}
         >
           {text}
         </motion.span>
@@ -81,7 +81,8 @@ export function LayoutTextFlip({
             transformStyle: "preserve-3d",
           }}
           className={cn(
-            "relative w-fit overflow-hidden rounded-md border border-transparent px-2 py-1 text-3xl md:text-6xl font-bold tracking-tight text-white shadow-sm transition-colors duration-300",
+            "relative w-fit overflow-hidden rounded-md border border-transparent px-2 py-1 font-bold tracking-tight text-white shadow-sm transition-colors duration-300",
+            className,
             currentContainerClass
           )}
         >

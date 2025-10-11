@@ -61,11 +61,12 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <div className="flex flex-col items-center justify-center mb-6">
-              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center overflow-hidden max-w-full px-4">
                 <LayoutTextFlip
                   text={pageTitle}
                   words={flipWords}
                   duration={3000}
+                  className="text-2xl md:text-6xl"
                   containerClassName={pageTitle === "Allync AI"
                     ? ["bg-purple-600", "bg-pink-600", "bg-indigo-600", "bg-fuchsia-600"]
                     : ["bg-cyan-600", "bg-green-600", "bg-teal-600", "bg-emerald-600"]

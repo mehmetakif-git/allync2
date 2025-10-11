@@ -104,7 +104,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               movementDuration={2}
             />
             <AnimatePresence>
-              {isCardHovered && (
+              {isCardHovered && isDesktop && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 0.5, scale: 1, rotate: 5 }}
@@ -122,7 +122,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   <img
                     src={logoSvg}
                     alt="Allync Logo"
-                    className="w-[120px] h-[120px] md:w-[180px] md:h-[180px]"
+                    className="w-[180px] h-[180px]"
                   />
                 </motion.div>
               )}

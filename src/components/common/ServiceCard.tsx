@@ -26,6 +26,183 @@ interface ServiceCardProps {
   onContactClick: () => void;
 }
 
+const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowColor?: string }) => {
+  const iconRef = useRef<SVGSVGElement>(null);
+  const [paths, setPaths] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (iconRef.current) {
+      const pathElements = iconRef.current.querySelectorAll('path, circle, line, polyline, polygon, rect, ellipse');
+      const pathData: string[] = [];
+      pathElements.forEach((el) => {
+        pathData.push(el.outerHTML);
+      });
+      setPaths(pathData);
+    }
+  }, []);
+
+  return (
+    <div className="relative">
+      <IconComponent ref={iconRef} className="w-10 h-10 opacity-0 absolute" />
+      <motion.svg
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        className="text-white"
+        style={{
+          filter: `drop-shadow(0 0 8px ${glowColor || 'currentColor'})`
+        }}
+      >
+        {paths.map((pathHTML, index) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(pathHTML, 'text/html');
+          const element = doc.body.firstChild as SVGElement;
+          const tagName = element?.tagName.toLowerCase();
+
+          if (tagName === 'path') {
+            const d = element.getAttribute('d') || '';
+            return (
+              <motion.path
+                key={index}
+                d={d}
+                variants={{
+                  hidden: {
+                    pathLength: 0,
+                    opacity: 0
+                  },
+                  visible: {
+                    pathLength: 1,
+                    opacity: 1,
+                    transition: {
+                      pathLength: { duration: 1.5, ease: "easeInOut", delay: index * 0.1 },
+                      opacity: { duration: 0.3, delay: index * 0.1 }
+                    }
+                  }
+                }}
+              />
+            );
+          } else if (tagName === 'circle') {
+            const cx = element.getAttribute('cx') || '0';
+            const cy = element.getAttribute('cy') || '0';
+            const r = element.getAttribute('r') || '0';
+            return (
+              <motion.circle
+                key={index}
+                cx={cx}
+                cy={cy}
+                r={r}
+                variants={{
+                  hidden: {
+                    pathLength: 0,
+                    opacity: 0
+                  },
+                  visible: {
+                    pathLength: 1,
+                    opacity: 1,
+                    transition: {
+                      pathLength: { duration: 1.5, ease: "easeInOut", delay: index * 0.1 },
+                      opacity: { duration: 0.3, delay: index * 0.1 }
+                    }
+                  }
+                }}
+              />
+            );
+          } else if (tagName === 'line') {
+            const x1 = element.getAttribute('x1') || '0';
+            const y1 = element.getAttribute('y1') || '0';
+            const x2 = element.getAttribute('x2') || '0';
+            const y2 = element.getAttribute('y2') || '0';
+            return (
+              <motion.line
+                key={index}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                variants={{
+                  hidden: {
+                    pathLength: 0,
+                    opacity: 0
+                  },
+                  visible: {
+                    pathLength: 1,
+                    opacity: 1,
+                    transition: {
+                      pathLength: { duration: 1.5, ease: "easeInOut", delay: index * 0.1 },
+                      opacity: { duration: 0.3, delay: index * 0.1 }
+                    }
+                  }
+                }}
+              />
+            );
+          } else if (tagName === 'polyline') {
+            const points = element.getAttribute('points') || '';
+            return (
+              <motion.polyline
+                key={index}
+                points={points}
+                variants={{
+                  hidden: {
+                    pathLength: 0,
+                    opacity: 0
+                  },
+                  visible: {
+                    pathLength: 1,
+                    opacity: 1,
+                    transition: {
+                      pathLength: { duration: 1.5, ease: "easeInOut", delay: index * 0.1 },
+                      opacity: { duration: 0.3, delay: index * 0.1 }
+                    }
+                  }
+                }}
+              />
+            );
+          } else if (tagName === 'rect') {
+            const x = element.getAttribute('x') || '0';
+            const y = element.getAttribute('y') || '0';
+            const width = element.getAttribute('width') || '0';
+            const height = element.getAttribute('height') || '0';
+            const rx = element.getAttribute('rx') || '0';
+            return (
+              <motion.rect
+                key={index}
+                x={x}
+                y={y}
+                width={width}
+                height={height}
+                rx={rx}
+                variants={{
+                  hidden: {
+                    pathLength: 0,
+                    opacity: 0
+                  },
+                  visible: {
+                    pathLength: 1,
+                    opacity: 1,
+                    transition: {
+                      pathLength: { duration: 1.5, ease: "easeInOut", delay: index * 0.1 },
+                      opacity: { duration: 0.3, delay: index * 0.1 }
+                    }
+                  }
+                }}
+              />
+            );
+          }
+          return null;
+        })}
+      </motion.svg>
+    </div>
+  );
+};
+
 export const ServiceCard: React.FC<ServiceCardProps> = ({
   service,
   language,
@@ -134,34 +311,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20`}
               >
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    filter: "drop-shadow(0 0 0px transparent)"
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    filter: `drop-shadow(0 0 8px ${service.glowColor})`
-                  }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 1.2,
-                    ease: "easeInOut",
-                    delay: 0.3
-                  }}
-                  style={{
-                    strokeDasharray: 100,
-                    strokeDashoffset: 0,
-                  }}
-                >
-                  <Icon
-                    className="w-10 h-10 text-white"
-                    strokeWidth={1.5}
-                    style={{
-                      filter: 'drop-shadow(0 0 4px currentColor)'
-                    }}
-                  />
-                </motion.div>
+                <AnimatedIcon IconComponent={Icon} glowColor={service.glowColor} />
               </motion.div>
             </div>
 

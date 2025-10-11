@@ -99,25 +99,25 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex items-center justify-center p-3 bg-white/5 rounded-lg border border-white/10">
                   <div className="text-center">
-                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2 animate-[breathing_2s_ease-in-out_infinite]"></div>
                     <span className="text-gray-300 text-sm font-medium">ISO 27001</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-3 bg-white/5 rounded-lg border border-white/10">
                   <div className="text-center">
-                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2 animate-[breathing_2s_ease-in-out_infinite]"></div>
                     <span className="text-gray-300 text-sm font-medium">GDPR</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-3 bg-white/5 rounded-lg border border-white/10">
                   <div className="text-center">
-                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2 animate-[breathing_2s_ease-in-out_infinite]"></div>
                     <span className="text-gray-300 text-sm font-medium">SOC 2</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-3 bg-white/5 rounded-lg border border-white/10">
                   <div className="text-center">
-                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2 animate-[breathing_2s_ease-in-out_infinite]"></div>
                     <span className="text-gray-300 text-sm font-medium">%99.9 SLA</span>
                   </div>
                 </div>

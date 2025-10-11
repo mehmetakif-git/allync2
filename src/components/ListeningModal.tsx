@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Volume2 } from 'lucide-react';
 
@@ -34,34 +34,34 @@ const SoundWaveVisualizer: React.FC<{ color?: string }> = ({ color = '#ffffff' }
 
 // --- ASIL DEĞİŞİKLİK BURADA BAŞLIYOR ---
 
-// Animasyon adımlarını temiz bir şekilde tanımlıyoruz
+// Animasyon adımlarını (variant'ları) temiz bir şekilde dışarıda tanımlıyoruz
 const modalVariants = {
+  // GİZLİ HAL (Başlangıç ve Bitiş)
   hidden: {
     opacity: 0,
-    scale: 0.75,
+    scale: 0.8,
     borderRadius: '100%',
-    filter: 'saturate(200%) contrast(150%)',
-    y: 50,
+    filter: 'saturate(3) contrast(2)',
   },
+  // GÖRÜNÜR HAL (O sevdiğin giriş animasyonu)
   visible: {
     opacity: 1,
     scale: 1,
     borderRadius: '24px', // rounded-3xl
-    filter: 'saturate(100%) contrast(100%)',
-    y: 0,
+    filter: 'saturate(1) contrast(1)',
     transition: {
-      duration: 0.7,
-      ease: [0.43, 0.13, 0.23, 0.96], // Bu, "smooth" hissi veren özel bir eğri
+      duration: 0.8,
+      ease: [0.43, 0.13, 0.23, 0.96], // Bu, "smooth" hissi veren özel eğri
     },
   },
+  // ÇIKIŞ HALİ (Girişin tam tersi)
   exit: {
     opacity: 0,
-    scale: 0.75,
+    scale: 0.8,
     borderRadius: '100%',
-    filter: 'saturate(200%) contrast(150%)',
-    y: 50,
+    filter: 'saturate(3) contrast(2)',
     transition: {
-      duration: 0.5, // Kapanış biraz daha hızlı olabilir
+      duration: 0.6, // Kapanış biraz daha hızlı olabilir
       ease: [0.43, 0.13, 0.23, 0.96],
     },
   },
@@ -69,7 +69,6 @@ const modalVariants = {
 
 export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose }) => {
   const [showContent, setShowContent] = useState(false);
-  // Diğer hook'lar ve useEffect'ler aynı kalıyor...
   
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -92,9 +91,8 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
   }, []);
 
   return (
-    // Dış katman artık animasyona KARIŞMIYOR. Sadece konumlandırma yapıyor.
+    // Dış katman artık animasyona KARIŞMIYOR. Sadece konumlandırma ve arka planı yönetiyor.
     <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
-      {/* Arka planın kendi basit animasyonu var, bu sorun değil */}
       <motion.div
         className="absolute inset-0 bg-black/70 backdrop-blur-xl"
         initial={{ opacity: 0 }}
@@ -104,14 +102,12 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
         onClick={onClose}
       />
 
-      {/* TÜM ANİMASYONUN PATRONU OLAN ANA KART */}
+      {/* TÜM ANİMASYONUN PATRONU OLAN ANA KART (SENİN ATTIĞIN DİV) */}
       <motion.div
-        // Tanımladığımız animasyon adımlarını buraya veriyoruz
         variants={modalVariants}
         initial="hidden"
         animate="visible"
         exit="exit"
-        // Senin attığın class'lar burada
         className="relative z-10 w-full max-w-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 p-8 md:p-12"
         style={{
           boxShadow: `0 0 60px ${service.glowColor || '#ffffff'}40, inset 0 0 40px ${service.glowColor || '#ffffff'}10`,
@@ -123,8 +119,8 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }} // İçerik hızlıca kaybolsun
+              className="w-full h-full"
             >
               <button
                 onClick={onClose}
@@ -155,7 +151,7 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
                     </div>
                   )}
                 </div>
-                {/* Altyazı içeriği */}
+                {/* Altyazı içeriği... */}
               </div>
             </motion.div>
           )}

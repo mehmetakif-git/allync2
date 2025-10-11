@@ -42,9 +42,11 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
   }, []);
 
   return (
-    <>
+    <div className="relative">
       <IconComponent ref={iconRef} className="w-10 h-10 opacity-0 absolute" />
       <motion.svg
+        width="40"
+        height="40"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -54,7 +56,7 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
-        className="text-white w-10 h-10"
+        className="text-white"
         style={{
           filter: `drop-shadow(0 0 8px ${glowColor || 'currentColor'})`
         }}
@@ -197,7 +199,7 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
           return null;
         })}
       </motion.svg>
-    </>
+    </div>
   );
 };
 
@@ -307,7 +309,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20 mx-auto md:mx-0`}
+                className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20`}
               >
                 <AnimatedIcon IconComponent={Icon} glowColor={service.glowColor} />
               </motion.div>

@@ -24,6 +24,7 @@ interface ServiceCardProps {
   index: number;
   onDetailClick: () => void;
   onContactClick: () => void;
+  [key: string]: any;
 }
 
 const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowColor?: string }) => {
@@ -209,7 +210,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   isOdd,
   index,
   onDetailClick,
-  onContactClick
+  onContactClick,
+  ...props
 }) => {
   const Icon = service.icon;
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -265,6 +267,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       <div className="flex-1 w-full">
         <div className="w-full">
           <div
+            {...props}
             className="bg-white/5 backdrop-blur-[6px] border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative overflow-hidden"
             onMouseEnter={() => setIsCardHovered(true)}
             onMouseLeave={() => setIsCardHovered(false)}

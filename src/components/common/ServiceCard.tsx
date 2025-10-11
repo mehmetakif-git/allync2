@@ -173,7 +173,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                       onDetailClick();
                     }
                   }}
-                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
+                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform animate-[breathing_2s_ease-in-out_infinite]`}
+                  style={{
+                    boxShadow: `0 0 12px ${service.glowColor}, 0 0 20px ${service.glowColor}`
+                  }}
                 >
                   {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
                 </button>

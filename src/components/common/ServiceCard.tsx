@@ -151,7 +151,12 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 </h3>
                 {service.benefits.map((benefit, idx) => (
                   <div key={idx} className="flex items-start">
-                    <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0 animate-[breathing_2s_ease-in-out_infinite]`}></div>
+                    <div
+                      className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient} mt-2 mr-3 flex-shrink-0 animate-[breathing_2s_ease-in-out_infinite]`}
+                      style={{
+                        boxShadow: `0 0 8px ${service.glowColor}, 0 0 12px ${service.glowColor}`
+                      }}
+                    ></div>
                     <p className="text-gray-300">{benefit}</p>
                   </div>
                 ))}

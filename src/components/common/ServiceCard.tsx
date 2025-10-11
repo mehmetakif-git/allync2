@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
+import logoSvg from '../../assets/logo.svg';
 
 interface Service {
   icon: LucideIcon;
@@ -38,6 +39,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [isCardHovered, setIsCardHovered] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
@@ -85,7 +87,11 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       <div className="flex-1 w-full">
         <div className="w-full">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative">
+          <div
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12 w-full h-full relative overflow-hidden"
+            onMouseEnter={() => setIsCardHovered(true)}
+            onMouseLeave={() => setIsCardHovered(false)}
+          >
             <GlowingEffect
               color={service.glowColor}
               blur={20}
@@ -97,25 +103,45 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               inactiveZone={0.01}
               movementDuration={2}
             />
-            <div className="w-full">
+            <AnimatePresence>
+              {isCardHovered && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                  animate={{ opacity: 0.3, scale: 1, filter: 'blur(0px)', rotate: 5 }}
+                  exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none"
+                  style={{
+                    filter: `drop-shadow(0 0 20px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 40px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 60px ${service.glowColor || '#ffffff'})`
+                  }}
+                >
+                  <img
+                    src={logoSvg}
+                    alt="Allync Logo"
+                    className="w-[120px] h-[120px] md:w-[180px] md:h-[180px]"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="w-full relative z-10">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
               </div>
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 {service.title}
               </h2>
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative z-10">
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
                 {service.description}
               </p>
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative z-10">
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-white mb-4">
                   {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
@@ -129,7 +155,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               </div>
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative z-10">
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => {

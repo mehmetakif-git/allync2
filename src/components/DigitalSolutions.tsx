@@ -5,6 +5,7 @@ import { SolutionsPage, Service } from './SolutionsPage';
 import eCommerceImg1 from '../assets/gallery/ecommerce/1.png';
 import eCommerceImg2 from '../assets/gallery/ecommerce/2.png';
 import eCommerceImg3 from '../assets/gallery/ecommerce/3.png';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DigitalSolutionsProps {
   language: 'tr' | 'en';

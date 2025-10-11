@@ -42,8 +42,8 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center w-8 h-8 md:w-10 md:h-10">
-      <IconComponent ref={iconRef} className="w-8 h-8 md:w-10 md:h-10 opacity-0 absolute" />
+    <>
+      <IconComponent ref={iconRef} className="w-10 h-10 opacity-0 absolute" />
       <motion.svg
         viewBox="0 0 24 24"
         fill="none"
@@ -54,7 +54,7 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
-        className="text-white absolute w-8 h-8 md:w-10 md:h-10"
+        className="text-white w-10 h-10"
         style={{
           filter: `drop-shadow(0 0 8px ${glowColor || 'currentColor'})`
         }}
@@ -197,7 +197,7 @@ const AnimatedIcon = ({ IconComponent, glowColor }: { IconComponent: any, glowCo
           return null;
         })}
       </motion.svg>
-    </div>
+    </>
   );
 };
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Zap, Users, ArrowRight, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 import logoSvg from '../assets/logo.svg';
-import { useMagneticCursor } from '../hooks/useMagneticCursor';
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   language: 'tr' | 'en';
@@ -11,8 +9,6 @@ interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
   const t = translations[language];
-  const magneticPrimary = useMagneticCursor(0.3);
-  const magneticSecondary = useMagneticCursor(0.25);
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black py-8 md:py-12" {...props}>
@@ -48,9 +44,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
 
           {/* CTA buttons */}
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <motion.button
-              ref={magneticPrimary.ref as any}
-              style={{ x: magneticPrimary.x, y: magneticPrimary.y }}
+            <button
               onClick={() => {
                 const contactSection = document.getElementById('contact');
                 if (contactSection) {
@@ -61,10 +55,8 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
             >
               {t.getAssistant}
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-500" />
-            </motion.button>
-            <motion.button
-              ref={magneticSecondary.ref as any}
-              style={{ x: magneticSecondary.x, y: magneticSecondary.y }}
+            </button>
+            <button
               onClick={() => {
                 const demoSection = document.getElementById('chat-demo');
                 if (demoSection) {
@@ -74,7 +66,7 @@ export const Hero: React.FC<HeroProps> = ({ language, ...props }) => {
               className="px-8 py-4 glass bg-white/5 border border-gray-600 rounded-lg font-semibold text-white hover:bg-white/10 transition-all duration-500 magnetic animated-border"
             >
               {t.watchDemo}
-            </motion.button>
+            </button>
           </div>
 
           {/* Feature highlights */}

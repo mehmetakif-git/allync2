@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Send, Phone, Mail, Calendar, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 import { InputGlow, LabelGlow, LabelInputContainer, BottomGradient } from './ui/InputGlow';
 import confetti from 'canvas-confetti';
-import { useMagneticCursor } from '../hooks/useMagneticCursor';
 
 interface ContactProps {
   language: 'tr' | 'en';
@@ -12,7 +10,6 @@ interface ContactProps {
 
 export const Contact: React.FC<ContactProps> = ({ language }) => {
   const t = translations[language];
-  const magneticSubmit = useMagneticCursor(0.3);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -229,9 +226,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                 {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </LabelInputContainer>
 
-              <motion.button
-                ref={magneticSubmit.ref as any}
-                style={{ x: magneticSubmit.x, y: magneticSubmit.y }}
+              <button
                 type="submit"
                 disabled={isSubmitting || !isFormValid}
                 className="group/btn relative block h-12 w-full rounded-md bg-gradient-to-br from-gray-700 to-gray-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:shadow-xl transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
@@ -248,7 +243,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
                   </>
                 )}
                 <BottomGradient />
-              </motion.button>
+              </button>
               {statusMessage && (
                 <p className={`mt-4 text-center ${statusMessage.includes('hata') || statusMessage.includes('error') ? 'text-red-500' : 'text-green-500'}`}>
                   {statusMessage}

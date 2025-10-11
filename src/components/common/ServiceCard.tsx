@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
-import { useMagneticCursor } from '../../hooks/useMagneticCursor';
 import { HoldToViewEffect, CircularProgress, CustomCursor } from '../HoldToViewEffect';
 
 interface Service {
@@ -48,8 +47,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const holdTimerRef = useRef<number | null>(null);
   const holdStartRef = useRef<number>(0);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const magneticDetails = useMagneticCursor(0.25);
-  const magneticContact = useMagneticCursor(0.25);
   const HOLD_DURATION = 2500;
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
@@ -238,12 +235,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
             <div className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
-                <motion.button
-                  ref={(el) => {
-                    buttonRef.current = el;
-                    (magneticDetails.ref as any).current = el;
-                  }}
-                  style={{ x: magneticDetails.x, y: magneticDetails.y }}
+                <button
+                  ref={buttonRef}
                   onMouseDown={startHold}
                   onMouseUp={endHold}
                   onMouseLeave={handleMouseLeave}
@@ -262,17 +255,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   <span className={isHolding ? 'opacity-0' : 'opacity-100'}>
                     {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
                   </span>
-                </motion.button>
-                <motion.button
-                  ref={magneticContact.ref as any}
-                  style={{ x: magneticContact.x, y: magneticContact.y }}
+                </button>
+                <button
                   onClick={onContactClick}
                   className="w-full sm:w-auto sm:flex-1 min-w-[200px] px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:scale-105 transition-transform flex items-center justify-center gap-2 relative"
                 >
                   <span className="relative z-10">
                     {language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
                   </span>
-                </motion.button>
+                </button>
               </div>
             </div>
           </div>

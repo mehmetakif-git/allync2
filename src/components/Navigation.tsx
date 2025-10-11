@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronUp, Phone, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { translations } from '../utils/translations';
 import logoSvg from '../assets/logo.svg';
-import { useMagneticCursor } from '../hooks/useMagneticCursor';
 
 interface NavigationProps {
   language: 'tr' | 'en';
@@ -14,7 +12,6 @@ interface NavigationProps {
 
 export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageToggle, viewMode, onBackToSelection }) => {
   const t = translations[language];
-  const magneticLogo = useMagneticCursor(0.15);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [isVisible, setIsVisible] = useState(true);
@@ -112,9 +109,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <motion.div
-              ref={magneticLogo.ref as any}
-              style={{ x: magneticLogo.x, y: magneticLogo.y }}
+            <div
               className="flex items-center cursor-pointer group"
               onClick={() => scrollToSection('hero')}
             >
@@ -122,7 +117,7 @@ export const Navigation: React.FC<NavigationProps> = ({ language, onLanguageTogg
               <span className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-gray-300">
                 Allync
               </span>
-            </motion.div>
+            </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">

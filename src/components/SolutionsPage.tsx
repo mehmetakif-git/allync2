@@ -172,6 +172,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
       <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
         {modalService && (
           <ListeningModal
+            key={modalService.title}
             service={modalService}
             onClose={() => setModalService(null)}
           />

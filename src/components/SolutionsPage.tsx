@@ -43,6 +43,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   const t = translations[language];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [modalService, setModalService] = useState<Service | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const ctaRef = useRef<HTMLDivElement>(null);
   const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -89,7 +90,12 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
                 <InteractiveServiceCard
                   language={language}
                   glowColor={service.glowColor}
-                  onHoldSuccess={() => setModalService(service)}
+                  onHoldSuccess={() => {
+                    if (!isAnimating) {
+                      setModalService(service);
+                      setIsAnimating(true);
+                    }
+                  }}
                 >
                   <ServiceCard
                     service={service}
@@ -163,12 +169,14 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 
       <Footer language={language} />
 
-      {modalService && (
-        <ListeningModal
-          service={modalService}
-          onClose={() => setModalService(null)}
-        />
-      )}
+      <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
+        {modalService && (
+          <ListeningModal
+            service={modalService}
+            onClose={() => setModalService(null)}
+          />
+        )}
+      </AnimatePresence>
 
       <style>{`
         @keyframes fade-in-up {

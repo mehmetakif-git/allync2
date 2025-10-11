@@ -107,7 +107,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               {isCardHovered && isDesktop && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8, x: '-50%', y: '-50%' }}
-                  animate={{ opacity: 0.1, scale: 2, x: '-50%', y: '-50%' }}
+                  animate={{ opacity: 0.2, scale: 1.5, x: '-50%', y: '-50%' }}
                   exit={{ opacity: 0, scale: 0.8, x: '-50%', y: '-50%' }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                   className="absolute pointer-events-none z-10"

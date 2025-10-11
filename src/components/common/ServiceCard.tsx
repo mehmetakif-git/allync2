@@ -106,13 +106,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <AnimatePresence>
               {isCardHovered && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
-                  animate={{ opacity: 0.3, scale: 1, filter: 'blur(0px)', rotate: 5 }}
-                  exit={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 0.5, scale: 1, rotate: 5 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none"
+                  className="absolute pointer-events-none z-10"
                   style={{
-                    filter: `drop-shadow(0 0 20px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 40px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 60px ${service.glowColor || '#ffffff'})`
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    filter: `blur(0px) drop-shadow(0 0 20px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 40px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 60px ${service.glowColor || '#ffffff'})`,
+                    mixBlendMode: 'screen'
                   }}
                 >
                   <img
@@ -123,25 +127,25 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="w-full relative z-10">
+            <div className="w-full relative z-20">
               <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
                 <Icon className="w-10 h-10 text-white" />
               </div>
             </div>
 
-            <div className="w-full relative z-10">
+            <div className="w-full relative z-20">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 {service.title}
               </h2>
             </div>
 
-            <div className="w-full relative z-10">
+            <div className="w-full relative z-20">
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
                 {service.description}
               </p>
             </div>
 
-            <div className="w-full relative z-10">
+            <div className="w-full relative z-20">
               <div className="space-y-4 mb-8">
                 <h3 className="text-xl font-semibold text-white mb-4">
                   {language === 'tr' ? 'Temel Özellikler' : 'Key Benefits'}
@@ -155,7 +159,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               </div>
             </div>
 
-            <div className="w-full relative z-10">
+            <div className="w-full relative z-20">
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => {

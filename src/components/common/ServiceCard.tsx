@@ -307,7 +307,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20`}
+                className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20 mx-auto md:mx-0`}
               >
                 <AnimatedIcon IconComponent={Icon} glowColor={service.glowColor} />
               </motion.div>

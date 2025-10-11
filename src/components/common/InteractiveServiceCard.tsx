@@ -146,7 +146,7 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 pointer-events-none z-[99997] flex items-center justify-center"
+            className="absolute top-0 left-0 w-full h-full pointer-events-none z-[99997] flex items-center justify-center"
           >
             <svg width="200" height="200" className="transform -rotate-90">
               <circle

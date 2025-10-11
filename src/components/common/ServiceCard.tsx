@@ -127,9 +127,42 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               )}
             </AnimatePresence>
             <div className="w-full relative z-20">
-              <div className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6`}>
-                <Icon className="w-10 h-10 text-white" />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-6 relative z-20`}
+              >
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    filter: "drop-shadow(0 0 0px transparent)"
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    filter: `drop-shadow(0 0 8px ${service.glowColor})`
+                  }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 1.2,
+                    ease: "easeInOut",
+                    delay: 0.3
+                  }}
+                  style={{
+                    strokeDasharray: 100,
+                    strokeDashoffset: 0,
+                  }}
+                >
+                  <Icon
+                    className="w-10 h-10 text-white"
+                    strokeWidth={1.5}
+                    style={{
+                      filter: 'drop-shadow(0 0 4px currentColor)'
+                    }}
+                  />
+                </motion.div>
+              </motion.div>
             </div>
 
             <div className="w-full relative z-20">

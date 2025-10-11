@@ -1905,6 +1905,16 @@ select:focus-visible {
   }
 }
 
+/* SVG path drawing animation */
+@keyframes drawPath {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Optional: Scroll snap for sections */
 @media (min-width: 768px) {
   html {

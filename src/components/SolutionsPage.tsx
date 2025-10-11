@@ -5,6 +5,7 @@ import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
 import { InteractiveServiceCard } from './common/InteractiveServiceCard';
+import { ServiceCard } from './common/ServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
 import { ShinyText } from './ui/ShinyText';
 import { ListeningModal } from './ListeningModal';
@@ -86,14 +87,19 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
             {services.map((service, index) => (
               <div key={index} className="relative">
                 <InteractiveServiceCard
-                  service={service}
                   language={language}
-                  isOdd={index % 2 === 0}
-                  index={index}
-                  onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                  onContactClick={scrollToContact}
+                  glowColor={service.glowColor}
                   onHoldSuccess={() => setModalService(service)}
-                />
+                >
+                  <ServiceCard
+                    service={service}
+                    language={language}
+                    isOdd={index % 2 === 0}
+                    index={index}
+                    onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                    onContactClick={scrollToContact}
+                  />
+                </InteractiveServiceCard>
 
                 <AnimatePresence>
                   {expandedIndex === index && (

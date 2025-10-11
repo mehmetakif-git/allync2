@@ -1,40 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ServiceCard } from './ServiceCard';
 import { useCursor } from '../../context/CursorContext';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { LucideIcon } from 'lucide-react';
-
-interface Service {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  benefits: string[];
-  gradient: string;
-  extendedContent: string;
-  galleryImages: string[];
-  glowColor?: string;
-  audioSrc?: string;
-  subtitles?: Array<{ start: number; text: string }>;
-}
 
 interface InteractiveServiceCardProps {
-  service: Service;
+  children: React.ReactElement;
   language: 'tr' | 'en';
-  isOdd: boolean;
-  index: number;
-  onDetailClick: () => void;
-  onContactClick: () => void;
+  glowColor?: string;
   onHoldSuccess: () => void;
 }
 
 export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
-  service,
+  children,
   language,
-  isOdd,
-  index,
-  onDetailClick,
-  onContactClick,
+  glowColor,
   onHoldSuccess,
 }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -47,16 +26,7 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
   const HOLD_DURATION = 1500;
 
   if (isMobile) {
-    return (
-      <ServiceCard
-        service={service}
-        language={language}
-        isOdd={isOdd}
-        index={index}
-        onDetailClick={onDetailClick}
-        onContactClick={onContactClick}
-      />
-    );
+    return children;
   }
 
   const startHold = () => {
@@ -120,25 +90,17 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
     cancelHold();
   };
 
-  const circumference = 2 * Math.PI * 100;
+  const circumference = 2 * Math.PI * 90;
   const strokeDashoffset = circumference - (holdProgress / 100) * circumference;
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
-      <ServiceCard
-        service={service}
-        language={language}
-        isOdd={isOdd}
-        index={index}
-        onDetailClick={onDetailClick}
-        onContactClick={onContactClick}
-      />
+    <div className="relative">
+      {React.cloneElement(children, {
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        onMouseDown: handleMouseDown,
+        onMouseUp: handleMouseUp,
+      })}
 
       <AnimatePresence>
         {isHolding && (
@@ -161,14 +123,14 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
                 cx="100"
                 cy="100"
                 r="90"
-                stroke={service.glowColor || '#ffffff'}
+                stroke={glowColor || '#ffffff'}
                 strokeWidth="8"
                 fill="none"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
                 style={{
-                  filter: `drop-shadow(0 0 8px ${service.glowColor || '#ffffff'})`,
+                  filter: `drop-shadow(0 0 8px ${glowColor || '#ffffff'})`,
                 }}
               />
             </svg>

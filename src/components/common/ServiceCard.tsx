@@ -5,6 +5,7 @@ import { GlowingEffect } from '../ui/GlowingEffect';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
 import { useMagneticCursor } from '../../hooks/useMagneticCursor';
+import { HoldToViewEffect, CircularProgress, CustomCursor } from '../HoldToViewEffect';
 
 interface Service {
   icon: LucideIcon;
@@ -39,9 +40,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [isHolding, setIsHolding] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
+  const holdTimerRef = useRef<number | null>(null);
+  const holdStartRef = useRef<number>(0);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const magneticDetails = useMagneticCursor(0.25);
   const magneticContact = useMagneticCursor(0.25);
+  const HOLD_DURATION = 2500;
 
   useOutsideClick(modalRef, () => setExpandedIndex(null));
 
@@ -72,6 +81,101 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       document.body.style.overflow = 'auto';
     }
   }, [expandedIndex]);
+
+  useEffect(() => {
+    if (isHolding) {
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        rootElement.style.transition = 'transform 2.5s cubic-bezier(0.4, 0, 0.2, 1), filter 2.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        rootElement.style.transform = `scale(${0.85 + (holdProgress / 100) * -0.0001})`;
+        rootElement.style.transformOrigin = 'center';
+      }
+    } else {
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        rootElement.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        rootElement.style.transform = 'scale(1)';
+        rootElement.style.filter = 'blur(0px)';
+      }
+    }
+  }, [isHolding, holdProgress]);
+
+  useEffect(() => {
+    return () => {
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        rootElement.style.transform = '';
+        rootElement.style.filter = '';
+        rootElement.style.transition = '';
+      }
+    };
+  }, []);
+
+  const startHold = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDesktop) {
+      onDetailClick();
+      return;
+    }
+
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setButtonPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2
+      });
+    }
+
+    setIsHolding(true);
+    setHoldProgress(0);
+    holdStartRef.current = Date.now();
+
+    const updateProgress = () => {
+      const elapsed = Date.now() - holdStartRef.current;
+      const progress = Math.min((elapsed / HOLD_DURATION) * 100, 100);
+      setHoldProgress(progress);
+
+      if (progress >= 100) {
+        completeHold();
+      } else {
+        holdTimerRef.current = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    holdTimerRef.current = requestAnimationFrame(updateProgress);
+  };
+
+  const endHold = () => {
+    if (holdTimerRef.current) {
+      cancelAnimationFrame(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setIsHolding(false);
+    setHoldProgress(0);
+  };
+
+  const completeHold = () => {
+    if (holdTimerRef.current) {
+      cancelAnimationFrame(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setIsHolding(false);
+    setHoldProgress(0);
+
+    setTimeout(() => {
+      setIsModalOpen(true);
+    }, 200);
+  };
+
+  const handleMouseEnter = () => {
+    if (isDesktop) {
+      setIsHovering(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    endHold();
+  };
 
   const handleThumbnailClick = (idx: number) => {
     setExpandedIndex(idx);
@@ -135,18 +239,29 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <div className="w-full">
               <div className="flex flex-col sm:flex-row gap-3">
                 <motion.button
-                  ref={magneticDetails.ref as any}
-                  style={{ x: magneticDetails.x, y: magneticDetails.y }}
-                  onClick={() => {
-                    if (isDesktop) {
-                      setIsModalOpen(true);
-                    } else {
-                      onDetailClick();
-                    }
+                  ref={(el) => {
+                    buttonRef.current = el;
+                    (magneticDetails.ref as any).current = el;
                   }}
-                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform`}
+                  style={{ x: magneticDetails.x, y: magneticDetails.y }}
+                  onMouseDown={startHold}
+                  onMouseUp={endHold}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={handleMouseEnter}
+                  onTouchStart={startHold}
+                  onTouchEnd={endHold}
+                  className={`flex-1 px-6 py-3 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-lg hover:scale-105 transition-transform relative overflow-visible cursor-pointer`}
                 >
-                  {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
+                  {isHolding && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-14 h-14">
+                        <CircularProgress progress={holdProgress} gradient={service.gradient} />
+                      </div>
+                    </div>
+                  )}
+                  <span className={isHolding ? 'opacity-0' : 'opacity-100'}>
+                    {language === 'tr' ? 'Daha Detaylı İncele' : 'View More Details'}
+                  </span>
                 </motion.button>
                 <motion.button
                   ref={magneticContact.ref as any}
@@ -281,6 +396,15 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         )}
       </AnimatePresence>
 
+      <HoldToViewEffect
+        isActive={isHolding}
+        progress={holdProgress / 100}
+        gradient={service.gradient}
+        buttonPosition={buttonPosition}
+      />
+
+      <CustomCursor isHovering={isHovering && isDesktop && !isHolding} language={language} />
+
       <ServiceDetailModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -288,7 +412,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         extendedContent={service.extendedContent}
         gradient={service.gradient}
         ctaText={language === 'tr' ? 'Özel Teklif İsteyin' : 'Request Custom Quote'}
+        closeText={language === 'tr' ? 'Kapat' : 'Close'}
         onCtaClick={onContactClick}
+        language={language}
       />
     </motion.div>
   );

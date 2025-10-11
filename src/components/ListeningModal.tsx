@@ -110,8 +110,8 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
           onClick={onClose}
         />
 
+        {/* --- TEK DEĞİŞİKLİK BURADA: layoutId="dimension-shift" SATIRI SİLİNDİ --- */}
         <motion.div
-          layoutId="dimension-shift"
           initial={{
             scale: 0.8,
             opacity: 0,
@@ -143,6 +143,7 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
             boxShadow: `0 0 60px ${service.glowColor || '#ffffff'}40, inset 0 0 40px ${service.glowColor || '#ffffff'}10`,
           }}
         >
+          {/* ...içerideki diğer kodlar tamamen aynı... */}
           <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{
@@ -254,6 +255,6 @@ export const ListeningModal: React.FC<ListeningModalProps> = ({ service, onClose
             )}
           </div>
         </motion.div>
-      </motion.div>
+    </motion.div>
   );
 };

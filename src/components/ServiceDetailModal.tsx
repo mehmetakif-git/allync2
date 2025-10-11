@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useOutsideClick } from '../hooks/use-outside-click';
@@ -12,7 +12,6 @@ interface ServiceDetailModalProps {
   closeText: string;
   onCtaClick: () => void;
   gradient: string;
-  language?: 'tr' | 'en';
 }
 
 export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
@@ -23,13 +22,9 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   ctaText,
   closeText,
   onCtaClick,
-  gradient,
-  language = 'tr'
+  gradient
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [currentSubtitle, setCurrentSubtitle] = useState('');
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useOutsideClick(modalRef, () => {
     if (isOpen) onClose();
@@ -38,73 +33,18 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      startSpeech();
     } else {
       document.body.style.overflow = 'unset';
-      stopSpeech();
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      stopSpeech();
     };
   }, [isOpen]);
-
-  const startSpeech = () => {
-    if ('speechSynthesis' in window) {
-      stopSpeech();
-
-      const utterance = new SpeechSynthesisUtterance(extendedContent);
-      utterance.lang = language === 'tr' ? 'tr-TR' : 'en-US';
-      utterance.rate = 0.85;
-      utterance.pitch = 1.0;
-
-      const sentences = extendedContent.split(/[.!?]\s+/).filter(s => s.trim());
-      let currentIndex = 0;
-
-      utterance.onboundary = (event) => {
-        if (event.name === 'sentence') {
-          if (currentIndex < sentences.length) {
-            setCurrentSubtitle(sentences[currentIndex]);
-            currentIndex++;
-          }
-        }
-      };
-
-      utterance.onstart = () => {
-        setIsSpeaking(true);
-        if (sentences.length > 0) {
-          setCurrentSubtitle(sentences[0]);
-        }
-      };
-
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        setCurrentSubtitle('');
-      };
-
-      utterance.onerror = () => {
-        setIsSpeaking(false);
-        setCurrentSubtitle('');
-      };
-
-      utteranceRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
-    }
-  };
-
-  const stopSpeech = () => {
-    if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      setCurrentSubtitle('');
-    }
-  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        stopSpeech();
         onClose();
       }
     };
@@ -170,21 +110,6 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 </button>
               </div>
             </div>
-
-            <AnimatePresence>
-              {isSpeaking && currentSubtitle && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-md border-t border-white/10 px-6 py-4"
-                >
-                  <p className="text-white text-center text-lg leading-relaxed">
-                    {currentSubtitle}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         </motion.div>
       )}

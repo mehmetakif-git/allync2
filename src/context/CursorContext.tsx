@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 type CursorType = 'default' | 'hover' | 'hold';
 
@@ -27,6 +28,11 @@ const CustomCursor: React.FC = () => {
   const { cursorState } = useCursor();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
+  if (isMobile) {
+    return null;
+  }
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {

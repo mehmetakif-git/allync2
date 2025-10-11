@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ServiceCard } from './ServiceCard';
 import { useCursor } from '../../context/CursorContext';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { LucideIcon } from 'lucide-react';
 
 interface Service {
@@ -36,6 +37,7 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
   onContactClick,
   onHoldSuccess,
 }) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const { setCursorState } = useCursor();
   const [isHolding, setIsHolding] = useState(false);
   const [holdProgress, setHoldProgress] = useState(0);
@@ -43,6 +45,19 @@ export const InteractiveServiceCard: React.FC<InteractiveServiceCardProps> = ({
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const HOLD_DURATION = 1500;
+
+  if (isMobile) {
+    return (
+      <ServiceCard
+        service={service}
+        language={language}
+        isOdd={isOdd}
+        index={index}
+        onDetailClick={onDetailClick}
+        onContactClick={onContactClick}
+      />
+    );
+  }
 
   const startHold = () => {
     setIsHolding(true);

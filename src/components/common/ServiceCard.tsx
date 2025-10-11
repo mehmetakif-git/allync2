@@ -106,15 +106,14 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <AnimatePresence>
               {isCardHovered && isDesktop && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 0.5, scale: 1, rotate: 5 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.8, x: '-50%', y: '-50%' }}
+                  animate={{ opacity: 0.5, scale: 1, rotate: 5, x: '-50%', y: '-50%' }}
+                  exit={{ opacity: 0, scale: 0.8, x: '-50%', y: '-50%' }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                   className="absolute pointer-events-none z-10"
                   style={{
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
                     filter: `blur(0px) drop-shadow(0 0 20px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 40px ${service.glowColor || '#ffffff'}) drop-shadow(0 0 60px ${service.glowColor || '#ffffff'})`,
                     mixBlendMode: 'screen'
                   }}

@@ -735,8 +735,8 @@ select option {
 /* Legal modal styles */
 .legal-modal-backdrop {
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .legal-modal-container {

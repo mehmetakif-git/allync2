@@ -17,7 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Email to you (notification)
     await resend.emails.send({
-      from: 'onboarding@resend.dev', // This can be a default Resend address
+      from: 'Allync AI <noreply@send.allyncai.com>', // This can be a default Resend address
       to: 'info@allyncai.com', // Your company's email address
       subject: `New Contact Form Submission from ${name}`,
       reply_to: email,

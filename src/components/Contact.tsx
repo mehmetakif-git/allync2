@@ -26,7 +26,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
   const [statusMessage, setStatusMessage] = useState('');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
 
   const handleSuccessConfetti = () => {
     const duration = 3 * 1000;
@@ -55,6 +55,11 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     setIsSubmitting(true);
     setStatusMessage('');
 
+    console.log('🚀 Form submission started');
+    console.log('Form data:', formData);
+    console.log('Is form valid:', isFormValid);
+    console.log('Errors:', errors);
+
     try {
       const response = await fetch('/.netlify/functions/send-email', {
         method: 'POST',
@@ -65,6 +70,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
       });
 
       const data = await response.json();
+      console.log('✅ API response:', data);
 
       if (response.ok) {
         setStatusMessage(language === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!');
@@ -74,7 +80,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
         throw new Error(data.error || 'An error occurred');
       }
     } catch (error) {
-      console.error('Failed to send email:', error);
+      console.error('❌ Form submission failed:', error);
       setStatusMessage(language === 'tr' ? 'Bir hata oluştu, lütfen tekrar deneyin.' : 'An error occurred, please try again.');
     } finally {
       setIsSubmitting(false);
@@ -96,6 +102,8 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     if (name === 'phone') {
       if (!value) {
         setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Telefon numarası zorunludur' : 'Phone number is required' }));
+      } else if (value.length < 10) {
+        setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Telefon numarası en az 10 karakter olmalıdır' : 'Phone number must be at least 10 characters' }));
       } else if (!phoneRegex.test(value)) {
         setErrors(prev => ({ ...prev, phone: language === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number' }));
       } else {
@@ -104,15 +112,22 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
     }
 
     if (name === 'message') {
-      if (!value) {
+      if (!value || value.trim() === '') {
         setErrors(prev => ({ ...prev, message: language === 'tr' ? 'Mesaj alanı zorunludur' : 'Message is required' }));
+      } else if (value.trim().length < 10) {
+        setErrors(prev => ({ ...prev, message: language === 'tr' ? 'Mesaj en az 10 karakter olmalıdır' : 'Message must be at least 10 characters' }));
       } else {
         setErrors(prev => ({ ...prev, message: '' }));
       }
     }
   };
 
-  const isFormValid = formData.name && formData.email && formData.business && formData.phone && formData.message && !errors.email && !errors.phone;
+  const isFormValid =
+    formData.name && formData.name.trim() !== '' &&
+    formData.email && !errors.email &&
+    formData.phone && !errors.phone &&
+    formData.business &&
+    formData.message && formData.message.trim() !== '' && !errors.message;
 
   return (
     <section className="py-8 md:py-12 relative bg-black contact-section" id="contact" style={{ display: 'block', opacity: 1, visibility: 'visible' }}>

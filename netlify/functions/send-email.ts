@@ -46,19 +46,17 @@ export const handler: Handler = async (event) => {
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-          <!-- Header with background image -->
+          <!-- Header -->
           <tr>
-            <td style="background-image: url('https://www.allyncai.com/mail-header.png'); background-size: cover; background-position: center; padding: 30px 40px; min-height: 150px; text-align: center;">
-              <img src="https://allyncai.com/logo-mail-white.png" alt="Allync AI" width="60" height="60" style="display: block; margin: 0 auto 15px auto;">
-              <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">ALLYNC AI</h1>
-              <p style="color: rgba(255,255,255,0.85); margin: 0; font-size: 16px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">✨ AI-Powered Business Automation</p>
+            <td style="padding: 0; line-height: 0;">
+              <img src="https://www.allyncai.com/mail-header-full.png" alt="Allync AI - AI-Powered Business Automation" width="600" style="width: 600px; max-width: 100%; height: auto; display: block; border-radius: 16px 16px 0 0;">
             </td>
           </tr>
 
           <!-- Content -->
           <tr>
             <td style="padding: 50px 40px;">
-              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 24px; font-weight: 600;">Yeni İletişim Formu</h2>
+              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Yeni İletişim Formu</h2>
 
               <table width="100%" cellpadding="12" cellspacing="0" style="margin-bottom: 25px;">
                 <tr>
@@ -79,9 +77,9 @@ export const handler: Handler = async (event) => {
                 </tr>
               </table>
 
-              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff;">
+              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 30px 0;">
                 <h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 12px; font-size: 18px; font-weight: 600;">Mesaj:</h3>
-                <p style="color: #4a4a4a; line-height: 1.6; margin: 0; white-space: pre-wrap;">${message || 'Mesaj yok'}</p>
+                <p style="color: #4a4a4a; line-height: 1.7; margin: 0; white-space: pre-wrap;">${message || 'Mesaj yok'}</p>
               </div>
             </td>
           </tr>
@@ -89,29 +87,39 @@ export const handler: Handler = async (event) => {
           <!-- Footer / Signature -->
           <tr>
             <td style="background-color: #fafafa; padding: 40px; text-align: center; border-top: 1px solid #e5e5e5;">
-              <p style="margin: 0 0 8px 0; font-size: 16px; color: #4a4a4a;">Saygılarımızla,</p>
-              <p style="margin: 0 0 25px 0; font-size: 20px; font-weight: bold; color: #1a1a1a;">Allync AI Ekibi</p>
+              <p style="margin: 0 0 8px 0; font-size: 16px; color: #666666;">Saygılarımızla,</p>
+              <p style="margin: 0 0 30px 0; font-size: 22px; font-weight: 700; background: linear-gradient(135deg, #00d9ff 0%, #00b8e6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Allync AI Ekibi</p>
 
-              <div style="margin: 25px 0; padding: 25px; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com.tr</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
-                </p>
-                <p style="margin: 0; color: #4a4a4a; font-size: 14px;">
-                  🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
-                </p>
-              </div>
+              <!-- Contact Info Box - Two Column Layout -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 25px 0; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
+                <tr>
+                  <td style="width: 50%; padding: 25px 20px 25px 25px; vertical-align: top;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
+                    </p>
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com.tr</a>
+                    </p>
+                  </td>
+                  <td style="width: 50%; padding: 25px 25px 25px 20px; vertical-align: top; border-left: 1px solid #e5e7eb;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
 
-              <p style="margin: 20px 0 0 0; color: #999; font-size: 12px;">
+              <p style="margin: 20px 0 5px 0; color: #999999; font-size: 13px;">
                 © 2025 Allync AI. Tüm hakları saklıdır.
+              </p>
+              <p style="margin: 5px 0 0 0; color: #bbbbbb; font-size: 12px;">
+                Bu email, web sitemizdeki iletişim formundan gönderilmiştir.
               </p>
             </td>
           </tr>
@@ -146,32 +154,30 @@ export const handler: Handler = async (event) => {
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-          <!-- Header with background image -->
+          <!-- Header -->
           <tr>
-            <td style="background-image: url('https://www.allyncai.com/mail-header.png'); background-size: cover; background-position: center; padding: 30px 40px; min-height: 150px; text-align: center;">
-              <img src="https://allyncai.com/logo-mail-white.png" alt="Allync AI" width="60" height="60" style="display: block; margin: 0 auto 15px auto;">
-              <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">ALLYNC AI</h1>
-              <p style="color: rgba(255,255,255,0.85); margin: 0; font-size: 16px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">✨ AI-Powered Business Automation</p>
+            <td style="padding: 0; line-height: 0;">
+              <img src="https://www.allyncai.com/mail-header-full.png" alt="Allync AI - AI-Powered Business Automation" width="600" style="width: 600px; max-width: 100%; height: auto; display: block; border-radius: 16px 16px 0 0;">
             </td>
           </tr>
 
           <!-- Content -->
           <tr>
             <td style="padding: 50px 40px;">
-              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 24px; font-weight: 600;">Merhaba ${name},</h2>
+              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Merhaba ${name},</h2>
 
-              <p style="color: #4a4a4a; line-height: 1.8; font-size: 16px;">
+              <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 Bizimle iletişime geçtiğiniz için <strong>teşekkür ederiz</strong>.
               </p>
 
-              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 25px 0;">
+              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 30px 0;">
                 <p style="color: #1a1a1a; margin: 0; line-height: 1.6; font-size: 15px;">
-                  ✅ Mesajınız ekibimize başarıyla ulaşmıştır.<br>
-                  ⏱️ En kısa sürede size geri dönüş yapacağız.
+                  ✅ Mesajınız başarıyla ulaşmıştır<br>
+                  ⏱️ En kısa sürede geri dönüş yapacağız
                 </p>
               </div>
 
-              <p style="color: #4a4a4a; line-height: 1.8; font-size: 16px;">
+              <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 İşletmeniz için AI çözümlerimiz hakkında daha fazla bilgi almak isterseniz,
                 web sitemizi ziyaret edebilir veya doğrudan bize ulaşabilirsiniz.
               </p>
@@ -189,29 +195,39 @@ export const handler: Handler = async (event) => {
           <!-- Footer / Signature -->
           <tr>
             <td style="background-color: #fafafa; padding: 40px; text-align: center; border-top: 1px solid #e5e5e5;">
-              <p style="margin: 0 0 8px 0; font-size: 16px; color: #4a4a4a;">Saygılarımızla,</p>
-              <p style="margin: 0 0 25px 0; font-size: 20px; font-weight: bold; color: #1a1a1a;">Allync AI Ekibi</p>
+              <p style="margin: 0 0 8px 0; font-size: 16px; color: #666666;">Saygılarımızla,</p>
+              <p style="margin: 0 0 30px 0; font-size: 22px; font-weight: 700; background: linear-gradient(135deg, #00d9ff 0%, #00b8e6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Allync AI Ekibi</p>
 
-              <div style="margin: 25px 0; padding: 25px; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com.tr</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
-                </p>
-                <p style="margin: 0; color: #4a4a4a; font-size: 14px;">
-                  🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
-                </p>
-              </div>
+              <!-- Contact Info Box - Two Column Layout -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 25px 0; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
+                <tr>
+                  <td style="width: 50%; padding: 25px 20px 25px 25px; vertical-align: top;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
+                    </p>
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com.tr</a>
+                    </p>
+                  </td>
+                  <td style="width: 50%; padding: 25px 25px 25px 20px; vertical-align: top; border-left: 1px solid #e5e7eb;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
 
-              <p style="margin: 20px 0 0 0; color: #999; font-size: 12px;">
+              <p style="margin: 20px 0 5px 0; color: #999999; font-size: 13px;">
                 © 2025 Allync AI. Tüm hakları saklıdır.
+              </p>
+              <p style="margin: 5px 0 0 0; color: #bbbbbb; font-size: 12px;">
+                Bu email, web sitemizdeki iletişim formundan gönderilmiştir.
               </p>
             </td>
           </tr>
@@ -233,32 +249,30 @@ export const handler: Handler = async (event) => {
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-          <!-- Header with background image -->
+          <!-- Header -->
           <tr>
-            <td style="background-image: url('https://www.allyncai.com/mail-header.png'); background-size: cover; background-position: center; padding: 30px 40px; min-height: 150px; text-align: center;">
-              <img src="https://allyncai.com/logo-mail-white.png" alt="Allync AI" width="60" height="60" style="display: block; margin: 0 auto 15px auto;">
-              <h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">ALLYNC AI</h1>
-              <p style="color: rgba(255,255,255,0.85); margin: 0; font-size: 16px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">✨ AI-Powered Business Automation</p>
+            <td style="padding: 0; line-height: 0;">
+              <img src="https://www.allyncai.com/mail-header-full.png" alt="Allync AI - AI-Powered Business Automation" width="600" style="width: 600px; max-width: 100%; height: auto; display: block; border-radius: 16px 16px 0 0;">
             </td>
           </tr>
 
           <!-- Content -->
           <tr>
             <td style="padding: 50px 40px;">
-              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 24px; font-weight: 600;">Hello ${name},</h2>
+              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Hello ${name},</h2>
 
-              <p style="color: #4a4a4a; line-height: 1.8; font-size: 16px;">
+              <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 <strong>Thank you</strong> for contacting us.
               </p>
 
-              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 25px 0;">
+              <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 30px 0;">
                 <p style="color: #1a1a1a; margin: 0; line-height: 1.6; font-size: 15px;">
-                  ✅ Your message has been successfully received by our team.<br>
-                  ⏱️ We will get back to you as soon as possible.
+                  ✅ Your message has been received<br>
+                  ⏱️ We will get back to you soon
                 </p>
               </div>
 
-              <p style="color: #4a4a4a; line-height: 1.8; font-size: 16px;">
+              <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 If you'd like to learn more about our AI solutions for your business,
                 feel free to visit our website or reach out to us directly.
               </p>
@@ -276,29 +290,39 @@ export const handler: Handler = async (event) => {
           <!-- Footer / Signature -->
           <tr>
             <td style="background-color: #fafafa; padding: 40px; text-align: center; border-top: 1px solid #e5e5e5;">
-              <p style="margin: 0 0 8px 0; font-size: 16px; color: #4a4a4a;">Best regards,</p>
-              <p style="margin: 0 0 25px 0; font-size: 20px; font-weight: bold; color: #1a1a1a;">The Allync AI Team</p>
+              <p style="margin: 0 0 8px 0; font-size: 16px; color: #666666;">Best regards,</p>
+              <p style="margin: 0 0 30px 0; font-size: 22px; font-weight: 700; background: linear-gradient(135deg, #00d9ff 0%, #00b8e6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">The Allync AI Team</p>
 
-              <div style="margin: 25px 0; padding: 25px; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🌐 <a href="https://www.allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">www.allyncai.com.tr</a>
-                </p>
-                <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px;">
-                  🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
-                </p>
-                <p style="margin: 0; color: #4a4a4a; font-size: 14px;">
-                  🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
-                </p>
-              </div>
+              <!-- Contact Info Box - Two Column Layout -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 25px 0; background-color: #ffffff; border: 2px solid #00d9ff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 217, 255, 0.15);">
+                <tr>
+                  <td style="width: 50%; padding: 25px 20px 25px 25px; vertical-align: top;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      📧 <a href="mailto:info@allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">info@allyncai.com</a>
+                    </p>
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🌐 <a href="https://allyncai.com.tr" style="color: #00d9ff; text-decoration: none; font-weight: 500;">allyncai.com.tr</a>
+                    </p>
+                  </td>
+                  <td style="width: 50%; padding: 25px 25px 25px 20px; vertical-align: top; border-left: 1px solid #e5e7eb;">
+                    <p style="margin: 0 0 10px 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇹🇷 <a href="tel:+905334940416" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+90 533 494 04 16</a>
+                    </p>
+                    <p style="margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.6;">
+                      🇶🇦 <a href="tel:+97451079565" style="color: #00d9ff; text-decoration: none; font-weight: 500;">+974 5107 9565</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
 
-              <p style="margin: 20px 0 0 0; color: #999; font-size: 12px;">
+              <p style="margin: 20px 0 5px 0; color: #999999; font-size: 13px;">
                 © 2025 Allync AI. All rights reserved.
+              </p>
+              <p style="margin: 5px 0 0 0; color: #bbbbbb; font-size: 12px;">
+                This email was sent from our website contact form.
               </p>
             </td>
           </tr>

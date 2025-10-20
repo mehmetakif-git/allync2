@@ -25,6 +25,10 @@ export const handler: Handler = async (event) => {
     }
 
     // 1. Notification Email to You
+    console.log('📧 Attempting to send notification email...');
+    console.log('FROM:', 'Allync AI <noreply@send.allyncai.com>');
+    console.log('TO:', 'info@allyncai.com');
+    console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: 'Allync AI <noreply@send.allyncai.com>', // This can be a default Resend address
       to: 'info@allyncai.com', // Your company's email address
@@ -40,6 +44,7 @@ export const handler: Handler = async (event) => {
         <p>${message || 'No message'}</p>
       `,
     });
+    console.log('✅ Notification email sent successfully!');
 
     // 2. Auto-Reply Email to the User (Now with i18n)
     const isTurkish = language === 'tr';
@@ -66,20 +71,24 @@ export const handler: Handler = async (event) => {
           <p><strong>The Allync AI Team</strong></p>
         `;
 
-await resend.emails.send({
+    console.log('📧 Attempting to send auto-reply email...');
+    console.log('TO:', email);
+    await resend.emails.send({
   from: 'Allync AI <noreply@send.allyncai.com>', // ✅ Değişti
   to: email,
   reply_to: 'info@allyncai.com', // ✅ Eklendi - cevaplar buraya gelsin
   subject,
   html,
 });
+    console.log('✅ Auto-reply email sent successfully!');
 
     return {
       statusCode: 200,
       body: JSON.stringify({ message: 'Emails sent successfully' }),
     };
   } catch (error) {
-    console.error(error);
+    console.error('❌ Email sending failed:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed to send email' }),

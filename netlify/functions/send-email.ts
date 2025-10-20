@@ -26,7 +26,7 @@ export const handler: Handler = async (event) => {
 
     // 1. Notification Email to You
     await resend.emails.send({
-      from: 'info@allyncai.com', // This can be a default Resend address
+      from: 'Allync AI <noreply@send.allyncai.com>', // This can be a default Resend address
       to: 'info@allyncai.com', // Your company's email address
       subject: `New Contact Form Submission from ${name}`,
       reply_to: email,

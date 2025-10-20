@@ -29,9 +29,9 @@ export const handler: Handler = async (event) => {
     console.log('FROM:', 'Allync AI <noreply@send.allyncai.com>');
     console.log('TO:', 'info@allyncai.com');
     console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: 'Allync AI <noreply@send.allyncai.com>', // This can be a default Resend address
-      to: 'info@allyncai.com', // Your company's email address
+    const notificationResult = await resend.emails.send({
+      from: 'Allync AI <noreply@send.allyncai.com>',
+      to: 'info@allyncai.com',
       subject: `New Contact Form Submission from ${name}`,
       reply_to: email,
       html: `
@@ -44,6 +44,8 @@ export const handler: Handler = async (event) => {
         <p>${message || 'No message'}</p>
       `,
     });
+
+    console.log('📬 Notification email result:', JSON.stringify(notificationResult, null, 2));
     console.log('✅ Notification email sent successfully!');
 
     // 2. Auto-Reply Email to the User (Now with i18n)
@@ -73,13 +75,15 @@ export const handler: Handler = async (event) => {
 
     console.log('📧 Attempting to send auto-reply email...');
     console.log('TO:', email);
-    await resend.emails.send({
-  from: 'Allync AI <noreply@send.allyncai.com>', // ✅ Değişti
-  to: email,
-  reply_to: 'info@allyncai.com', // ✅ Eklendi - cevaplar buraya gelsin
-  subject,
-  html,
-});
+    const autoReplyResult = await resend.emails.send({
+      from: 'Allync AI <noreply@send.allyncai.com>',
+      to: email,
+      reply_to: 'info@allyncai.com',
+      subject,
+      html,
+    });
+
+    console.log('📬 Auto-reply email result:', JSON.stringify(autoReplyResult, null, 2));
     console.log('✅ Auto-reply email sent successfully!');
 
     return {

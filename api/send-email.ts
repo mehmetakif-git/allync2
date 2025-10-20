@@ -34,8 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Email to user (auto-reply)
     await resend.emails.send({
-        from: 'info@allyncai.com', // Your verified domain email
+        from: 'Allync AI <noreply@send.allyncai.com>', // Your verified domain email
         to: email,
+        reply_to: 'info@allyncai.com',
         subject: 'Mesajınız Alınmıştır | Allync AI',
         html: `
           <p>Merhaba ${name},</p>

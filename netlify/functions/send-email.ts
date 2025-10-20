@@ -66,12 +66,13 @@ export const handler: Handler = async (event) => {
           <p><strong>The Allync AI Team</strong></p>
         `;
 
-    await resend.emails.send({
-      from: 'info@allyncai.com',
-      to: email,
-      subject,
-      html,
-    });
+await resend.emails.send({
+  from: 'Allync AI <noreply@send.allyncai.com>', // ✅ Değişti
+  to: email,
+  reply_to: 'info@allyncai.com', // ✅ Eklendi - cevaplar buraya gelsin
+  subject,
+  html,
+});
 
     return {
       statusCode: 200,

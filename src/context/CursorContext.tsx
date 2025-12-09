@@ -27,7 +27,6 @@ export const useCursor = () => {
 const CustomCursor: React.FC = () => {
   const { cursorState } = useCursor();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
@@ -37,22 +36,15 @@ const CustomCursor: React.FC = () => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
-
     window.addEventListener('mousemove', updateMousePosition);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [isMobile]);
 
   // Mobile'da veya default state'te render etme
-  if (isMobile || cursorState.type === 'default' || !isVisible) {
+  if (isMobile || cursorState.type === 'default') {
     return null;
   }
 

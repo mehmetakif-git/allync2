@@ -3,6 +3,32 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// HTML Injection koruması - kullanıcı girdilerini escape et
+const escapeHtml = (text: string): string => {
+  if (!text) return '';
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return text.replace(/[&<>"']/g, (char) => map[char]);
+};
+
+// Email validasyonu
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Telefon validasyonu
+const isValidPhone = (phone: string): boolean => {
+  if (!phone) return true; // Telefon opsiyonel olabilir
+  const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+  return phoneRegex.test(phone) && phone.length >= 10;
+};
+
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
@@ -17,23 +43,55 @@ export const handler: Handler = async (event) => {
     }
     const { name, email, phone, business, message, language } = JSON.parse(event.body);
 
-    if (!name || !email || !business) {
+    // Zorunlu alan kontrolü
+    if (!name || !email || !business || !message) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing required fields' }),
       };
     }
 
+    // Email format validasyonu
+    if (!isValidEmail(email)) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid email format' }),
+      };
+    }
+
+    // Telefon format validasyonu
+    if (phone && !isValidPhone(phone)) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid phone format' }),
+      };
+    }
+
+    // Kullanıcı girdilerini escape et (XSS koruması)
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = escapeHtml(phone || '');
+    const safeBusiness = escapeHtml(business);
+    const safeMessage = escapeHtml(message || '');
+
+    // Email gönderim sonuçlarını takip et
+    let notificationSent = false;
+    let autoReplySent = false;
+    let notificationError: unknown = null;
+    let autoReplyError: unknown = null;
+
     // 1. Notification Email to You
     console.log('📧 Attempting to send notification email...');
     console.log('FROM:', 'Allync AI <noreply@send.allyncai.com>');
     console.log('TO:', 'info@allyncai.com');
     console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+
+    try {
     const notificationResult = await resend.emails.send({
       from: 'Allync AI <noreply@send.allyncai.com>',
       to: 'info@allyncai.com',
-      subject: `New Contact Form Submission from ${name}`,
-      reply_to: email,
+      subject: `New Contact Form Submission from ${safeName}`,
+      reply_to: email, // Original email for reply-to
       html: `
 <!DOCTYPE html>
 <html>
@@ -61,25 +119,25 @@ export const handler: Handler = async (event) => {
               <table width="100%" cellpadding="12" cellspacing="0" style="margin-bottom: 25px;">
                 <tr>
                   <td style="background-color: #f5f5f7; padding: 12px 16px; border-radius: 8px; width: 120px; font-weight: 600; color: #4a4a4a;">İsim:</td>
-                  <td style="padding: 12px 16px; color: #1a1a1a;">${name}</td>
+                  <td style="padding: 12px 16px; color: #1a1a1a;">${safeName}</td>
                 </tr>
                 <tr>
                   <td style="background-color: #f5f5f7; padding: 12px 16px; border-radius: 8px; font-weight: 600; color: #4a4a4a;">E-posta:</td>
-                  <td style="padding: 12px 16px;"><a href="mailto:${email}" style="color: #00d9ff; text-decoration: none; font-weight: 500;">${email}</a></td>
+                  <td style="padding: 12px 16px;"><a href="mailto:${safeEmail}" style="color: #00d9ff; text-decoration: none; font-weight: 500;">${safeEmail}</a></td>
                 </tr>
                 <tr>
                   <td style="background-color: #f5f5f7; padding: 12px 16px; border-radius: 8px; font-weight: 600; color: #4a4a4a;">Telefon:</td>
-                  <td style="padding: 12px 16px; color: #1a1a1a;">${phone || 'Belirtilmemiş'}</td>
+                  <td style="padding: 12px 16px; color: #1a1a1a;">${safePhone || 'Belirtilmemiş'}</td>
                 </tr>
                 <tr>
                   <td style="background-color: #f5f5f7; padding: 12px 16px; border-radius: 8px; font-weight: 600; color: #4a4a4a;">İşletme:</td>
-                  <td style="padding: 12px 16px; color: #1a1a1a;">${business}</td>
+                  <td style="padding: 12px 16px; color: #1a1a1a;">${safeBusiness}</td>
                 </tr>
               </table>
 
               <div style="background: linear-gradient(135deg, #e8f9ff 0%, #f3e8ff 100%); padding: 25px; border-radius: 12px; border-left: 4px solid #00d9ff; margin: 30px 0;">
                 <h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 12px; font-size: 18px; font-weight: 600;">Mesaj:</h3>
-                <p style="color: #4a4a4a; line-height: 1.7; margin: 0; white-space: pre-wrap;">${message || 'Mesaj yok'}</p>
+                <p style="color: #4a4a4a; line-height: 1.7; margin: 0; white-space: pre-wrap;">${safeMessage || 'Mesaj yok'}</p>
               </div>
             </td>
           </tr>
@@ -134,6 +192,11 @@ export const handler: Handler = async (event) => {
 
     console.log('📬 Notification email result:', JSON.stringify(notificationResult, null, 2));
     console.log('✅ Notification email sent successfully!');
+      notificationSent = true;
+    } catch (err) {
+      console.error('❌ Notification email failed:', err);
+      notificationError = err;
+    }
 
     // 2. Auto-Reply Email to the User (Now with i18n)
     const isTurkish = language === 'tr';
@@ -164,7 +227,7 @@ export const handler: Handler = async (event) => {
           <!-- Content -->
           <tr>
             <td style="padding: 50px 40px;">
-              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Merhaba ${name},</h2>
+              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Merhaba ${safeName},</h2>
 
               <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 Bizimle iletişime geçtiğiniz için <strong>teşekkür ederiz</strong>.
@@ -259,7 +322,7 @@ export const handler: Handler = async (event) => {
           <!-- Content -->
           <tr>
             <td style="padding: 50px 40px;">
-              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Hello ${name},</h2>
+              <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 20px; font-size: 26px; font-weight: 600;">Hello ${safeName},</h2>
 
               <p style="color: #4a4a4a; line-height: 1.7; font-size: 16px;">
                 <strong>Thank you</strong> for contacting us.
@@ -336,27 +399,70 @@ export const handler: Handler = async (event) => {
 
     console.log('📧 Attempting to send auto-reply email...');
     console.log('TO:', email);
-    const autoReplyResult = await resend.emails.send({
-      from: 'Allync AI <noreply@send.allyncai.com>',
-      to: email,
-      reply_to: 'info@allyncai.com',
-      subject,
-      html: htmlTemplate,
-    });
 
-    console.log('📬 Auto-reply email result:', JSON.stringify(autoReplyResult, null, 2));
-    console.log('✅ Auto-reply email sent successfully!');
+    try {
+      const autoReplyResult = await resend.emails.send({
+        from: 'Allync AI <noreply@send.allyncai.com>',
+        to: email,
+        reply_to: 'info@allyncai.com',
+        subject,
+        html: htmlTemplate,
+      });
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Emails sent successfully' }),
-    };
+      console.log('📬 Auto-reply email result:', JSON.stringify(autoReplyResult, null, 2));
+      console.log('✅ Auto-reply email sent successfully!');
+      autoReplySent = true;
+    } catch (err) {
+      console.error('❌ Auto-reply email failed:', err);
+      autoReplyError = err;
+    }
+
+    // Sonuç değerlendirmesi
+    if (notificationSent && autoReplySent) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Emails sent successfully' }),
+      };
+    } else if (notificationSent && !autoReplySent) {
+      // Bildirim gönderildi ama kullanıcıya otomatik yanıt gönderilemedi
+      console.warn('⚠️ Partial success: notification sent, auto-reply failed');
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: 'Message received (auto-reply could not be sent)',
+          partialSuccess: true
+        }),
+      };
+    } else if (!notificationSent && autoReplySent) {
+      // Kullanıcıya yanıt gönderildi ama bildirim gönderilemedi
+      console.warn('⚠️ Partial success: auto-reply sent, notification failed');
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: 'Emails sent successfully',
+          partialSuccess: true
+        }),
+      };
+    } else {
+      // Her iki email de başarısız
+      console.error('❌ Both emails failed');
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: 'Failed to send emails',
+          details: {
+            notificationError: notificationError ? String(notificationError) : null,
+            autoReplyError: autoReplyError ? String(autoReplyError) : null,
+          }
+        }),
+      };
+    }
   } catch (error) {
-    console.error('❌ Email sending failed:', error);
+    console.error('❌ Unexpected error:', error);
     console.error('Error details:', JSON.stringify(error, null, 2));
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to send email' }),
+      body: JSON.stringify({ error: 'An unexpected error occurred' }),
     };
   }
 };

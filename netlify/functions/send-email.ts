@@ -82,13 +82,13 @@ export const handler: Handler = async (event) => {
 
     // 1. Notification Email to You
     console.log('📧 Attempting to send notification email...');
-    console.log('FROM:', 'Allync AI <noreply@send.allyncai.com>');
+    console.log('FROM:', 'Allync AI <info@allyncai.com>');
     console.log('TO:', 'info@allyncai.com');
     console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
 
     try {
     const notificationResult = await resend.emails.send({
-      from: 'Allync AI <noreply@send.allyncai.com>',
+      from: 'Allync AI <info@allyncai.com>',
       to: 'info@allyncai.com',
       subject: `New Contact Form Submission from ${safeName}`,
       reply_to: email, // Original email for reply-to
@@ -402,7 +402,7 @@ export const handler: Handler = async (event) => {
 
     try {
       const autoReplyResult = await resend.emails.send({
-        from: 'Allync AI <noreply@send.allyncai.com>',
+        from: 'Allync AI <info@allyncai.com>',
         to: email,
         reply_to: 'info@allyncai.com',
         subject,

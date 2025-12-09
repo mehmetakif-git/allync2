@@ -30,11 +30,9 @@ const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  if (isMobile) {
-    return null;
-  }
-
   useEffect(() => {
+    if (isMobile) return;
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -51,22 +49,23 @@ const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isMobile]);
 
-  if (cursorState.type === 'default' || !isVisible) {
+  // Mobile'da veya default state'te render etme
+  if (isMobile || cursorState.type === 'default' || !isVisible) {
     return null;
   }
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-[100000] mix-blend-difference"
+      className="fixed pointer-events-none z-[100000]"
       style={{
         left: mousePosition.x,
         top: mousePosition.y,
       }}
       animate={{
-        x: -20,
-        y: -20,
+        x: 15,
+        y: 15,
       }}
     >
       <AnimatePresence mode="wait">
@@ -77,21 +76,32 @@ const CustomCursor: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center"
+            className="w-10 h-10 rounded-full border-2 border-cyan-400 flex items-center justify-center"
+            style={{
+              boxShadow: '0 0 20px rgba(0, 217, 255, 0.5)',
+            }}
           >
-            <div className="w-2 h-2 rounded-full bg-white" />
+            <div className="w-2 h-2 rounded-full bg-cyan-400" />
           </motion.div>
         )}
         {cursorState.type === 'hold' && cursorState.text && (
           <motion.div
             key="hold"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="px-4 py-2 rounded-full bg-white text-black font-semibold text-sm whitespace-nowrap"
+            initial={{ scale: 0, opacity: 0, y: 10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 10 }}
+            transition={{ duration: 0.2, type: 'spring', stiffness: 300 }}
+            className="px-5 py-2.5 rounded-full font-semibold text-sm whitespace-nowrap text-white"
+            style={{
+              background: 'linear-gradient(135deg, #00d9ff 0%, #00b8e6 50%, #0099cc 100%)',
+              boxShadow: '0 4px 20px rgba(0, 217, 255, 0.4), 0 0 40px rgba(0, 217, 255, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }}
           >
-            {cursorState.text}
+            <span className="flex items-center gap-2">
+              <span className="text-base">🎧</span>
+              {cursorState.text}
+            </span>
           </motion.div>
         )}
       </AnimatePresence>

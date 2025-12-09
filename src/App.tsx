@@ -9,7 +9,6 @@ import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
 import { InactivityWarning } from './components/InactivityWarning';
 import { ScrollProgress } from './components/ui/ScrollProgress';
-import { CursorProvider } from './context/CursorContext';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -159,10 +158,9 @@ function App() {
   );
 
   return (
-    <CursorProvider>
-      <HelmetProvider>
-        <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-          {showBackground && !isMobile && <DotGrid />}
+    <HelmetProvider>
+      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+        {showBackground && !isMobile && <DotGrid />}
         <HelmetManager language={language} activeSection={activeSection} />
         <Navigation
           language={language}
@@ -211,10 +209,9 @@ function App() {
             </AnimatePresence>
             {renderLanyard()}
           </>
-          )}
-        </div>
-      </HelmetProvider>
-    </CursorProvider>
+        )}
+      </div>
+    </HelmetProvider>
   );
 }
 

@@ -4,11 +4,9 @@ import { Video as LucideIcon } from 'lucide-react';
 import { translations } from '../utils/translations';
 import { Contact } from './Contact';
 import { Footer } from './Footer';
-import { InteractiveServiceCard } from './common/InteractiveServiceCard';
 import { ServiceCard } from './common/ServiceCard';
 import { LayoutTextFlip } from './ui/LayoutTextFlip';
 import { ShinyText } from './ui/ShinyText';
-import { ListeningModal } from './ListeningModal';
 
 export interface Service {
   icon: LucideIcon;
@@ -42,8 +40,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
 }) => {
   const t = translations[language];
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [modalService, setModalService] = useState<Service | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
   const ctaRef = useRef<HTMLDivElement>(null);
   const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -87,25 +83,14 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
           <div className="space-y-32">
             {services.map((service, index) => (
               <div key={index} className="relative">
-                <InteractiveServiceCard
+                <ServiceCard
+                  service={service}
                   language={language}
-                  glowColor={service.glowColor}
-                  onHoldSuccess={() => {
-                    if (!isAnimating) {
-                      setModalService(service);
-                      setIsAnimating(true);
-                    }
-                  }}
-                >
-                  <ServiceCard
-                    service={service}
-                    language={language}
-                    isOdd={index % 2 === 0}
-                    index={index}
-                    onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                    onContactClick={scrollToContact}
-                  />
-                </InteractiveServiceCard>
+                  isOdd={index % 2 === 0}
+                  index={index}
+                  onDetailClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                  onContactClick={scrollToContact}
+                />
 
                 <AnimatePresence>
                   {expandedIndex === index && (
@@ -168,18 +153,6 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
       </div>
 
       <Footer language={language} />
-
-      {/* --- SON DÜZELTME BURADA --- */}
-      <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
-        {modalService && (
-          <ListeningModal
-            // BU SATIR BÜTÜN SORUNU ÇÖZÜYOR
-            key={modalService.title} 
-            service={modalService}
-            onClose={() => setModalService(null)}
-          />
-        )}
-      </AnimatePresence>
 
       <style>{`
         @keyframes fade-in-up {

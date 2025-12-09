@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m \"$(cat <<''EOF''\nMouse takipli tooltip eklendi (Dinlemek için basılı tut)\n\n- CursorProvider App.tsx''e eklendi\n- Custom cursor tema ile uyumlu hale getirildi (gradient + glow)\n- React hooks sıralaması düzeltildi\n- Hover ve hold durumları için farklı stiller\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

@@ -7,7 +7,7 @@ import { useOutsideClick } from '../../hooks/use-outside-click';
 import { ServiceDetailModal } from '../ServiceDetailModal';
 import logoSvg from '../../assets/logo.svg';
 import soundWavesAnimation from '../../assets/sound-waves.json';
-import { EncryptedText } from '../ui/EncryptedText';
+import { TextGenerateEffect } from '../ui/TextGenerateEffect';
 
 // Helper function to convert hex color to hue rotation
 const getHueRotation = (hexColor: string): number => {
@@ -74,7 +74,6 @@ const AudioModal: React.FC<{
   const lottieRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [currentSubtitleIndex, setCurrentSubtitleIndex] = useState(-1);
 
   useEffect(() => {
@@ -142,13 +141,6 @@ const AudioModal: React.FC<{
     onClose();
   };
 
-  const formatTime = (time: number) => {
-    const mins = Math.floor(time / 60);
-    const secs = Math.floor(time % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const currentSubtitle = service.subtitles && currentSubtitleIndex >= 0
     ? service.subtitles[currentSubtitleIndex]?.text
     : '';
@@ -191,7 +183,6 @@ const AudioModal: React.FC<{
                 ref={audioRef}
                 src={service.audioSrc}
                 onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={() => audioRef.current && setDuration(audioRef.current.duration)}
                 onEnded={handleEnded}
                 preload="auto"
               />
@@ -261,65 +252,45 @@ const AudioModal: React.FC<{
               </div>
             </motion.div>
 
-            {/* Service title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mt-8 text-2xl md:text-3xl font-bold text-white text-center"
-              style={{ textShadow: `0 0 30px ${themeColor}50` }}
-            >
-              {service.title}
-            </motion.h2>
-
-            {/* Progress bar */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 0.3 }}
-              className="w-64 md:w-80 mt-6"
-            >
-              <div className="relative h-1 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className="absolute left-0 top-0 h-full rounded-full transition-all duration-100"
-                  style={{
-                    width: `${progress}%`,
-                    background: `linear-gradient(90deg, ${themeColor}, ${themeColor}80)`,
-                    boxShadow: `0 0 10px ${themeColor}`,
-                  }}
-                />
-              </div>
-              <div className="flex justify-between text-xs text-gray-400 mt-2">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-            </motion.div>
-
-            {/* Subtitle display with encrypted text effect */}
+            {/* Subtitle display with text generate effect */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="mt-8 min-h-[80px] max-w-2xl px-4"
+              className="mt-8 min-h-[100px] max-w-3xl px-4 flex items-center justify-center"
             >
               <AnimatePresence mode="wait">
                 {currentSubtitle && (
                   <motion.div
                     key={currentSubtitleIndex}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-center text-lg md:text-xl"
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="relative px-8 py-5 rounded-2xl text-center"
+                    style={{
+                      background: `linear-gradient(135deg, ${themeColor}12 0%, ${themeColor}05 100%)`,
+                      border: `1px solid ${themeColor}25`,
+                      boxShadow: `0 8px 32px ${themeColor}15, inset 0 1px 0 ${themeColor}15`,
+                      backdropFilter: 'blur(12px)',
+                    }}
                   >
-                    <EncryptedText
-                      text={currentSubtitle}
-                      revealDelayMs={30}
-                      flipDelayMs={40}
-                      encryptedClassName="text-gray-500"
-                      revealedClassName="text-white"
-                      themeColor={themeColor}
-                      className="leading-relaxed"
+                    {/* Glow effect behind text */}
+                    <div
+                      className="absolute inset-0 rounded-2xl opacity-40"
+                      style={{
+                        background: `radial-gradient(ellipse at center, ${themeColor}15 0%, transparent 70%)`,
+                      }}
                     />
+                    <div className="relative z-10">
+                      <TextGenerateEffect
+                        words={currentSubtitle}
+                        duration={0.3}
+                        staggerDelay={0.08}
+                        themeColor={themeColor}
+                        className="text-center"
+                      />
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

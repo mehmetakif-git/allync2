@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useOutsideClick } from '../hooks/use-outside-click';
+import { useSoundEffect } from '../contexts/SoundEffectContext';
 
 interface ServiceDetailModalProps {
   isOpen: boolean;
@@ -25,9 +26,15 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   gradient
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { playBackSound } = useSoundEffect();
+
+  const handleClose = () => {
+    playBackSound();
+    onClose();
+  };
 
   useOutsideClick(modalRef, () => {
-    if (isOpen) onClose();
+    if (isOpen) handleClose();
   });
 
   useEffect(() => {
@@ -45,13 +52,13 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        handleClose();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   return (
     <AnimatePresence>
@@ -75,7 +82,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 {title}
               </h2>
               <button
-                onClick={onClose}
+                onClick={handleClose}
                 className="p-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 hover:scale-110"
                 aria-label={closeText}
               >
@@ -94,7 +101,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
 
               <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 justify-end">
                 <button
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300"
                 >
                   {closeText}
@@ -102,7 +109,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                 <button
                   onClick={() => {
                     onCtaClick();
-                    onClose();
+                    handleClose();
                   }}
                   className={`px-6 py-3 bg-gradient-to-r ${gradient} text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl`}
                 >

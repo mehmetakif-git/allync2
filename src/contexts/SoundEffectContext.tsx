@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useRef, useCallback } from
 interface SoundEffectContextType {
   playHoverSound: () => void;
   playClickSound: () => void;
+  playBackSound: () => void;
 }
 
 const SoundEffectContext = createContext<SoundEffectContextType | null>(null);
@@ -22,10 +23,13 @@ interface SoundEffectProviderProps {
 export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ children }) => {
   const hoverAudioRef = useRef<HTMLAudioElement | null>(null);
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
+  const backAudioRef = useRef<HTMLAudioElement | null>(null);
   const lastHoverPlayedRef = useRef<number>(0);
   const lastClickPlayedRef = useRef<number>(0);
+  const lastBackPlayedRef = useRef<number>(0);
   const HOVER_DEBOUNCE_MS = 50;
   const CLICK_DEBOUNCE_MS = 100;
+  const BACK_DEBOUNCE_MS = 100;
 
   // Initialize audio on mount
   useEffect(() => {
@@ -41,6 +45,12 @@ export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ childr
     clickAudioRef.current.preload = 'auto';
     clickAudioRef.current.load();
 
+    // Back sound
+    backAudioRef.current = new Audio('/audio/sound_effects/back.mp3');
+    backAudioRef.current.volume = 0.4;
+    backAudioRef.current.preload = 'auto';
+    backAudioRef.current.load();
+
     return () => {
       if (hoverAudioRef.current) {
         hoverAudioRef.current.pause();
@@ -49,6 +59,10 @@ export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ childr
       if (clickAudioRef.current) {
         clickAudioRef.current.pause();
         clickAudioRef.current = null;
+      }
+      if (backAudioRef.current) {
+        backAudioRef.current.pause();
+        backAudioRef.current = null;
       }
     };
   }, []);
@@ -72,6 +86,17 @@ export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ childr
     if (clickAudioRef.current) {
       clickAudioRef.current.currentTime = 0;
       clickAudioRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  const playBackSound = useCallback(() => {
+    const now = Date.now();
+    if (now - lastBackPlayedRef.current < BACK_DEBOUNCE_MS) return;
+    lastBackPlayedRef.current = now;
+
+    if (backAudioRef.current) {
+      backAudioRef.current.currentTime = 0;
+      backAudioRef.current.play().catch(() => {});
     }
   }, []);
 
@@ -116,7 +141,7 @@ export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ childr
   }, [playClickSound]);
 
   return (
-    <SoundEffectContext.Provider value={{ playHoverSound, playClickSound }}>
+    <SoundEffectContext.Provider value={{ playHoverSound, playClickSound, playBackSound }}>
       {children}
     </SoundEffectContext.Provider>
   );

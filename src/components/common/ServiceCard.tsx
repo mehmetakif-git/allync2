@@ -8,6 +8,7 @@ import { ServiceDetailModal } from '../ServiceDetailModal';
 import logoSvg from '../../assets/logo.svg';
 import soundWavesAnimation from '../../assets/sound-waves.json';
 import { TextGenerateEffect } from '../ui/TextGenerateEffect';
+import { useSoundEffect } from '../../contexts/SoundEffectContext';
 
 // Helper function to convert hex color to hue rotation
 const getHueRotation = (hexColor: string): number => {
@@ -75,6 +76,12 @@ const AudioModal: React.FC<{
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [currentSubtitleIndex, setCurrentSubtitleIndex] = useState(-1);
+  const { playBackSound } = useSoundEffect();
+
+  const handleClose = () => {
+    playBackSound();
+    onClose();
+  };
 
   useEffect(() => {
     if (isOpen && audioRef.current && service.audioSrc) {
@@ -101,11 +108,11 @@ const AudioModal: React.FC<{
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) onClose();
+      if (e.key === 'Escape' && isOpen) handleClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   // Control Lottie animation based on isPlaying state
   useEffect(() => {
@@ -138,7 +145,7 @@ const AudioModal: React.FC<{
 
   const handleEnded = () => {
     setIsPlaying(false);
-    onClose();
+    handleClose();
   };
 
   const currentSubtitle = service.subtitles && currentSubtitleIndex >= 0
@@ -154,7 +161,7 @@ const AudioModal: React.FC<{
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center"
-          onClick={onClose}
+          onClick={handleClose}
         >
           {/* Backdrop with glass blur */}
           <div
@@ -169,7 +176,7 @@ const AudioModal: React.FC<{
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute top-8 right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
           >
             <X className="w-6 h-6 text-white" />
@@ -510,6 +517,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   onContactClick,
 }) => {
   const Icon = service.icon;
+  const { playBackSound } = useSoundEffect();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -527,12 +535,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const HOLD_DURATION = 1500;
 
-  useOutsideClick(modalRef, () => setExpandedIndex(null));
+  const closeGalleryModal = () => {
+    playBackSound();
+    setExpandedIndex(null);
+  };
+
+  useOutsideClick(modalRef, closeGalleryModal);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (expandedIndex === null) return;
-      if (e.key === 'Escape') setExpandedIndex(null);
+      if (e.key === 'Escape') closeGalleryModal();
       if (e.key === 'ArrowLeft') setCurrentIndex(prev => prev === 0 ? service.galleryImages.length - 1 : prev - 1);
       if (e.key === 'ArrowRight') setCurrentIndex(prev => prev === service.galleryImages.length - 1 ? 0 : prev + 1);
     };
@@ -897,7 +910,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 className="relative w-full max-w-6xl transform-gpu"
               >
                 <button
-                  onClick={() => setExpandedIndex(null)}
+                  onClick={closeGalleryModal}
                   className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all z-[100000]"
                 >
                   <X className="w-6 h-6 text-white" />

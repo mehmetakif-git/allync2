@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useCallback } from
 
 interface SoundEffectContextType {
   playHoverSound: () => void;
+  playClickSound: () => void;
 }
 
 const SoundEffectContext = createContext<SoundEffectContextType | null>(null);
@@ -19,71 +20,103 @@ interface SoundEffectProviderProps {
 }
 
 export const SoundEffectProvider: React.FC<SoundEffectProviderProps> = ({ children }) => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const lastPlayedRef = useRef<number>(0);
-  const DEBOUNCE_MS = 50; // Prevent rapid-fire sounds
+  const hoverAudioRef = useRef<HTMLAudioElement | null>(null);
+  const clickAudioRef = useRef<HTMLAudioElement | null>(null);
+  const lastHoverPlayedRef = useRef<number>(0);
+  const lastClickPlayedRef = useRef<number>(0);
+  const HOVER_DEBOUNCE_MS = 50;
+  const CLICK_DEBOUNCE_MS = 100;
 
   // Initialize audio on mount
   useEffect(() => {
-    audioRef.current = new Audio('/audio/sound_effects/click.mp3');
-    audioRef.current.volume = 0.3;
-    audioRef.current.preload = 'auto';
+    // Hover sound
+    hoverAudioRef.current = new Audio('/audio/sound_effects/hover.mp3');
+    hoverAudioRef.current.volume = 0.3;
+    hoverAudioRef.current.preload = 'auto';
+    hoverAudioRef.current.load();
 
-    // Preload the audio
-    audioRef.current.load();
+    // Click sound
+    clickAudioRef.current = new Audio('/audio/sound_effects/click.mp3');
+    clickAudioRef.current.volume = 0.4;
+    clickAudioRef.current.preload = 'auto';
+    clickAudioRef.current.load();
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+      if (hoverAudioRef.current) {
+        hoverAudioRef.current.pause();
+        hoverAudioRef.current = null;
+      }
+      if (clickAudioRef.current) {
+        clickAudioRef.current.pause();
+        clickAudioRef.current = null;
       }
     };
   }, []);
 
   const playHoverSound = useCallback(() => {
     const now = Date.now();
-    if (now - lastPlayedRef.current < DEBOUNCE_MS) return;
-    lastPlayedRef.current = now;
+    if (now - lastHoverPlayedRef.current < HOVER_DEBOUNCE_MS) return;
+    lastHoverPlayedRef.current = now;
 
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {
-        // Ignore errors (e.g., user hasn't interacted with page yet)
-      });
+    if (hoverAudioRef.current) {
+      hoverAudioRef.current.currentTime = 0;
+      hoverAudioRef.current.play().catch(() => {});
     }
   }, []);
+
+  const playClickSound = useCallback(() => {
+    const now = Date.now();
+    if (now - lastClickPlayedRef.current < CLICK_DEBOUNCE_MS) return;
+    lastClickPlayedRef.current = now;
+
+    if (clickAudioRef.current) {
+      clickAudioRef.current.currentTime = 0;
+      clickAudioRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  // Check if element is interactive
+  const isInteractiveElement = (target: HTMLElement): boolean => {
+    return !!(
+      target.tagName === 'BUTTON' ||
+      target.tagName === 'A' ||
+      target.closest('button') ||
+      target.closest('a') ||
+      (target.hasAttribute('role') && target.getAttribute('role') === 'button') ||
+      target.classList.contains('cursor-pointer') ||
+      target.closest('[role="button"]') ||
+      target.closest('.cursor-pointer')
+    );
+  };
 
   // Global event listener for hover on interactive elements
   useEffect(() => {
     const handleMouseEnter = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-
-      // Check if the element or its parent is an interactive element
-      const isInteractive =
-        target.tagName === 'BUTTON' ||
-        target.tagName === 'A' ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.hasAttribute('role') && target.getAttribute('role') === 'button' ||
-        target.classList.contains('cursor-pointer') ||
-        target.closest('[role="button"]') ||
-        target.closest('.cursor-pointer');
-
-      if (isInteractive) {
+      if (isInteractiveElement(target)) {
         playHoverSound();
       }
     };
 
-    // Use capture phase to catch events before they bubble
     document.addEventListener('mouseenter', handleMouseEnter, true);
-
-    return () => {
-      document.removeEventListener('mouseenter', handleMouseEnter, true);
-    };
+    return () => document.removeEventListener('mouseenter', handleMouseEnter, true);
   }, [playHoverSound]);
 
+  // Global event listener for click on interactive elements
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isInteractiveElement(target)) {
+        playClickSound();
+      }
+    };
+
+    document.addEventListener('click', handleClick, true);
+    return () => document.removeEventListener('click', handleClick, true);
+  }, [playClickSound]);
+
   return (
-    <SoundEffectContext.Provider value={{ playHoverSound }}>
+    <SoundEffectContext.Provider value={{ playHoverSound, playClickSound }}>
       {children}
     </SoundEffectContext.Provider>
   );

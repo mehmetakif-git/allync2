@@ -517,7 +517,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   onContactClick,
 }) => {
   const Icon = service.icon;
-  const { playBackSound } = useSoundEffect();
+  const { playBackSound, playHoldSound, stopHoldSound } = useSoundEffect();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -580,6 +580,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     if (isAudioModalOpen) return;
     setIsHolding(true);
     setHoldProgress(0);
+    playHoldSound();
 
     const startTime = Date.now();
     progressIntervalRef.current = setInterval(() => {
@@ -593,6 +594,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
       }
+      stopHoldSound();
       setIsHolding(false);
       setHoldProgress(0);
       setIsAudioModalOpen(true);
@@ -608,6 +610,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       clearInterval(progressIntervalRef.current);
       progressIntervalRef.current = null;
     }
+    stopHoldSound();
     setIsHolding(false);
     setHoldProgress(0);
   };
@@ -836,9 +839,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 <div
                   className="px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap text-white flex items-center gap-2"
                   style={{
-                    background: `linear-gradient(135deg, ${service.glowColor || '#00d9ff'} 0%, ${service.glowColor || '#0099cc'} 100%)`,
-                    boxShadow: `0 4px 20px ${service.glowColor || 'rgba(0, 217, 255, 0.4)'}, 0 0 40px ${service.glowColor || 'rgba(0, 217, 255, 0.2)'}`,
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    background: '#1a1a2e',
+                    boxShadow: `0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px ${service.glowColor || '#00d9ff'}40`,
+                    border: `2px solid ${service.glowColor || '#00d9ff'}`,
                   }}
                 >
                   <span>🎧</span>
@@ -984,6 +987,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         service={service}
         themeColor={service.glowColor || '#00d9ff'}
       />
+
     </motion.div>
   );
 };

@@ -9,6 +9,7 @@ import DotGrid from './components/ui/DotGrid';
 import Lanyard from './components/Lanyard';
 import { InactivityWarning } from './components/InactivityWarning';
 import { ScrollProgress } from './components/ui/ScrollProgress';
+import { SoundEffectProvider } from './contexts/SoundEffectContext';
 
 const AllyncAISolutions = lazy(() => import('./components/AllyncAISolutions').then(module => ({ default: module.AllyncAISolutions })));
 const DigitalSolutions = lazy(() => import('./components/DigitalSolutions').then(module => ({ default: module.DigitalSolutions })));
@@ -159,58 +160,60 @@ function App() {
 
   return (
     <HelmetProvider>
-      <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
-        {showBackground && !isMobile && <DotGrid />}
-        <HelmetManager language={language} activeSection={activeSection} />
-        <Navigation
-          language={language}
-          onLanguageToggle={toggleLanguage}
-          viewMode={viewMode}
-          onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
-        />
-        {(viewMode === 'ai-view' || viewMode === 'digital-view') && (
-          <ScrollProgress
-            showMilestones={!isMobile}
-            viewMode={viewMode}
+      <SoundEffectProvider>
+        <div className={`min-h-screen bg-black app-loaded ${animationsEnabled ? 'animations-enabled' : 'animations-disabled'}`}>
+          {showBackground && !isMobile && <DotGrid />}
+          <HelmetManager language={language} activeSection={activeSection} />
+          <Navigation
             language={language}
+            onLanguageToggle={toggleLanguage}
+            viewMode={viewMode}
+            onBackToSelection={viewMode !== 'selection' ? handleBackToSelection : undefined}
           />
-        )}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={viewMode}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-          >
-            {viewMode === 'selection' && (
-              <SelectionScreen
-                language={language}
-                onSelectView={handleSelectView}
-                onLanguageToggle={toggleLanguage}
-              />
-            )}
-            {viewMode === 'ai-view' && (
-              <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-                <AllyncAISolutions language={language} />
-              </Suspense>
-            )}
-            {viewMode === 'digital-view' && (
-              <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-                <DigitalSolutions language={language} />
-              </Suspense>
-            )}
-          </motion.div>
-        </AnimatePresence>
-        {!isMobile && (
-          <>
-            <AnimatePresence>
-              {showWarning && <InactivityWarning countdown={warningCountdown} />}
-            </AnimatePresence>
-            {renderLanyard()}
-          </>
-        )}
-      </div>
+          {(viewMode === 'ai-view' || viewMode === 'digital-view') && (
+            <ScrollProgress
+              showMilestones={!isMobile}
+              viewMode={viewMode}
+              language={language}
+            />
+          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={viewMode}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              {viewMode === 'selection' && (
+                <SelectionScreen
+                  language={language}
+                  onSelectView={handleSelectView}
+                  onLanguageToggle={toggleLanguage}
+                />
+              )}
+              {viewMode === 'ai-view' && (
+                <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                  <AllyncAISolutions language={language} />
+                </Suspense>
+              )}
+              {viewMode === 'digital-view' && (
+                <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                  <DigitalSolutions language={language} />
+                </Suspense>
+              )}
+            </motion.div>
+          </AnimatePresence>
+          {!isMobile && (
+            <>
+              <AnimatePresence>
+                {showWarning && <InactivityWarning countdown={warningCountdown} />}
+              </AnimatePresence>
+              {renderLanyard()}
+            </>
+          )}
+        </div>
+      </SoundEffectProvider>
     </HelmetProvider>
   );
 }
